@@ -6,14 +6,23 @@ import LeftBar from './components/sections/leftBar';
 //import * as bootstrap from 'bootstrap';
 import data from './products.json';
 import Component from './components/sections/component';
+import { Range } from './components/types';
 
-let main = new Component(null, [], 'main');
- 
-let products = data.products;
-let cats = products.reduce((res: string[], x) => {
-  if (!(x.category in res)) res.push(x.category);
+const main = new Component(null, [], 'main');
+
+const products = data.products;
+
+const cats = products.reduce((res: string[], x) => {
+  if (res.indexOf(x.category) !== -1) res.push(x.category);
   return res;
-}, []);
+}, [] as string[]);
 
+console.log(cats);
 
-let aside = new LeftBar(main, [], 'aside', cats, brands, price, stock);
+const brands: string[] = [];
+const price: Range = [1, 100];
+const stock: Range = [0, 0];
+
+const aside = new LeftBar(main, [], 'aside', cats, brands, price, stock);
+const asideHtml = document.querySelector('aside');
+asideHtml!.innerHTML = aside.render();
