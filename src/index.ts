@@ -13,7 +13,7 @@ const main = new Component(null, [], 'main');
 const products = data.products;
 
 const cats = products.reduce((res: string[], x) => {
-  if (res.indexOf(x.category) !== -1) res.push(x.category);
+  if (res.indexOf(x.category) === -1) res.push(x.category);
   return res;
 }, [] as string[]);
 
