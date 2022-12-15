@@ -1,10 +1,10 @@
 import { Tag } from '../types';
 
 export default class Component {
-  parent: Component | undefined;
+  parent: Component | undefined | null;
   children: Component[] | undefined;
   tag: Tag | undefined;
-  constructor(parent: Component, children: Component[], tag: Tag) {
+  constructor(parent: Component | null, children: Component[], tag: Tag) {
     this.parent = parent;
     this.children = children;
     this.tag = tag;

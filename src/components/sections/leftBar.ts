@@ -2,7 +2,6 @@ import Component from './component';
 import { Tag, Range } from '../types';
 
 export default class LeftBar extends Component {
-  state: object;
   categories: string[];
   brands: string[];
   price: Range;
