@@ -27,15 +27,14 @@ export default class LeftBar extends Component {
       this.categories
         .map(
           (x) =>
-            `<div class="form-check" >
-        <input class="form-check-input" type = "checkbox" value = "" id = "flexCheckDefault" >
-        <label class="form-check-label" for= "flexCheckDefault" >
-           ${x}
-        < /label>
-      < /div>)`
+            `<div class="form-check">
+               <input class="form-check-input" type = "checkbox" value = "" id = "flexCheckDefault">
+               <label class="form-check-label" for= "flexCheckDefault">${x}</label>
+            </div>)`
         )
         .reduce((total, y) => total + y, '') +
       `</fieldset></aside>`
     );
   }
 }
+
