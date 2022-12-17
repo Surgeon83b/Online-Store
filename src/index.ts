@@ -1,3 +1,4 @@
+import ItemDescription from './components/sections/description/description';
 import './global.scss';
 import LeftBar from './components/sections/leftBar';
 //import 'bootstrap';
@@ -26,3 +27,6 @@ const stock: Range = [0, 0];
 const aside = new LeftBar(main, [], 'aside', cats, brands, price, stock);
 const asideHtml = document.querySelector('aside');
 asideHtml!.innerHTML = aside.render();
+
+const x = new ItemDescription(main, [], 'div', 1);
+console.log(x.render());
