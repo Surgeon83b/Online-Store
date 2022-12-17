@@ -1,6 +1,6 @@
 import { ProductItem, Tag } from '../../types';
-import Component from '../component';
-import data from '../../../products.json';
+import Component from '../Store/component';
+import data from '../../products.json';
 export default class ItemDescription extends Component {
   item: ProductItem;
 

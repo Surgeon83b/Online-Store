@@ -1,13 +1,13 @@
-import ItemDescription from './components/sections/description/description';
+import ItemDescription from './components/description/description';
 import './global.scss';
-import LeftBar from './components/sections/leftBar';
+import LeftBar from './components/Store/leftBar';
 //import 'bootstrap';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 //import * as bootstrap from 'bootstrap';
 import data from './products.json';
-import Component from './components/sections/component';
-import { Range } from './components/types';
+import Component from './components/Store/component';
+import { Range } from './types';
 
 const main = new Component(null, [], 'main');
 

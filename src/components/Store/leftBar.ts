@@ -1,5 +1,5 @@
 import Component from './component';
-import { Tag, Range } from '../types';
+import { Tag, Range } from '../../types';
 
 export default class LeftBar extends Component {
   categories: string[];
