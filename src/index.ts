@@ -19,7 +19,10 @@ const cats = products.reduce((res: string[], x) => {
 
 console.log(cats);
 
-const brands: string[] = [];
+const brands: string[] = products.reduce((res: string[], x) => {
+  if (res.indexOf(x.brand) === -1) res.push(x.brand);
+  return res;
+}, [] as string[]);
 const price: Range = [1, 100];
 const stock: Range = [0, 0];
 
