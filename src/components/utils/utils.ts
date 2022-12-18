@@ -1,4 +1,4 @@
-import { ProductItem } from '../types';
+import { ProductItem } from '../../types';
 
 export const getCategoryCount = (data: ProductItem[], category: string): number => {
   return data.reduce((res, i) => {

@@ -1,21 +1,11 @@
-import Component from './component';
-import { Tag, Range } from '../types';
+import { Tag, Range } from '../../types';
 
-export default class LeftBar extends Component {
+export default class LeftBar {
   categories: string[];
   brands: string[];
   price: Range;
   stock: Range;
-  constructor(
-    parent: Component,
-    children: Component[],
-    tag: Tag,
-    categories: string[],
-    brands: string[],
-    price: Range,
-    stock: Range
-  ) {
-    super(parent, children, tag);
+  constructor(tag: Tag, categories: string[], brands: string[], price: Range, stock: Range) {
     this.categories = categories;
     this.brands = brands;
     this.price = price;
