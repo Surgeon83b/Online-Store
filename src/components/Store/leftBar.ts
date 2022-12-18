@@ -23,7 +23,8 @@ export default class LeftBar extends Component {
   }
   render(): string {
     return (
-      `<aside class="container column"><fieldset><legend>Category</legend>` +
+      `<aside class="container column">
+      <fieldset class="category"><legend>Category</legend>` +
       this.categories
         .map(
           (x) =>
@@ -33,7 +34,19 @@ export default class LeftBar extends Component {
            ${x}</label></div>`
         )
         .reduce((total, y) => total + y, '') +
-      `</fieldset></aside>`
+      `</fieldset>` +
+      `<fieldset class="brand"><legend>Brand</legend>` +
+      this.brands
+        .map(
+          (x) =>
+            `<div class="form-check">
+        <input class="form-check-input" type = "checkbox" value = "" id = "flexCheckDefault">
+        <label class="form-check-label" for= "flexCheckDefault">
+           ${x}</label></div>`
+        )
+        .reduce((total, y) => total + y, '') +
+      `</fieldset>` +
+      `</aside>`
     );
   }
 }
