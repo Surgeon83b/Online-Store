@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import React from 'react';
-import { Button } from 'components/button/button';
+import { Button } from '../../button/button';
 
 export interface IBarProps {
   category: string[];
@@ -9,8 +9,8 @@ export interface IBarProps {
 export function Bar(props: IBarProps) {
   const Category = props.category.map((c) => {
     return (
-      <div onClick={() => console.log(c)}>
-        <input type="checkbox" className="btn-check" id={c} autoComplete="off" />
+      <div key={c}>
+        <input onClick={() => console.log(c)} type="checkbox" className="btn-check" id={c} autoComplete="off" />
         <label className="btn btn-outline-primary" htmlFor={c}>
           {c}
         </label>
@@ -19,8 +19,8 @@ export function Bar(props: IBarProps) {
   });
   const Brend = props.brand.map((c) => {
     return (
-      <div onClick={() => console.log(c)}>
-        <input type="checkbox" className="btn-check" id={c} autoComplete="off" />
+      <div key={c}>
+        <input onClick={() => console.log(c)} type="checkbox" className="btn-check" id={c} autoComplete="off" />
         <label className="btn btn-outline-primary" htmlFor={c}>
           {c}
         </label>
