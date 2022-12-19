@@ -40,3 +40,8 @@ export type CountInFilters = {
   categories: CountInCategories;
   brands: CountInBrands;
 };
+
+export type Borders<T> = {
+  actual: T;
+  total: T;
+};
