@@ -66,9 +66,16 @@
         "webpack-merge": "^5.7.3"
     },
     "dependencies": {
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@mui/material": "^5.11.0",
         "@popperjs/core": "^2.11.6",
+        "@types/material-ui": "^0.21.12",
         "bootstrap": "^5.2.3",
+        "cssstyle": "^2.3.0",
         "popper.js": "^1.16.1",
-        "prop-types": "^15.8.1"
+        "prop-types": "^15.8.1",
+        "react-dual-rangeslider": "^1.2.16",
+        "react-range-slider-input": "^3.0.6"
     }
 }

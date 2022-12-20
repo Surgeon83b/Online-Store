@@ -35,6 +35,7 @@ export function Header(props: IHeaderProps) {
                 </a>
               </li>
             </ul>
+            <p className="mx-4">Cart total: {props.price}$</p>
             <form className="d-flex">
               <button className="btn btn-outline-dark" type="submit">
                 <i className="bi-cart-fill me-1"></i>
@@ -45,14 +46,6 @@ export function Header(props: IHeaderProps) {
           </div>
         </div>
       </nav>
-      <div className="bg-dark py-5">
-        <div className="container px-4 px-lg-5 my-5">
-          <div className="text-center text-white">
-            <h1 className="display-4 fw-bolder">Cart total: {props.price}$</h1>
-            <p className="lead fw-normal text-white-50 mb-0"></p>
-          </div>
-        </div>
-      </div>
     </header>
   );
 }
