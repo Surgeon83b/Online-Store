@@ -7,10 +7,8 @@ export interface ICheckBoxProps {
 export function CheckBox(props: ICheckBoxProps) {
   return (
     <div>
-      <input type="checkbox" className="btn-check" id={props.lable} autoComplete="off" />
-      <label className="btn btn-outline-primary" htmlFor={props.lable}>
-        {props.lable}
-      </label>
+      <input type="checkbox" id={props.lable} autoComplete="off" />
+      <label htmlFor={props.lable}>{props.lable}</label>
     </div>
   );
 }

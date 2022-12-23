@@ -10,7 +10,7 @@ export interface Products {
 //! TODO add the state settings to the Select component!
 //!ADD Number value!
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function Products() {
+export function Products(props: Products) {
   const [state, setState] = React.useState<{ name: string }>({
     name: '',
   });
@@ -22,6 +22,46 @@ export function Products() {
       [name]: event.target.value,
     });
   };
+  const ProductsGird = props.produrcts.map((product: ProductItem) => {
+    const img = product.thumbnail;
+    return (
+      <div key={(product.id as unknown) as string} style={styles.card}>
+        <div
+          style={{
+            backgroundImage: `url('${img}')`,
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            height: '50%',
+          }}
+        ></div>
+        <div className="card-footer p-1 pt-0 border-top-0 bg-transparent">
+          <div className="text">
+            <div>
+              <pre style={styles.cardText} className="fw-bolder">
+                {product.title} <br />
+                {product.brand} <br />
+                {product.price}$ <br />
+                Raiting: {product.rating}
+              </pre>
+            </div>
+            <Button
+              text="Add to Cart"
+              onclick={() => {
+                console.log(product.id);
+              }}
+            />
+            <Button
+              text="Product Description"
+              onclick={() => {
+                console.log(product.id);
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  });
   return (
     <section className="container w70" style={styles.preductsContainer}>
       <div className="products-header w100 p-1" style={styles.productsHeader}>
@@ -49,6 +89,7 @@ export function Products() {
           <Button onclick={() => console.log('row')} text="Row" />
         </div>
       </div>
+      <div style={styles.productsGrid}>{ProductsGird}</div>
     </section>
   );
 }

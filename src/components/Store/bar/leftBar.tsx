@@ -9,24 +9,32 @@ export interface IBarProps {
   brand: string[];
 }
 export function Bar(props: IBarProps) {
-  const Category = props.category.map((c) => {
+  const Category = props.category.map((category) => {
     return (
-      <div key={c}>
-        <input onClick={() => console.log(c)} type="checkbox" className="btn-check" id={c} autoComplete="off" />
-        <label className="btn btn-outline-primary" htmlFor={c}>
-          {c}
-        </label>
-      </div>
+      <Form key={category}>
+        <Form.Check
+          onChange={() => console.log(category)}
+          inline
+          label={category}
+          name="category"
+          type="checkbox"
+          id={`inline-checkbox-${category}`}
+        />
+      </Form>
     );
   });
-  const Brend = props.brand.map((c) => {
+  const Brend = props.brand.map((brand) => {
     return (
-      <div key={c}>
-        <input onClick={() => console.log(c)} type="checkbox" className="btn-check" id={c} autoComplete="off" />
-        <label className="btn btn-outline-primary" htmlFor={c}>
-          {c}
-        </label>
-      </div>
+      <Form key={brand}>
+        <Form.Check
+          onChange={() => console.log(brand)}
+          inline
+          label={brand}
+          name="bread"
+          type="checkbox"
+          id={`inline-checkbox-${brand}`}
+        />
+      </Form>
     );
   });
   return (
@@ -39,22 +47,15 @@ export function Bar(props: IBarProps) {
         <Button text="Resrt filters" onclick={() => console.log('сброс')} />
         <Button text="Copy link" onclick={() => console.log('скопировать ссылку')} />
       </div>
+      <h4>Categorys</h4>
       <Form.Group className="mb-3" controlId="Category" style={styles.checkboxConteiner}>
         {Category}
       </Form.Group>
+      <h4>Brends</h4>
       <Form.Group className="mb-3" controlId="Brend" style={styles.checkboxConteiner}>
         {Brend}
       </Form.Group>
-      {/*<Box>
-        <Slider
-          getAriaLabel={() => 'Minimum distance'}
-          value={100}
-          onChange={() => console.log('cc')}
-          valueLabelDisplay="auto"
-          getAriaValueText={}
-          disableSwap
-        />
-      </Box>*/}
+      <h4>Cost</h4>
     </aside>
   );
 }
