@@ -9,9 +9,9 @@ import { Footer } from './components/footer/footer';
 const container = document.getElementById('app');
 const root = createRoot(container!);
 root.render(
-  <div className="comtainre">
+  <>
     <Header count={10} price={1000} />
     <Store category={DataCategory} brand={DataBrands} />
     <Footer />
-  </div>
+  </>
 );

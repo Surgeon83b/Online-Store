@@ -33,4 +33,14 @@ export const styles = {
     color: 'black',
     wordWrap: 'normal',
   },
+  footer: {
+    with: '100%',
+    marginTop: '30px',
+    padding: '30px',
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderTop: '1px solid rgb(204, 204, 204)',
+    backgroundColor: 'rgba(248, 249, 250',
+  },
 } as const;
