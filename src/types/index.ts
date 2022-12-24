@@ -28,12 +28,12 @@ export type FilteredNumbers = {
 
 export type CountInCategories = {
   category: string;
-  count: [number, number];
+  count: Range;
 }[];
 
 export type CountInBrands = {
   brand: string;
-  count: [number, number];
+  count: Range;
 }[];
 
 export type CountInFilters = {
@@ -44,4 +44,14 @@ export type CountInFilters = {
 export type Borders<T> = {
   actual: T;
   total: T;
+};
+
+export type MinOrMax = 'min' | 'max';
+
+export type DataForRender = {
+  products: ProductItem[];
+  categories: CountInCategories;
+  brands: CountInBrands;
+  price: Range;
+  stock: Range;
 };
