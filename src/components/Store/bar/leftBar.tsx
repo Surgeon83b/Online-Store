@@ -2,12 +2,12 @@ import Form from 'react-bootstrap/Form';
 import React from 'react';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
-//import Box from '@mui/material/Box';
-//import Slider from '@mui/material/Slider';
+import RangeSlider from './dualSlides';
 export interface IBarProps {
   category: string[];
   brand: string[];
 }
+
 export function Bar(props: IBarProps) {
   const Category = props.category.map((category) => {
     return (
@@ -38,7 +38,7 @@ export function Bar(props: IBarProps) {
     );
   });
   return (
-    <aside className="left-bar w-25">
+    <aside className="left-bar w-25 container">
       <Form.Group className="my-3" controlId="SerchForm">
         <Form.Control type="text" placeholder="Serch" />
         <Form.Text className="text-muted">Enter keywords to search in the catalog</Form.Text>
@@ -55,7 +55,10 @@ export function Bar(props: IBarProps) {
       <Form.Group className="mb-3" controlId="Brend" style={styles.checkboxConteiner}>
         {Brend}
       </Form.Group>
-      <h4>Cost</h4>
+      <h4>Price</h4>
+      <RangeSlider valueLable="$" min={0} max={1000} />
+      <h4>Stock</h4>
+      <RangeSlider valueLable="" min={0} max={1000} />
     </aside>
   );
 }

@@ -11,16 +11,9 @@ export interface Products {
 //!ADD Number value!
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function Products(props: Products) {
-  const [state, setState] = React.useState<{ name: string }>({
-    name: '',
-  });
+  const [name, setName] = React.useState('');
   const handleChange = (event: SelectChangeEvent) => {
-    const name = event.target.value as keyof typeof state;
-    console.log(name);
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+    setName(event.target.value);
   };
   const ProductsGird = props.produrcts.map((product: ProductItem) => {
     const img = product.thumbnail;
@@ -66,11 +59,13 @@ export function Products(props: Products) {
     <section className="container w70" style={styles.preductsContainer}>
       <div className="products-header w100 p-1" style={styles.productsHeader}>
         <FormControl className="ranking-form">
-          <InputLabel htmlFor="age-native-simple">{state.name}</InputLabel>
+          <InputLabel style={{ width: '100px' }} htmlFor="age-native-simple">
+            Sort by
+          </InputLabel>
           <Select
             //style={{ height: '5px' }}
             native
-            value={state.name}
+            value={name}
             onChange={handleChange}
             inputProps={{
               name: '',
@@ -78,9 +73,10 @@ export function Products(props: Products) {
             }}
           >
             <option aria-label="None" value="" />
-            <option value={'второй'}>ranking1</option>
-            <option value={'первый'}>ranking</option>
-            <option value={'второй'}>ranking1</option>
+            <option value={'raiting ASC'}>raiting ASC</option>
+            <option value={'raiting DESC'}>raiting DESC</option>
+            <option value={'price ASC'}>price ASC</option>
+            <option value={'price DESC'}>price DESC</option>
           </Select>
         </FormControl>
         <p>Find NUMBER</p>
