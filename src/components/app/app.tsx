@@ -1,9 +1,8 @@
 import { Header } from '../header/header';
 import React from 'react';
-import { Store } from '../Store/Srore';
+import { Store } from '../Store/Store';
 import { DataBrands, DataCategory } from '../../utils/utils';
 import { Footer } from '../footer/footer';
-
 export const App = () => {
   return (
     <>
