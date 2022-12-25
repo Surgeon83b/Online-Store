@@ -1,4 +1,5 @@
 import { ProductItem } from '../types';
+import data from '../Assets/products.json';
 
 export const getCategoryCount = (data: ProductItem[], category: string): number => {
   return data.reduce((res, i) => {
@@ -40,3 +41,12 @@ export const isInputInProduct = (input: string, product: ProductItem) => {
     product.category.includes(input)
   );
 };
+
+export const DataCategory = data.products.reduce((res: string[], x) => {
+  if (res.indexOf(x.category) === -1) res.push(x.category);
+  return res;
+}, [] as string[]);
+export const DataBrands = data.products.reduce((res: string[], x) => {
+  if (res.indexOf(x.brand) === -1) res.push(x.brand);
+  return res;
+}, [] as string[]);
