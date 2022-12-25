@@ -1,5 +1,4 @@
 import './global.scss';
-import LeftBar from '../components/Store/leftBar';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import data from '../Assets/products.json';
