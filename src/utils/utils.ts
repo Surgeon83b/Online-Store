@@ -31,3 +31,12 @@ export const getMax = (data: ProductItem[], property: string): number => {
     return max;
   }, 0);
 };
+
+export const isInputInProduct = (input: string, product: ProductItem) => {
+  return (
+    product.title.includes(input) ||
+    product.description.includes(input) ||
+    product.brand.includes(input) ||
+    product.category.includes(input)
+  );
+};

@@ -3,7 +3,6 @@ import LeftBar from '../components/Store/leftBar';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import data from '../Assets/products.json';
-import Component from '../components/kostya/component';
 import {
   ProductItem,
   Range,
@@ -15,12 +14,9 @@ import {
   MinOrMax,
   DataForRender,
 } from '../types';
-import { getBrandCount, getCategoryCount, getMax, getMin } from '../utils/utils';
+import { getBrandCount, getCategoryCount, getMax, getMin, isInputInProduct } from '../utils/utils';
 
 //const main = new Component(null, [], 'main');
-
-const price: Range = [1, 100];
-const stock: Range = [0, 0];
 
 /*const aside = new LeftBar(main, [], 'aside', cats, brands, price, stock);
 const asideHtml = document.querySelector('aside');
@@ -184,10 +180,13 @@ class Products {
     this.setFilteredOptions({ ...this.filteredOptions, stock: this.stockBorders.actual });
     this.setFilteredData(this.filteredOptions);
   }
-  getAllDataForRender(): DataForRender {
+  getDataWithInput(input: string) {
+    return this.filteredData.filter((data) => isInputInProduct(input, data));
+  }
+  getAllDataForRender(input: string): DataForRender {
     return {
       ...this.countInFilters,
-      products: this.filteredData,
+      products: this.getDataWithInput(input),
       // categories: this.countInFilters.categories,
       // brands: this.countInFilters.brands,
       price: this.priceBorders.actual,
