@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
     "lib": [
+      "es6",
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "allowJs": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -106,6 +109,7 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "src"
+    "src",
+    "src/custom.d.ts"
   ]
 }

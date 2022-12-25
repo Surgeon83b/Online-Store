@@ -56,7 +56,7 @@
         "sass": "^1.56.2",
         "sass-loader": "^13.2.0",
         "style-loader": "^2.0.0",
-        "styled-components": "^5.3.3",
+        "styled-components": "^5.3.6",
         "ts-loader": "^9.4.2",
         "typescript": "^4.5.5",
         "web-vitals": "^2.1.4",
@@ -66,9 +66,19 @@
         "webpack-merge": "^5.7.3"
     },
     "dependencies": {
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@material-ui/types": "^5.1.0",
+        "@mui/icons-material": "^5.11.0",
+        "@mui/material": "^5.11.1",
+        "@mui/styled-engine-sc": "^5.11.0",
         "@popperjs/core": "^2.11.6",
+        "@types/material-ui": "^0.21.12",
         "bootstrap": "^5.2.3",
+        "cssstyle": "^2.3.0",
         "popper.js": "^1.16.1",
-        "prop-types": "^15.8.1"
+        "prop-types": "^15.8.1",
+        "react-dual-rangeslider": "^1.2.16",
+        "react-range-slider-input": "^3.0.6"
     }
 }
