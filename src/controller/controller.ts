@@ -23,21 +23,21 @@ asideHtml!.innerHTML = aside.render();*/
 
 class Products {
   data: ProductItem[];
-  private filteredData: ProductItem[] = [];
+  public filteredData: ProductItem[] = []; // all filtered data not including info from search string
   public countInCategories: CountInCategories = [];
   public countInBrands: CountInBrands = [];
   private countInFilters: CountInFilters = {} as CountInFilters;
   priceBorders: Borders<Range> = {} as Borders<Range>;
   stockBorders: Borders<Range> = {} as Borders<Range>;
-  options: Options = {} as Options;
-  filteredOptions: Options = {} as Options;
+  options: Options = {} as Options; // initial data for FILTER section
+  filteredOptions: Options = {} as Options; // current state of FILTER section
 
   constructor(data: ProductItem[]) {
     this.data = data;
     this.setPriceBorders();
     this.setStockBorders();
     this.setOptions();
-    this.setFilteredData(this.options);
+    this.setFilteredData();
     this.setCountInFilters();
   }
 
@@ -75,6 +75,7 @@ class Products {
     };
   }
 
+  // returns filtered by filters data
   filter(options: Options): ProductItem[] {
     return this.data.filter(
       (item) =>
@@ -87,24 +88,14 @@ class Products {
     );
   }
 
-  setFilteredData(options: Options): void {
-    this.filteredData = this.filter(options);
+  setFilteredData(): void {
+    this.filteredData = this.filter(this.filteredOptions);
     this.setCountInFilters();
     this.setPriceBorders();
     this.setStockBorders();
   }
-  getFilteredData(): ProductItem[] {
-    return this.filteredData;
-  }
-  setCountInCategories(): void {
-    this.countInCategories = this.options.categories.reduce((res, cat) => {
-      res.push({
-        category: cat,
-        count: [getCategoryCount(this.filteredData, cat), getCategoryCount(this.data, cat)],
-      });
-      return res;
-    }, [] as CountInCategories);
-  }
+
+  // sets checked/total values for categories and brands
   setCountInFilters(): void {
     this.countInFilters = {
       categories: this.options.categories.reduce((res, cat) => {
@@ -135,6 +126,11 @@ class Products {
       total: [getMin(this.data, 'stock'), getMax(this.data, 'stock')],
     };
   }
+  /////////////////////////////////////////////////////////////////
+  //////////// METHODS FOR HANDLING FILTERS CHANGES ///////////////
+  /////////////////////////////////////////////////////////////////
+
+  // changes checked categories list (adds or removes category)
   changeCategories(category: string) {
     const index = this.filteredOptions.categories.indexOf(category);
     if (index !== -1) {
@@ -142,8 +138,10 @@ class Products {
     } else {
       this.filteredOptions.categories.push(category);
     }
-    this.setFilteredData(this.filteredOptions);
+    this.setFilteredData();
   }
+
+  // changes checked brand list (adds or removes brand)
   changeBrands(brand: string) {
     const index = this.filteredOptions.brands.indexOf(brand);
     if (index !== -1) {
@@ -151,8 +149,9 @@ class Products {
     } else {
       this.filteredOptions.brands.push(brand);
     }
-    this.setFilteredData(this.filteredOptions);
+    this.setFilteredData();
   }
+  // changes price borders on moving ranges (min or max)
   changePriceBorders(type: MinOrMax, value: number): void {
     switch (type) {
       case 'min': {
@@ -164,8 +163,9 @@ class Products {
       }
     }
     this.setFilteredOptions({ ...this.filteredOptions, price: this.priceBorders.actual });
-    this.setFilteredData(this.filteredOptions);
+    this.setFilteredData();
   }
+  // changes stock borders on moving ranges (min or max)
   changeStockBorders(type: MinOrMax, value: number): void {
     switch (type) {
       case 'min': {
@@ -177,11 +177,14 @@ class Products {
       }
     }
     this.setFilteredOptions({ ...this.filteredOptions, stock: this.stockBorders.actual });
-    this.setFilteredData(this.filteredOptions);
+    this.setFilteredData();
   }
+  // gets all filtered data with info from search string
   getDataWithInput(input: string) {
     return this.filteredData.filter((data) => isInputInProduct(input, data));
   }
+
+  /////// gets all data for filtered rendering in Products section ////////
   getAllDataForRender(input: string): DataForRender {
     return {
       ...this.countInFilters,

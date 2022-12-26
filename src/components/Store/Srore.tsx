@@ -6,7 +6,7 @@ export function Store(props: IBarProps) {
   return (
     <main className="comtainer">
       <Bar category={props.category} brand={props.brand} />
-      <Products produrcts={Data.products} />
+      <Products products={Data.products} />
     </main>
   );
 }

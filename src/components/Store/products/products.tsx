@@ -5,7 +5,7 @@ import { Button } from '../../button/button';
 import { styles } from '../../styles';
 
 export interface Products {
-  produrcts: ProductItem[];
+  products: ProductItem[];
 }
 //! TODO add the state settings to the Select component!
 //!ADD Number value!
@@ -15,7 +15,7 @@ export function Products(props: Products) {
   const handleChange = (event: SelectChangeEvent) => {
     setName(event.target.value);
   };
-  const ProductsGird = props.produrcts.map((product: ProductItem) => {
+  const ProductsGird = props.products.map((product: ProductItem) => {
     const img = product.thumbnail;
     return (
       <div key={(product.id as unknown) as string} style={styles.card}>

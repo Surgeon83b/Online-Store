@@ -1,3 +1,5 @@
+import { FullscreenExit } from '@mui/icons-material';
+
 export const styles = {
   checkboxConteiner: {
     height: '19vh',
@@ -34,7 +36,7 @@ export const styles = {
     wordWrap: 'normal',
   },
   footer: {
-    with: '100%',
+    width: '100%',
     marginTop: '30px',
     padding: '30px',
     display: 'flex',
@@ -42,5 +44,9 @@ export const styles = {
     alignItems: 'center',
     borderTop: '1px solid rgb(204, 204, 204)',
     backgroundColor: 'rgba(248, 249, 250',
+  },
+  mainDescription: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 } as const;
