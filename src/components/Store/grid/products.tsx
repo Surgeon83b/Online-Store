@@ -10,7 +10,7 @@ export interface Products {
 //! TODO add the state settings to the Select component!
 //!ADD Number value!
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function Products(props: Products) {
+export function ProdGrid(props: Products) {
   const [name, setName] = React.useState('');
   const handleChange = (event: SelectChangeEvent) => {
     setName(event.target.value);
