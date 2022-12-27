@@ -3,40 +3,32 @@ import React from 'react';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
 import RangeSlider from './dualSlides';
-export interface IBarProps {
-  category: string[];
-  brand: string[];
-}
+//import { State } from '../Store';
+import { DataBrands, DataCategory, getCheckCount, getBrandCount } from '../../../utils/utils';
+import Data from '../../../Assets/products.json';
+import { ProductItem } from 'types';
 
-export function Bar(props: IBarProps) {
-  const Category = props.category.map((category) => {
-    return (
-      <Form key={category}>
-        <Form.Check
-          onChange={() => console.log(category)}
-          inline
-          label={category}
-          name="category"
-          type="checkbox"
-          id={`inline-checkbox-${category}`}
-        />
-      </Form>
-    );
-  });
-  const Brend = props.brand.map((brand) => {
-    return (
-      <Form key={brand}>
-        <Form.Check
-          onChange={() => console.log(brand)}
-          inline
-          label={brand}
-          name="bread"
-          type="checkbox"
-          id={`inline-checkbox-${brand}`}
-        />
-      </Form>
-    );
-  });
+export function Bar(props: { items: ProductItem[] }) {
+  const checkBar = (categorys: string[], counter: typeof getCheckCount) => {
+    return categorys.map((category: string) => {
+      const totaQuantity = counter(Data.products, category);
+      const courentQuantity = counter(props.items, category);
+      console.log(totaQuantity);
+      return (
+        <Form key={category}>
+          <Form.Check
+            onChange={() => console.log(category)}
+            inline
+            label={`${category} (${totaQuantity}/${courentQuantity})`}
+            name="category"
+            type="checkbox"
+            id={`inline-checkbox-${category}`}
+          />
+        </Form>
+      );
+    });
+  };
+
   return (
     <aside className="left-bar w-25 container">
       <Form.Group className="my-3" controlId="SerchForm">
@@ -49,11 +41,11 @@ export function Bar(props: IBarProps) {
       </div>
       <h4>Categorys</h4>
       <Form.Group className="mb-3" controlId="Category" style={styles.checkboxConteiner}>
-        {Category}
+        {checkBar(DataCategory, getCheckCount)}
       </Form.Group>
       <h4>Brends</h4>
       <Form.Group className="mb-3" controlId="Brend" style={styles.checkboxConteiner}>
-        {Brend}
+        {checkBar(DataBrands, getBrandCount)}
       </Form.Group>
       <h4>Price</h4>
       <RangeSlider valueLable="$" min={0} max={1000} />

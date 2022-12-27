@@ -1,17 +1,17 @@
 import { ProductItem } from '../types';
 import data from '../Assets/products.json';
 
-export const getCategoryCount = (data: ProductItem[], category: string): number => {
-  return data.reduce((result, i) => {
-    if (i.category === category) return result++;
-    else return result;
+export const getCheckCount = (data: ProductItem[], category: string): number => {
+  return data.reduce((result, item) => {
+    if (item.category === category) result++;
+    return result;
   }, 0);
 };
 
 export const getBrandCount = (data: ProductItem[], brand: string): number => {
   return data.reduce((result, i) => {
-    if (i.brand === brand) return result++;
-    else return result;
+    if (i.brand === brand) result++;
+    return result;
   }, 0);
 };
 
