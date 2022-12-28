@@ -76,9 +76,11 @@
         "@types/material-ui": "^0.21.12",
         "bootstrap": "^5.2.3",
         "cssstyle": "^2.3.0",
+        "hook-use-url": "^2.0.12",
         "popper.js": "^1.16.1",
         "prop-types": "^15.8.1",
         "react-dual-rangeslider": "^1.2.16",
-        "react-range-slider-input": "^3.0.6"
+        "react-range-slider-input": "^3.0.6",
+        "use-query-params": "^2.1.2"
     }
 }
