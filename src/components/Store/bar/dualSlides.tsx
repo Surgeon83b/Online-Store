@@ -8,14 +8,26 @@ export interface SliderProps {
   valueLable: string;
   max: number;
   min: number;
+  setRangeValue: React.Dispatch<
+    React.SetStateAction<{
+      price: number[] | number;
+      stock: number[] | number;
+    }>
+  >;
+  rangeValue: {
+    [key: string]: number[] | number;
+  };
 }
 export default function RangeSlider(props: SliderProps) {
-  const [value, setValue] = React.useState<number[]>([props.min, props.max]);
-
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+  const handleChange = (event: Event, newValue: number[] | number) => {
+    const newRange = { price: props.rangeValue.price, stock: props.rangeValue.stock };
+    if (props.valueLable === '$') {
+      newRange.price = newValue;
+    } else newRange.stock = newValue;
+    props.setRangeValue(newRange);
   };
   const getValueLabelFormat = (value: number) => `${valuetext(value)}${props.valueLable}`;
+  const value = props.valueLable === '$' ? props.rangeValue.price : props.rangeValue.stock;
   return (
     <Slider
       style={{ width: '80%' }}
