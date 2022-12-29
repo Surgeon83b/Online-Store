@@ -74,6 +74,7 @@
         "@mui/styled-engine-sc": "^5.11.0",
         "@popperjs/core": "^2.11.6",
         "@types/material-ui": "^0.21.12",
+        "@types/react-bootstrap": "^0.32.32",
         "bootstrap": "^5.2.3",
         "cssstyle": "^2.3.0",
         "hook-use-url": "^2.0.12",

@@ -4,10 +4,7 @@ import { ProductItem } from 'types';
 
 export const ProductCard = (props: ProductItem) => {
   return (
-    <div
-      id={(props.id as unknown) as string}
-      className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
-    >
+    <div id={(props.id as unknown) as string}>
       <div className="col mb-5">
         <div className="card h-100">
           <img className="card-img-top" src={props.images[0]} alt="..." />

@@ -10,7 +10,7 @@ export interface SliderProps {
   min: number;
   setRangeValue: React.Dispatch<
     React.SetStateAction<{
-      price: number[] | number;
+      [price: string]: number[] | number;
       stock: number[] | number;
     }>
   >;

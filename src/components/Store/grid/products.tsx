@@ -79,7 +79,7 @@ export function ProdGrid(props: Products) {
             <option value={'price DESC'}>price DESC</option>
           </Select>
         </FormControl>
-        <p>Find NUMBER</p>
+        <p>Find {props.products.length}</p>
         <div>
           <Button onclick={() => console.log('colum')} text="Colum" />
           <Button onclick={() => console.log('row')} text="Row" />

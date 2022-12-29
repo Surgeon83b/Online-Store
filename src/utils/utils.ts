@@ -1,7 +1,3 @@
-// 👇️ ts-nocheck ignores all ts errors in the file
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { ProductItem } from '../types';
 import data from '../Assets/products.json';
 
@@ -18,34 +14,22 @@ export const getBrandCount = (data: ProductItem[], brand: string): number => {
     return result;
   }, 0);
 };
-
 export const getMin = (data: ProductItem[], property: string): number => {
-  let result = 0;
   return data.reduce((min: number, prod: ProductItem) => {
-    result = prod[property as keyof ProductItem] as number;
-    if (result < min) return result;
+    const current = (prod as ProductItem)[property as keyof ProductItem] as number;
+    if (current < min) min = current;
     return min;
-  }, 0);
+  }, 1999);
 };
 
 export const getMax = (data: ProductItem[], property: string): number => {
   let result = 0;
   return data.reduce((max: number, prod: ProductItem) => {
-    result = prod[property as keyof ProductItem] as number;
+    result = (prod as ProductItem)[property as keyof ProductItem] as number;
     if (result > max) return result;
     return max;
   }, 0);
 };
-
-export const isInputInProduct = (input: string, product: ProductItem) => {
-  return (
-    product.title.includes(input) ||
-    product.description.includes(input) ||
-    product.brand.includes(input) ||
-    product.category.includes(input)
-  );
-};
-
 export const DataCategory = data.products.reduce(
   (result: string[], x) => {
     if (result.indexOf(x.category) === -1) result.push(x.category);

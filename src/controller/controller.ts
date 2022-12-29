@@ -11,7 +11,7 @@ import {
   MinOrMax,
   DataForRender,
 } from '../types/index';
-import { getBrandCount, getMax, getMin, isInputInProduct, getCategoryCount } from '../utils/utils';
+import { getBrandCount, getMax, getMin, getCategoryCount } from '../utils/utils';
 
 //const main = new Component(null, [], 'main');
 
@@ -178,15 +178,11 @@ class Products {
     this.setFilteredData();
   }
   // gets all filtered data with info from search string
-  getDataWithInput(input: string) {
-    return this.filteredData.filter((data) => isInputInProduct(input, data));
-  }
 
   /////// gets all data for filtered rendering in Products section ////////
   getAllDataForRender(input: string): DataForRender {
     return {
       ...this.countInFilters,
-      products: this.getDataWithInput(input),
       // categories: this.countInFilters.categories,
       // brands: this.countInFilters.brands,
       price: this.priceBorders.actual,

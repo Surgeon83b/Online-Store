@@ -8,22 +8,19 @@ import { DataBrands, DataCategory, getCategoryCount, getBrandCount } from '../..
 import Data from '../../../Assets/products.json';
 import { ProductItem } from 'types';
 interface BarProps {
-  //const addQyery = (key: string, _valye: string) => {
-  //const baseUrl = [location.protocol, '//', location.host, location.pathname].join('');
-  //};
   ProductItems: ProductItem[];
   switchBrands: Hendler;
   switchCategory: Hendler;
   brands: Set<string>;
   category: Set<string>;
   serch: string;
-  setSerch: React.Dispatch<React.SetStateAction<string>>;
+  setSerch: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   range: {
     [key: string]: number[];
   };
   setRangeValue: React.Dispatch<
     React.SetStateAction<{
-      price: number[] | number;
+      [price: string]: number[] | number;
       stock: number[] | number;
     }>
   >;
@@ -36,12 +33,14 @@ export function Bar(props: BarProps) {
     return categorys.map((category: string) => {
       const totaQuantity = counter(Data.products, category);
       const courentQuantity = counter(props.ProductItems, category);
+      const disabled = courentQuantity === 0;
       return (
         <Form key={category}>
           <Form.Check
+            disabled={disabled}
             inline
             onClick={(e) => switcher(e)}
-            label={`${category} (${totaQuantity}/${courentQuantity})`}
+            label={`${category} (${courentQuantity}/${totaQuantity})`}
             name="category"
             type="checkbox"
             id={category}
@@ -53,14 +52,7 @@ export function Bar(props: BarProps) {
   return (
     <aside className="left-bar w-25 container">
       <Form.Group className="my-3" controlId="SerchForm">
-        <Form.Control
-          type="text"
-          placeholder="Serch"
-          value={props.serch}
-          onInput={(event: React.FormEvent<HTMLInputElement>) => {
-            props.setSerch(event.currentTarget.value);
-          }}
-        />
+        <Form.Control type="text" placeholder="Serch" value={props.serch} onChange={props.setSerch} />
         <Form.Text className="text-muted">Enter keywords to search in the catalog</Form.Text>
       </Form.Group>
       <div className="mb-4">
