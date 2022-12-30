@@ -6,6 +6,20 @@ import { ProductItem } from 'types';
 import { getMin, getMax } from './helper';
 
 export function Store() {
+  const [ProductItems, setProductItem] = useState({ items: Data.products, serch: '' });
+  const [category, setCategory] = useState(new Set() as Set<string>);
+  const [brands, setBrands] = useState(new Set() as Set<string>);
+  //
+  const range = {
+    price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
+    stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
+  };
+  //
+  const [rangeValue, setRangeValue] = useState({
+    price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
+    stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
+  } as { [price: string]: number[] | number; stock: number[] | number });
+
   const getProducts = (range: boolean): void => {
     let products = Data.products;
     if (ProductItems.serch !== '') {
@@ -60,19 +74,6 @@ export function Store() {
     return products;
   };
   //
-  const [ProductItems, setProductItem] = useState({ items: Data.products, serch: '' });
-  const [category, setCategory] = useState(new Set() as Set<string>);
-  const [brands, setBrands] = useState(new Set() as Set<string>);
-  //
-  const range = {
-    price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
-    stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
-  };
-  //
-  const [rangeValue, setRangeValue] = useState({
-    price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
-    stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
-  } as { [price: string]: number[] | number; stock: number[] | number });
   useEffect(() => getProducts(true), [rangeValue]);
   useEffect(
     () =>

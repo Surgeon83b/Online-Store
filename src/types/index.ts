@@ -79,3 +79,28 @@ export interface BarProps {
     [key: string]: number[] | number;
   };
 }
+
+export interface SliderProps {
+  valueLable: string;
+  max: number;
+  min: number;
+  setRangeValue: React.Dispatch<
+    React.SetStateAction<{
+      [price: string]: number[] | number;
+      stock: number[] | number;
+    }>
+  >;
+  rangeValue: {
+    [key: string]: number[] | number;
+  };
+}
+
+export interface IHeaderProps {
+  count: number;
+  price: number;
+}
+
+export interface IButtonProps {
+  text: string;
+  onclick: () => void;
+}

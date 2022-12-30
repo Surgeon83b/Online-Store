@@ -1,8 +1,6 @@
 import React from 'react';
-export interface IHeaderProps {
-  count: number;
-  price: number;
-}
+import { IHeaderProps } from '../../types/index';
+
 export function Header(props: IHeaderProps) {
   return (
     <header>

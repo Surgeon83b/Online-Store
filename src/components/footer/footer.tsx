@@ -3,7 +3,6 @@ import rssLogo from '../../Assets/rs_logo.svg';
 import gitLogo from '../../Assets/git_logo.svg';
 import { styles } from '../styles';
 export function Footer() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   return (
     <footer style={styles.footer}>
       <a target="_blank" href="https://rs.school/js/">
