@@ -1,7 +1,7 @@
 import React from 'react';
-import { Header, IHeaderProps } from './header/header';
+import { Header } from './header/header';
 import { Footer } from './footer/footer';
-import { ProductItem } from 'types';
+import { IHeaderProps, ProductItem } from 'types';
 import { Button } from 'components/button/button';
 import { styles } from './styles';
 
