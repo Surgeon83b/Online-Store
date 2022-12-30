@@ -10,7 +10,7 @@ const baseConfig = {
   mode: 'development',
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, '../TS/app'),
+    path: path.resolve(__dirname, './docs'),
   },
   module: {
     rules: [

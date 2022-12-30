@@ -3,14 +3,8 @@ import { Bar } from './bar/leftBar';
 import { ProdGrid } from './grid/products';
 import Data from '../../Assets/products.json';
 import { ProductItem } from 'types';
-import { getMax, getMin } from '../../utils/utils';
+import { getMin, getMax } from './helper';
 
-export interface CheckBox {
-  checkBrands: Set<string>;
-  checkCategories: Set<string>;
-}
-
-export type Hendler = (e: React.MouseEvent<HTMLInputElement>) => void;
 export function Store() {
   const getProducts = (range: boolean): void => {
     let products = Data.products;
@@ -61,18 +55,21 @@ export function Store() {
     if (brands.size > 0) products = products.filter((item) => brands.has(item.brand));
     return products;
   };
+  //
   const [ProductItems, setProductItem] = useState({ items: Data.products, serch: '' });
   const [category, setCategory] = useState(new Set() as Set<string>);
   const [brands, setBrands] = useState(new Set() as Set<string>);
+  //
   const range = {
     price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
     stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
   };
-
+  //
   const [rangeValue, setRangeValue] = useState({
     price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
     stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
   } as { [price: string]: number[] | number; stock: number[] | number });
+
   useEffect(
     () =>
       setRangeValue({
@@ -116,20 +113,6 @@ export function Store() {
           getProducts(false);
         }}
         ProductItems={ProductItems.items}
-        //drop={() => {
-        //  setState({
-        //    search: 'сброшено',
-        //    price: {
-        //      max: 1000,
-        //      min: 0,
-        //    },
-        //    stock: {
-        //      max: 10,
-        //      min: 0,
-        //    },
-        //    ProductItem: Data.products,
-        //  });
-        //}}
       />
       <ProdGrid products={ProductItems.items} />
     </main>

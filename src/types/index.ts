@@ -3,6 +3,7 @@ export type Categories = string[];
 export type Brands = string[];
 export type Range = [number, number];
 export type ProductItem = {
+  [key: string]: number | string | string[];
   id: number;
   title: string;
   description: string;
@@ -55,3 +56,26 @@ export type DataForRender = {
   price: Range;
   stock: Range;
 };
+
+export type Hendler = (e: React.MouseEvent<HTMLInputElement>) => void;
+export interface BarProps {
+  ProductItems: ProductItem[];
+  switchBrands: Hendler;
+  switchCategory: Hendler;
+  brands: Set<string>;
+  category: Set<string>;
+  serch: string;
+  setSerch: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+  range: {
+    [key: string]: number[];
+  };
+  setRangeValue: React.Dispatch<
+    React.SetStateAction<{
+      [price: string]: number[] | number;
+      stock: number[] | number;
+    }>
+  >;
+  rangeValue: {
+    [key: string]: number[] | number;
+  };
+}

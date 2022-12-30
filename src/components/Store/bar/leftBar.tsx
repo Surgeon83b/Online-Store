@@ -3,31 +3,10 @@ import React from 'react';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
 import RangeSlider from './dualSlides';
-import { Hendler } from '../Store';
-import { DataBrands, DataCategory, getCategoryCount, getBrandCount } from '../../../utils/utils';
+import { DataBrands, DataCategory, getCategoryCount, getBrandCount } from '../helper';
 import Data from '../../../Assets/products.json';
-import { ProductItem } from 'types';
-interface BarProps {
-  ProductItems: ProductItem[];
-  switchBrands: Hendler;
-  switchCategory: Hendler;
-  brands: Set<string>;
-  category: Set<string>;
-  serch: string;
-  setSerch: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
-  range: {
-    [key: string]: number[];
-  };
-  setRangeValue: React.Dispatch<
-    React.SetStateAction<{
-      [price: string]: number[] | number;
-      stock: number[] | number;
-    }>
-  >;
-  rangeValue: {
-    [key: string]: number[] | number;
-  };
-}
+import { BarProps, Hendler, ProductItem } from '../../../types/index';
+
 export function Bar(props: BarProps) {
   const checkBar = (categorys: string[], counter: typeof getCategoryCount, switcher: Hendler) => {
     return categorys.map((category: string) => {
