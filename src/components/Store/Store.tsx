@@ -73,7 +73,7 @@ export function Store() {
     price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
     stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
   } as { [price: string]: number[] | number; stock: number[] | number });
-  useEffect(() => getProducts(true), [range]);
+  useEffect(() => getProducts(true), [rangeValue]);
   useEffect(
     () =>
       setRangeValue({

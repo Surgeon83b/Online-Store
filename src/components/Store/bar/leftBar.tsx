@@ -5,7 +5,7 @@ import { styles } from '../../styles';
 import RangeSlider from './dualSlides';
 import { DataBrands, DataCategory, getCategoryCount, getBrandCount } from '../helper';
 import Data from '../../../Assets/products.json';
-import { BarProps, Hendler, ProductItem } from '../../../types/index';
+import { BarProps, Hendler, } from '../../../types/index';
 
 export function Bar(props: BarProps) {
   const checkBar = (categorys: string[], counter: typeof getCategoryCount, switcher: Hendler) => {
