@@ -53,6 +53,10 @@ export function Store() {
     } else products = Data.products;
     if (category.size > 0) products = products.filter((item) => category.has(item.category));
     if (brands.size > 0) products = products.filter((item) => brands.has(item.brand));
+    setRangeValue({
+      price: [getMin(products, 'price'), getMax(products, 'price')],
+      stock: [getMin(products, 'stock'), getMax(products, 'stock')],
+    });
     return products;
   };
   //
@@ -69,14 +73,14 @@ export function Store() {
     price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
     stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
   } as { [price: string]: number[] | number; stock: number[] | number });
-
+  useEffect(() => getProducts(true), [range]);
   useEffect(
     () =>
       setRangeValue({
         price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
         stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
       }),
-    [brands, category, ProductItems]
+    [brands, category]
   );
 
   return (
