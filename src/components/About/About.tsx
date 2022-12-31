@@ -1,47 +1,45 @@
 import React from 'react';
-import { Header } from './header/header';
-import { Footer } from './footer/footer';
-import { IHeaderProps, ProductItem } from 'types';
-import { Button } from 'components/button/button';
-import { styles } from './styles';
+import { ProductItem } from 'types';
+import { Button } from '../button/button';
+import { styles } from '../styles';
+import data from '../../Assets/products.json';
 
-export function About(prop: { product: ProductItem; headerProps: IHeaderProps }) {
-  const props = prop.product;
+export function About(prop: { item: number }) {
+  const item = data.products.find((item) => item.id == prop.item) as ProductItem;
   return (
     <>
-      <Header count={prop.headerProps.count} price={prop.headerProps.price}></Header>
       <div className="col mb-5">
         <div className="card h-100">
           <div className="card-body p-4">
             <div className="text-center">
               {/*Product name*/}
-              <h5 className="fw-bolder">{props.title}</h5>
+              <h5 className="fw-bolder">{item.title}</h5>
               <div className="mainDescription" style={styles.mainDescription}>
                 {/* Product images*/}
                 <div className="imageDescription">
-                  {props.images.map((element) => (
+                  {item.images.map((element) => (
                     <img src={element}></img>
                   ))}
-                  <img className="card-img-top" src={props.thumbnail} alt="..." />
+                  <img className="card-img-top" src={item.thumbnail} alt="..." />
                 </div>
                 {/* Product description*/}
                 <div className="infoDescription">
                   <h5 className="fw-bolder">Description:</h5>
-                  <span className="text-muted">{props.description}</span>
+                  <span className="text-muted">{item.description}</span>
                   <h5 className="fw-bolder">Discount Percentage:</h5>
-                  <span className="text-muted">{props.discountPercentage}</span>
+                  <span className="text-muted">{item.discountPercentage}</span>
                   <h5 className="fw-bolder">Rating:</h5>
-                  <span className="text-muted">{props.rating}</span>
+                  <span className="text-muted">{item.rating}</span>
                   <h5 className="fw-bolder">Stock:</h5>
-                  <span className="text-muted">{props.stock}</span>
+                  <span className="text-muted">{item.stock}</span>
                   <h5 className="fw-bolder">Brand:</h5>
-                  <span className="text-muted">{props.brand}</span>
+                  <span className="text-muted">{item.brand}</span>
                   <h5 className="fw-bolder">Category:</h5>
-                  <span className="text-muted">{props.category}</span>
+                  <span className="text-muted">{item.category}</span>
                 </div>
                 <div className="priceAndActionDescription">
                   {/*Product price*/}
-                  <h5 className="fw-bolder">{props.price}</h5>
+                  <h5 className="fw-bolder">{item.price}</h5>
                   <Button
                     text="ADD TO CART"
                     onclick={() => {
@@ -68,7 +66,6 @@ export function About(prop: { product: ProductItem; headerProps: IHeaderProps })
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

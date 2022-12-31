@@ -1,7 +1,9 @@
 import React from 'react';
-import { IHeaderProps } from '../../types/index';
+import { Link } from 'react-router-dom';
 
-export function Header(props: IHeaderProps) {
+export function Header() {
+  const price = 1000;
+  const count = 10;
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -23,9 +25,9 @@ export function Header(props: IHeaderProps) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#!">
+                <Link className="nav-link active" aria-current="page" to="/">
                   Shop
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#!">
@@ -33,12 +35,12 @@ export function Header(props: IHeaderProps) {
                 </a>
               </li>
             </ul>
-            <p className="mx-4">Cart total: {props.price}$</p>
+            <p className="mx-4">Cart total: {price}$</p>
             <form className="d-flex">
               <button className="btn btn-outline-dark" type="submit">
                 <i className="bi-cart-fill me-1"></i>
                 Cart
-                <span className="badge bg-dark text-white ms-1 rounded-pill">{props.count}</span>
+                <span className="badge bg-dark text-white ms-1 rounded-pill">{count}</span>
               </button>
             </form>
           </div>

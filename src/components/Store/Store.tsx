@@ -5,7 +5,7 @@ import Data from '../../Assets/products.json';
 import { ProductItem } from 'types';
 import { getMin, getMax } from './helper';
 
-export function Store() {
+export function StoreMain() {
   const [ProductItems, setProductItem] = useState({ items: Data.products, serch: '' });
   const [category, setCategory] = useState(new Set() as Set<string>);
   const [brands, setBrands] = useState(new Set() as Set<string>);

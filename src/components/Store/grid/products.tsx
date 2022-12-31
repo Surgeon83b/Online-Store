@@ -4,6 +4,7 @@ import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/materia
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
 import { getRankingProducts } from '../helper';
+import { Link } from 'react-router-dom';
 
 export interface Products {
   products: ProductItem[];
@@ -44,12 +45,14 @@ export function ProdGrid(props: Products) {
                 console.log(product.id);
               }}
             />
-            <Button
-              text="Product Description"
-              onclick={() => {
-                console.log(product.id);
-              }}
-            />
+            <Link to={`/about/?id=${product.id}`}>
+              <Button
+                text="Product Description"
+                onclick={function (): void {
+                  1 + 1;
+                }}
+              />
+            </Link>
           </div>
         </div>
       </div>
