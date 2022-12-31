@@ -9,6 +9,7 @@ export const styles = {
   preductsContainer: {
     display: 'flex',
     flexDirection: 'column',
+    marginTop: '10px',
   },
   productsHeader: {
     height: '75px',

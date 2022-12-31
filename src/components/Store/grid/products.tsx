@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ProductItem } from 'types';
 import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
+import { getRankingProducts } from '../helper';
 
 export interface Products {
   products: ProductItem[];
 }
-//! TODO add the state settings to the Select component!
-//!ADD Number value!
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 export function ProdGrid(props: Products) {
-  const [name, setName] = React.useState('');
+  const [name, setName] = useState('');
+  const products = getRankingProducts(props.products, name);
   const handleChange = (event: SelectChangeEvent) => {
     setName(event.target.value);
   };
-  const ProductsGird = props.products.map((product: ProductItem) => {
+  const ProductsGird = products.map((product: ProductItem) => {
     const img = product.thumbnail;
     return (
       <div key={(product.id as unknown) as string} style={styles.card}>
@@ -55,15 +55,13 @@ export function ProdGrid(props: Products) {
       </div>
     );
   });
+
   return (
     <section className="container w70" style={styles.preductsContainer}>
       <div className="products-header w100 p-1" style={styles.productsHeader}>
-        <FormControl className="ranking-form">
-          <InputLabel style={{ width: '100px' }} htmlFor="age-native-simple">
-            Sort by
-          </InputLabel>
+        <FormControl className="ranking-form" style={{ width: '30%', padding: '5px' }}>
+          <InputLabel htmlFor="">Sort by</InputLabel>
           <Select
-            //style={{ height: '5px' }}
             native
             value={name}
             onChange={handleChange}

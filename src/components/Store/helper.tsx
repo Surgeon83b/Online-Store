@@ -45,3 +45,11 @@ export const DataBrands = data.products.reduce(
   },
   [data.products[0].brand]
 );
+
+export const getRankingProducts = (products: ProductItem[], name: string): ProductItem[] => {
+  if (name === 'raiting ASC') return products.sort((a, b) => a.rating - b.rating);
+  if (name === 'raiting DESC') return products.sort((a, b) => b.rating - a.rating);
+  if (name === 'price ASC') return products.sort((a, b) => a.price - b.price);
+  if (name === 'price DESC') return products.sort((a, b) => b.price - a.price);
+  return products;
+};
