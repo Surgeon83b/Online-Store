@@ -64,8 +64,8 @@ export interface BarProps {
   switchCategory: Hendler;
   brands: Set<string>;
   category: Set<string>;
-  serch: string;
-  setSerch: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+  search: string;
+  setSearch: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   range: {
     [key: string]: number[];
   };
@@ -78,6 +78,7 @@ export interface BarProps {
   rangeValue: {
     [key: string]: number[] | number;
   };
+  drop: () => void;
 }
 
 export interface SliderProps {
@@ -104,6 +105,12 @@ export interface IButtonProps {
   text: string;
   onclick: () => void;
 }
+
+export type RangeValye = { [price: string]: number[] | number; stock: number[] | number };
+
+export type SearchParams = {
+  [key: string]: string;
+};
 
 export type ItemForCart = {
   id: number;

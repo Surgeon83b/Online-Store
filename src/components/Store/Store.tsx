@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from './bar/leftBar';
 import { ProdGrid } from './grid/products';
 import Data from '../../Assets/products.json';
-import { ProductItem } from 'types';
-import { getMin, getMax } from './helper';
+import { ProductItem, RangeValye } from 'types';
+import { getMin, getMax, addSearchParams } from './helper';
+import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
-  const [ProductItems, setProductItem] = useState({ items: Data.products, serch: '' });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [ProductItems, setProductItem] = useState({ items: Data.products, search: '' });
   const [category, setCategory] = useState(new Set() as Set<string>);
   const [brands, setBrands] = useState(new Set() as Set<string>);
+  const [rank, setRank] = useState('');
   //
   const range = {
     price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
@@ -18,22 +21,22 @@ export function StoreMain() {
   const [rangeValue, setRangeValue] = useState({
     price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
     stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
-  } as { [price: string]: number[] | number; stock: number[] | number });
+  } as RangeValye);
 
   const getProducts = (range: boolean): void => {
     let products = Data.products;
-    if (ProductItems.serch !== '') {
-      const serch = ProductItems.serch;
+    if (ProductItems.search !== '') {
+      const search = ProductItems.search;
       products = products.filter((item) => {
         return (
-          item.title.indexOf(serch) !== -1 ||
-          item.description.indexOf(serch) !== -1 ||
-          String(item.price).indexOf(serch) !== -1 ||
-          String(item.discountPercentage).indexOf(serch) !== -1 ||
-          String(item.rating).indexOf(serch) !== -1 ||
-          String(item.stock).indexOf(serch) !== -1 ||
-          item.brand.indexOf(serch) !== -1 ||
-          item.category.indexOf(serch) !== -1
+          item.title.indexOf(search) !== -1 ||
+          item.description.indexOf(search) !== -1 ||
+          String(item.price).indexOf(search) !== -1 ||
+          String(item.discountPercentage).indexOf(search) !== -1 ||
+          String(item.rating).indexOf(search) !== -1 ||
+          String(item.stock).indexOf(search) !== -1 ||
+          item.brand.indexOf(search) !== -1 ||
+          item.category.indexOf(search) !== -1
         );
       });
     } else products = Data.products;
@@ -49,19 +52,19 @@ export function StoreMain() {
       );
     setProductItem({ ...ProductItems, items: products });
   };
-  const returnProducts = (serch: string): ProductItem[] => {
+  const returnProducts = (search: string): ProductItem[] => {
     let products = Data.products;
-    if (serch !== '') {
+    if (search !== '') {
       products = products.filter((item) => {
         return (
-          item.title.indexOf(serch) !== -1 ||
-          item.description.indexOf(serch) !== -1 ||
-          String(item.price).indexOf(serch) !== -1 ||
-          String(item.discountPercentage).indexOf(serch) !== -1 ||
-          String(item.rating).indexOf(serch) !== -1 ||
-          String(item.stock).indexOf(serch) !== -1 ||
-          item.brand.indexOf(serch) !== -1 ||
-          item.category.indexOf(serch) !== -1
+          item.title.indexOf(search) !== -1 ||
+          item.description.indexOf(search) !== -1 ||
+          String(item.price).indexOf(search) !== -1 ||
+          String(item.discountPercentage).indexOf(search) !== -1 ||
+          String(item.rating).indexOf(search) !== -1 ||
+          String(item.stock).indexOf(search) !== -1 ||
+          item.brand.indexOf(search) !== -1 ||
+          item.category.indexOf(search) !== -1
         );
       });
     } else products = Data.products;
@@ -74,6 +77,16 @@ export function StoreMain() {
     return products;
   };
   //
+  const drop = () => {
+    setCategory(new Set() as Set<string>);
+    setBrands(new Set() as Set<string>);
+    setRangeValue({
+      price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
+      stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
+    } as RangeValye);
+    setProductItem({ items: Data.products, search: '' });
+    setRank('');
+  };
   useEffect(() => getProducts(true), [rangeValue]);
   useEffect(
     () =>
@@ -83,17 +96,24 @@ export function StoreMain() {
       }),
     [brands, category]
   );
-
+  useEffect(() => setSearchParams(addSearchParams(category, brands, ProductItems.search, rangeValue, range, rank)), [
+    category,
+    brands,
+    ProductItems,
+    rank,
+  ]);
+  console.log(searchParams);
   return (
     <main className="comtainer">
       <Bar
+        drop={drop}
         rangeValue={rangeValue}
         setRangeValue={setRangeValue}
         range={range}
-        serch={ProductItems.serch}
-        setSerch={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        search={ProductItems.search}
+        setSearch={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
           const products = returnProducts(event.currentTarget.value);
-          setProductItem({ items: products, serch: event.currentTarget.value });
+          setProductItem({ items: products, search: event.currentTarget.value });
         }}
         switchCategory={(e: React.MouseEvent<HTMLInputElement>) => {
           if (category.has(e.currentTarget.id)) {
@@ -119,7 +139,7 @@ export function StoreMain() {
         }}
         ProductItems={ProductItems.items}
       />
-      <ProdGrid products={ProductItems.items} />
+      <ProdGrid products={ProductItems.items} rank={rank} setRank={(value: string) => setRank(value)} />
     </main>
   );
 }
