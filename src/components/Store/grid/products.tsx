@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ProductItem } from 'types';
 import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 import { Button } from '../../button/button';
@@ -8,13 +8,14 @@ import { Link } from 'react-router-dom';
 
 export interface Products {
   products: ProductItem[];
+  rank: string;
+  setRank: (valye: string) => void;
 }
 
 export function ProdGrid(props: Products) {
-  const [name, setName] = useState('');
-  const products = getRankingProducts(props.products, name);
+  const products = getRankingProducts(props.products, props.rank);
   const handleChange = (event: SelectChangeEvent) => {
-    setName(event.target.value);
+    props.setRank(event.target.value);
   };
   const ProductsGird = products.map((product: ProductItem) => {
     const img = product.thumbnail;
@@ -66,7 +67,7 @@ export function ProdGrid(props: Products) {
           <InputLabel htmlFor="">Sort by</InputLabel>
           <Select
             native
-            value={name}
+            value={props.rank}
             onChange={handleChange}
             inputProps={{
               name: '',

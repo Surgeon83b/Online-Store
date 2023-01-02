@@ -8,15 +8,17 @@ import Data from '../../../Assets/products.json';
 import { BarProps, Hendler } from '../../../types/index';
 
 export function Bar(props: BarProps) {
-  const checkBar = (categorys: string[], counter: typeof getCategoryCount, switcher: Hendler) => {
+  const checkBar = (categorys: string[], counter: typeof getCategoryCount, switcher: Hendler, state: Set<string>) => {
     return categorys.map((category: string) => {
       const totaQuantity = counter(Data.products, category);
       const courentQuantity = counter(props.ProductItems, category);
-      // const disabled = courentQuantity === 0;
+      const disabled = courentQuantity === 0;
+      const checked = state.has(category);
       return (
         <Form key={category}>
           <Form.Check
-            // disabled={disabled}
+            checked={checked}
+            isInvalid={disabled}
             inline
             onClick={(e) => switcher(e)}
             label={`${category} (${courentQuantity}/${totaQuantity})`}
@@ -32,20 +34,23 @@ export function Bar(props: BarProps) {
   return (
     <aside className="left-bar w-25 container">
       <Form.Group className="my-3" controlId="SerchForm">
-        <Form.Control type="text" placeholder="Serch" value={props.serch} onChange={props.setSerch} />
+        <Form.Control type="text" placeholder="Serch" value={props.search} onChange={props.setSearch} />
         <Form.Text className="text-muted">Enter keywords to search in the catalog</Form.Text>
       </Form.Group>
       <div className="mb-4">
-        <Button text="Resrt filters" onclick={() => console.log('сброс')} />
-        <Button text="Copy link" onclick={() => console.log(window.location.href)} />
+        <Button text="Resrt filters" onclick={props.drop} />
+        <Button
+          text="Copy link"
+          onclick={() => console.log(navigator.clipboard.writeText((window.location as unknown) as string))}
+        />
       </div>
       <h4>Categorys</h4>
       <Form.Group className="mb-3" controlId="Category" style={styles.checkboxConteiner}>
-        {checkBar(DataCategory, getCategoryCount, props.switchCategory)}
+        {checkBar(DataCategory, getCategoryCount, props.switchCategory, props.category)}
       </Form.Group>
       <h4>Brends</h4>
       <Form.Group className="mb-3" controlId="Brend" style={styles.checkboxConteiner}>
-        {checkBar(DataBrands, getBrandCount, props.switchBrands)}
+        {checkBar(DataBrands, getBrandCount, props.switchBrands, props.brands)}
       </Form.Group>
       <h4>Price</h4>
       <RangeSlider

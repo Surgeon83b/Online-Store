@@ -1,4 +1,4 @@
-import { ProductItem } from '../../types/index';
+import { ProductItem, RangeValye, SearchParams } from '../../types/index';
 import data from '../../Assets/products.json';
 
 export const getMax = (data: ProductItem[], property: string): number => {
@@ -56,4 +56,36 @@ export const getRankingProducts = (products: ProductItem[], name: string): Produ
 
 export const setBackgroundImage = (element: HTMLElement | null, url: string) => {
   if (element) element.style.backgroundImage = `url(${url})`;
+};
+
+export const addSearchParams = (
+  category: Set<string>,
+  brand: Set<string>,
+  search: string,
+  range: RangeValye,
+  defaultRange: { [key: string]: number[] },
+  rank: string
+): SearchParams => {
+  const result: SearchParams = {};
+  if (category.size > 0) {
+    result.category = Array.from(category).join('↕');
+  }
+  if (brand.size > 0) {
+    result.brand = Array.from(brand).join('↕');
+  }
+  if (search !== '') result.search = search;
+  if (Array.isArray(range.stock) && Array.isArray(range.price)) {
+    if (range.price[0] !== defaultRange.price[0] || range.price[1] !== defaultRange.price[1]) {
+      console.log(range.price);
+      console.log(defaultRange.price);
+      result.price = range.price[0] + '-' + range.price[1];
+    }
+    if (range.stock[0] !== defaultRange.stock[0] || range.stock[1] !== defaultRange.stock[1]) {
+      result.stock = range.stock[0] + '-' + range.stock[1];
+    }
+    if (rank !== '') {
+      result.rankBy = rank;
+    }
+  }
+  return result;
 };
