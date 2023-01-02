@@ -3,6 +3,7 @@ import { ProductItem } from 'types';
 import { Button } from '../button/button';
 import { styles } from '../styles';
 import data from '../../Assets/products.json';
+import { setBackgroundImage } from '../Store/helper';
 
 export function About(prop: { item: number }) {
   const item = data.products.find((item) => item.id == prop.item) as ProductItem;
@@ -16,14 +17,24 @@ export function About(prop: { item: number }) {
               <h5 className="fw-bolder">{item.title}</h5>
               <div className="mainDescription" style={styles.mainDescription}>
                 {/* Product images*/}
-                <div className="imageDescription">
-                  {item.images.map((element) => (
-                    <img src={element}></img>
-                  ))}
-                  <img className="card-img-top" src={item.thumbnail} alt="..." />
+                <div className="imageDescription" style={styles.imageDescription}>
+                  <div className="imagesBar" style={styles.imagesBar}>
+                    {item.images.map((element, i) => (
+                      <img
+                        src={element}
+                        key={i}
+                        className="imageInBar"
+                        onClick={() => setBackgroundImage(document.querySelector('.card-img-top'), item.images[i])}
+                      ></img>
+                    ))}
+                  </div>
+                  <div className="imgContainer">
+                    <div className="card-img-top" style={{ backgroundImage: `url(${item.thumbnail})` }} />
+                  </div>
                 </div>
+
                 {/* Product description*/}
-                <div className="infoDescription">
+                <div className="infoDescription" style={styles.infoDescription}>
                   <h5 className="fw-bolder">Description:</h5>
                   <span className="text-muted">{item.description}</span>
                   <h5 className="fw-bolder">Discount Percentage:</h5>
@@ -37,31 +48,26 @@ export function About(prop: { item: number }) {
                   <h5 className="fw-bolder">Category:</h5>
                   <span className="text-muted">{item.category}</span>
                 </div>
+
                 <div className="priceAndActionDescription">
                   {/*Product price*/}
-                  <h5 className="fw-bolder">{item.price}</h5>
-                  <Button
-                    text="ADD TO CART"
-                    onclick={() => {
-                      console.log('add to cart');
-                    }}
-                  />
-                  <Button
-                    text="BUY NOW"
-                    onclick={() => {
-                      console.log('buy now');
-                    }}
-                  />
+                  <div className="containerPrice">
+                    <h5 className="fw-bolder price">${item.price}</h5>
+                    <Button
+                      text="ADD TO CART"
+                      onclick={() => {
+                        console.log('add to cart');
+                      }}
+                    />
+                    <Button
+                      text="BUY NOW"
+                      onclick={() => {
+                        console.log('buy now');
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          {/* Product actions*/}
-          <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div className="text-center">
-              <a className="btn btn-outline-dark mt-auto" href="#">
-                Add to cart
-              </a>
             </div>
           </div>
         </div>

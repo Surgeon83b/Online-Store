@@ -45,7 +45,7 @@ export function ProdGrid(props: Products) {
                 console.log(product.id);
               }}
             />
-            <Link to={`/about/?id=${product.id}`}>
+            <Link to={`/about/${product.id}`}>
               <Button
                 text="Product Description"
                 onclick={function (): void {

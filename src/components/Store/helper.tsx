@@ -53,3 +53,7 @@ export const getRankingProducts = (products: ProductItem[], name: string): Produ
   if (name === 'price DESC') return products.sort((a, b) => b.price - a.price);
   return products;
 };
+
+export const setBackgroundImage = (element: HTMLElement | null, url: string) => {
+  if (element) element.style.backgroundImage = `url(${url})`;
+};
