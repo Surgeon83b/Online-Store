@@ -104,3 +104,9 @@ export interface IButtonProps {
   text: string;
   onclick: () => void;
 }
+
+export type ItemForCart = {
+  id: number;
+  count: number;
+  number: number;
+};

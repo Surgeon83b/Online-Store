@@ -5,6 +5,13 @@
   overflow: scroll;
 }
 
+@mixin flexCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
 main {
   display: flex;
 }
@@ -74,4 +81,115 @@ main {
 
 .text-muted {
   vertical-align: super;
+}
+
+.cart-caption {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 4px;
+
+  span {
+    flex: 7;
+  }
+
+
+  .page-leafer {
+    display: flex;
+    flex: 2;
+
+    input {
+      width: 25px;
+    }
+
+    .limit {
+      margin: 5px;
+    }
+  }
+}
+
+.item-number {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid white;
+  color: white;
+  background-color: blue;
+  text-align: center;
+  margin: 4px;
+}
+
+.cart-items {
+  width: 75%;
+  @include flexCenter;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  height: 7rem;
+}
+
+
+.item-info {
+  width: 95%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.item-image {
+  width: 15%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: center;
+}
+
+.item-name {
+  border-bottom: 1px solid white;
+  text-align: center;
+}
+
+.item-description {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.item-params {
+  display: flex;
+  justify-content: space-around;
+
+  div {
+    color: dimgrey;
+  }
+}
+
+.item-count {
+  @include flexCenter;
+  justify-content: center;
+
+  .item-stock {
+    font-size: 80%;
+  }
+
+  .item-quantity {
+    display: flex;
+
+    .item-howmany {
+      position: relative;
+      top: 5px;
+    }
+  }
+}
+
+.summary {
+  @include flexCenter;
+  height: 60%;
+  width: 29%;
+}
+
+.cart-main {
+  display: flex;
 }
