@@ -12,11 +12,11 @@ export function Bar(props: BarProps) {
     return categorys.map((category: string) => {
       const totaQuantity = counter(Data.products, category);
       const courentQuantity = counter(props.ProductItems, category);
-      const disabled = courentQuantity === 0;
+      // const disabled = courentQuantity === 0;
       return (
         <Form key={category}>
           <Form.Check
-            disabled={disabled}
+            // disabled={disabled}
             inline
             onClick={(e) => switcher(e)}
             label={`${category} (${courentQuantity}/${totaQuantity})`}
