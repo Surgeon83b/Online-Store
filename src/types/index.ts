@@ -117,8 +117,13 @@ export type ItemForCart = {
   count: number;
 };
 
-export interface ICountChangerProps {
+export interface IProductsForPage {
   product: ProductItem;
   count: number;
   number: number;
+}
+export interface ICountChangerProps extends IProductsForPage {
+  del: (id: number) => void;
+  decCount: (id: number) => void;
+  incCount: (id: number) => void;
 }
