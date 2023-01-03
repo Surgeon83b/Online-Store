@@ -1,4 +1,4 @@
-import { ProductItem, RangeValye, SearchParams } from '../../types/index';
+import { ICountChangerProps, ItemForCart, ProductItem, RangeValye, SearchParams } from '../../types/index';
 import data from '../../Assets/products.json';
 
 export const getMax = (data: ProductItem[], property: string): number => {
@@ -88,4 +88,49 @@ export const addSearchParams = (
     }
   }
   return result;
+};
+
+export const getProductsForPage = (items: ItemForCart[], page: number, limit: number): ICountChangerProps[] => {
+  const start = (page - 1) * limit;
+  let end = page * limit - 1;
+  const res = [];
+  if (items.length - 1 < end) end = items.length - 1;
+  for (let i = start; i <= end; i += 1) {
+    res.push({
+      product: data.products.find((prod) => prod.id === items[i].id) as ProductItem,
+      count: items[i].count,
+      number: i + 1,
+    });
+  }
+  return res;
+};
+
+export const addToCart = (id: number): void => {
+  const cartItems = localStorage.getItem('cart');
+  if (cartItems === null) {
+    localStorage.setItem('cart', JSON.stringify([{ id: id, count: 1 }]));
+  } else {
+    const items = JSON.parse(cartItems) as ItemForCart[];
+    const index = items.indexOf(items.find((item) => item.id === id) as ItemForCart);
+    if (index === -1) items.push({ id: id, count: 1 });
+    else {
+      items[index].count++;
+    }
+    localStorage.setItem('cart', JSON.stringify(items));
+  }
+};
+
+export const removeFromCart = (id?: number): void => {
+  const cartItems = localStorage.getItem('cart');
+  if (cartItems !== null) {
+    const items = JSON.parse(cartItems) as ItemForCart[];
+    const index = items.indexOf(items.find((item) => item.id === id) as ItemForCart);
+    if (index !== -1) {
+      items[index].count--;
+      if (items[index].count === 0) {
+        items.splice(index, 1);
+      }
+    }
+    localStorage.setItem('cart', JSON.stringify(items));
+  }
 };

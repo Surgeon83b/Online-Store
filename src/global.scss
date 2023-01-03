@@ -5,6 +5,13 @@
   overflow: scroll;
 }
 
+@mixin flexCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
 main {
   display: flex;
 }
@@ -34,18 +41,21 @@ main {
 .imageInBar {
   width: 100%;
   background-color: fuchsia;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .card-img-top {
   height: 100%;
-  width: 90%;
+  width: 95%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position-y: center;
 }
 
 .imgContainer {
-  flex: 4;
+  flex: 5;
   display: flex;
   justify-content: center;
 }
@@ -76,3 +86,129 @@ main {
   vertical-align: super;
 }
 
+.cart-caption {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 4px;
+
+  span {
+    flex: 7;
+  }
+
+
+  .page-leafer {
+    display: flex;
+    flex: 2;
+
+    input {
+      width: 35px;
+    }
+
+    .limit {
+      margin: 5px;
+    }
+  }
+}
+
+.item-number {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid white;
+  color: white;
+  background-color: blue;
+  text-align: center;
+  margin: 4px;
+}
+
+.cart-items {
+  width: 75%;
+  @include flexCenter;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  height: 7rem;
+  width: 100%;
+}
+
+
+.item-info {
+  width: 95%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.image-in-bar:hover {
+  cursor: pointer;
+}
+
+.item-image {
+  width: 15%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: center;
+}
+
+.item-name {
+  border-bottom: 1px solid white;
+  text-align: center;
+}
+
+.item-description {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.item-params {
+  display: flex;
+  justify-content: space-around;
+
+  div {
+    color: dimgrey;
+  }
+}
+
+.item-count {
+  @include flexCenter;
+  justify-content: center;
+
+  .item-stock {
+    font-size: 80%;
+  }
+
+  .item-quantity {
+    display: flex;
+
+    .item-howmany {
+      position: relative;
+      top: 5px;
+    }
+  }
+}
+
+.summary {
+  @include flexCenter;
+  height: 60%;
+  width: 29%;
+}
+
+.cart-main {
+  display: flex;
+}
+
+.page-number {
+  label {
+    width: 25px;
+    text-align: center;
+  }
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  opacity: 1;
+}

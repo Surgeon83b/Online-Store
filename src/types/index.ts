@@ -111,3 +111,14 @@ export type RangeValye = { [price: string]: number[] | number; stock: number[] |
 export type SearchParams = {
   [key: string]: string;
 };
+
+export type ItemForCart = {
+  id: number;
+  count: number;
+};
+
+export interface ICountChangerProps {
+  product: ProductItem;
+  count: number;
+  number: number;
+}

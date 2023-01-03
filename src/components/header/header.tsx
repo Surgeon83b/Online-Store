@@ -30,13 +30,13 @@ export function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#!">
+                <Link className="nav-link" to="/cart">
                   Cart
-                </a>
+                </Link>
               </li>
             </ul>
             <p className="mx-4">Cart total: {price}$</p>
-            <form className="d-flex">
+            <form className="d-flex" action="/cart">
               <button className="btn btn-outline-dark" type="submit">
                 <i className="bi-cart-fill me-1"></i>
                 Cart
