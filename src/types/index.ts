@@ -117,3 +117,9 @@ export type ItemForCart = {
   count: number;
   number: number;
 };
+
+export interface ICountChangerProps {
+  product: ProductItem;
+  count: number;
+  number: number;
+}

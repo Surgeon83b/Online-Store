@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ItemForCart } from 'types';
 import CartItem from './CartItem';
 import Data from '../../Assets/products.json';
+import { getProductsForPage } from '../Store/helper';
 
 export default function Cart() {
   const obj = [
     { id: 2, count: 3 },
     { id: 5, count: 2 },
     { id: 8, count: 4 },
+    { id: 1, count: 1 },
+    { id: 12, count: 3 },
+    { id: 7, count: 2 },
   ];
   localStorage.setItem('cart', JSON.stringify(obj));
   let items = [] as ItemForCart[];
@@ -18,6 +22,23 @@ export default function Cart() {
   console.log(items);
 
   const [state, setState] = useState(items);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(3);
+  const [products, setProducts] = useState(getProductsForPage(items, page, limit));
+  const [totalPages, setTotalPages] = useState(Math.round(state.length / limit));
+
+  const decreasePage = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
+  const increasePage = () => {
+    if (page < totalPages) setPage(page + 1);
+  };
+
+  useEffect(() => {
+    setProducts(getProductsForPage(state, page, limit));
+    setTotalPages(state.length / limit);
+  }, [page, limit]);
 
   return (
     <>
@@ -27,15 +48,21 @@ export default function Cart() {
         <div className="page-leafer">
           <div className="limit fw-bolder">
             LIMIT:
-            <input type="number" value={3} min="1" />
+            <input
+              type="number"
+              step="1"
+              value={limit}
+              min="1"
+              onChange={(e) => setLimit((e.target.value as unknown) as number)}
+            />
           </div>
           <div className="page-number fw-bolder">
-            <button type="button" className="btn btn-primary">
+            <button type="button" className="btn btn-primary" onClick={() => decreasePage()}>
               {' '}
               {'<'}{' '}
             </button>
-            <label htmlFor="page-leafer">1</label>
-            <button type="button" className="btn btn-primary">
+            <label htmlFor="page-leafer">{page}</label>
+            <button type="button" className="btn btn-primary" onClick={() => increasePage()}>
               {' '}
               {'>'}{' '}
             </button>
@@ -44,8 +71,8 @@ export default function Cart() {
       </div>
       <div className="cart-main">
         <div className="cart-items">
-          {state.map((item, i) => (
-            <CartItem id={item.id} count={item.count} number={i + 1} />
+          {products.map((item, i) => (
+            <CartItem key={i} product={item.product} count={item.count} number={item.number} />
           ))}
         </div>
         <div className="summary">

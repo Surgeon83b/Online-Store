@@ -98,7 +98,7 @@ main {
     flex: 2;
 
     input {
-      width: 25px;
+      width: 35px;
     }
 
     .limit {
@@ -127,6 +127,7 @@ main {
   display: flex;
   align-items: center;
   height: 7rem;
+  width: 100%;
 }
 
 
@@ -192,4 +193,15 @@ main {
 
 .cart-main {
   display: flex;
+}
+
+.page-number {
+  label {
+    width: 25px;
+    text-align: center;
+  }
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  opacity: 1;
 }

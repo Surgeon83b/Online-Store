@@ -1,4 +1,4 @@
-import { ProductItem, RangeValye, SearchParams } from '../../types/index';
+import { ICountChangerProps, ItemForCart, ProductItem, RangeValye, SearchParams } from '../../types/index';
 import data from '../../Assets/products.json';
 
 export const getMax = (data: ProductItem[], property: string): number => {
@@ -88,4 +88,19 @@ export const addSearchParams = (
     }
   }
   return result;
+};
+
+export const getProductsForPage = (items: ItemForCart[], page: number, limit: number): ICountChangerProps[] => {
+  const start = (page - 1) * limit;
+  let end = page * limit - 1;
+  const res = [];
+  if (items.length - 1 < end) end = items.length - 1;
+  for (let i = start; i <= end; i += 1) {
+    res.push({
+      product: data.products.find((prod) => prod.id === items[i].id) as ProductItem,
+      count: items[i].count,
+      number: i + 1,
+    });
+  }
+  return res;
 };

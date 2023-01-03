@@ -34,11 +34,11 @@ export function Bar(props: BarProps) {
   return (
     <aside className="left-bar w-25 container">
       <Form.Group className="my-3" controlId="SerchForm">
-        <Form.Control type="text" placeholder="Serch" value={props.search} onChange={props.setSearch} />
+        <Form.Control type="text" placeholder="Search" value={props.search} onChange={props.setSearch} />
         <Form.Text className="text-muted">Enter keywords to search in the catalog</Form.Text>
       </Form.Group>
       <div className="mb-4">
-        <Button text="Resrt filters" onclick={props.drop} />
+        <Button text="Reset filters" onclick={props.drop} />
         <Button
           text="Copy link"
           onclick={() => console.log(navigator.clipboard.writeText((window.location as unknown) as string))}
