@@ -7,6 +7,7 @@ import { getMin, getMax, addSearchParams } from './helper';
 import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
+  const [direction, setDirection] = useState('colums');
   const [searchParams, setSearchParams] = useSearchParams();
   const [ProductItems, setProductItem] = useState({ items: Data.products, search: '' });
   const [category, setCategory] = useState(new Set() as Set<string>);

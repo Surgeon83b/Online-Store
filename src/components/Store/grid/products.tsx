@@ -24,37 +24,36 @@ export function ProdGrid(props: Products) {
         <div
           style={{
             backgroundImage: `url('${img}')`,
-            backgroundSize: 'contain',
+            backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            height: '50%',
+            height: '160px',
+            width: '100%',
           }}
         ></div>
-        <div className="card-footer p-1 pt-0 border-top-0 bg-transparent">
-          <div className="text">
-            <div>
-              <pre style={styles.cardText} className="fw-bolder">
-                {product.title} <br />
-                {product.brand} <br />
-                {product.price}$ <br />
-                Raiting: {product.rating}
-              </pre>
-            </div>
+        <div>
+          <p style={styles.cardText} className="fw-bolder">
+            {product.title} <br />
+            {product.brand} <br />
+            {product.price}$ <br />
+            Raiting: {product.rating}
+          </p>
+        </div>
+        <div style={{ display: 'flex' }}>
+          <Button
+            text="Add to Cart"
+            onclick={() => {
+              console.log(product.id);
+            }}
+          />
+          <Link to={`/about/${product.id}`} style={{ display: 'inline-block' }}>
             <Button
-              text="Add to Cart"
-              onclick={() => {
-                console.log(product.id);
+              text="Product Description"
+              onclick={function (): void {
+                1 + 1;
               }}
             />
-            <Link to={`/about/${product.id}`}>
-              <Button
-                text="Product Description"
-                onclick={function (): void {
-                  1 + 1;
-                }}
-              />
-            </Link>
-          </div>
+          </Link>
         </div>
       </div>
     );
