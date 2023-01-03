@@ -104,3 +104,18 @@ export const getProductsForPage = (items: ItemForCart[], page: number, limit: nu
   }
   return res;
 };
+
+export const addToCart = (id: number): void => {
+  const cartItems = localStorage.getItem('cart');
+  if (cartItems === null) {
+    localStorage.setItem('cart', JSON.stringify([{ id: id, count: 1 }]));
+  } else {
+    const items = JSON.parse(cartItems) as ItemForCart[];
+    const index = items.indexOf(items.find((item) => item.id === id) as ItemForCart);
+    if (index === -1) items.push({ id: id, count: 1 });
+    else {
+      items[index].count++;
+    }
+    localStorage.setItem('cart', JSON.stringify(items));
+  }
+};

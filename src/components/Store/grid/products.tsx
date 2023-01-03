@@ -3,7 +3,7 @@ import { ProductItem } from 'types';
 import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
-import { getRankingProducts } from '../helper';
+import { getRankingProducts, addToCart } from '../helper';
 import { Link } from 'react-router-dom';
 
 export interface Products {
@@ -43,7 +43,7 @@ export function ProdGrid(props: Products) {
             <Button
               text="Add to Cart"
               onclick={() => {
-                console.log(product.id);
+                addToCart(product.id);
               }}
             />
             <Link to={`/about/${product.id}`}>

@@ -3,7 +3,7 @@ import { ProductItem } from 'types';
 import { Button } from '../button/button';
 import { styles } from '../styles';
 import data from '../../Assets/products.json';
-import { setBackgroundImage } from '../Store/helper';
+import { addToCart, setBackgroundImage } from '../Store/helper';
 
 export function About(prop: { item: number }) {
   const item = data.products.find((item) => item.id == prop.item) as ProductItem;
@@ -56,7 +56,7 @@ export function About(prop: { item: number }) {
                     <Button
                       text="ADD TO CART"
                       onclick={() => {
-                        console.log('add to cart');
+                        addToCart(item.id);
                       }}
                     />
                     <Button

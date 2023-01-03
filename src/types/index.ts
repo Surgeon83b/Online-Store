@@ -115,7 +115,6 @@ export type SearchParams = {
 export type ItemForCart = {
   id: number;
   count: number;
-  number: number;
 };
 
 export interface ICountChangerProps {

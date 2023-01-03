@@ -13,7 +13,6 @@ export default function Cart() {
     { id: 12, count: 3 },
     { id: 7, count: 2 },
   ];
-  localStorage.setItem('cart', JSON.stringify(obj));
   let items = [] as ItemForCart[];
   const cartItems = localStorage.getItem('cart');
   if (cartItems !== null) {

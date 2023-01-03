@@ -41,18 +41,21 @@ main {
 .imageInBar {
   width: 100%;
   background-color: fuchsia;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .card-img-top {
   height: 100%;
-  width: 90%;
+  width: 95%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position-y: center;
 }
 
 .imgContainer {
-  flex: 4;
+  flex: 5;
   display: flex;
   justify-content: center;
 }
@@ -137,6 +140,10 @@ main {
   display: flex;
   justify-content: space-between;
 
+}
+
+.image-in-bar:hover {
+  cursor: pointer;
 }
 
 .item-image {
