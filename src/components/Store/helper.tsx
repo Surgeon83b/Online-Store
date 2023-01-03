@@ -119,3 +119,18 @@ export const addToCart = (id: number): void => {
     localStorage.setItem('cart', JSON.stringify(items));
   }
 };
+
+export const removeFromCart = (id?: number): void => {
+  const cartItems = localStorage.getItem('cart');
+  if (cartItems !== null) {
+    const items = JSON.parse(cartItems) as ItemForCart[];
+    const index = items.indexOf(items.find((item) => item.id === id) as ItemForCart);
+    if (index !== -1) {
+      items[index].count--;
+      if (items[index].count === 0) {
+        items.splice(index, 1);
+      }
+    }
+    localStorage.setItem('cart', JSON.stringify(items));
+  }
+};
