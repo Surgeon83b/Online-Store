@@ -17,7 +17,7 @@ export function Bar(props: BarProps) {
       return (
         <Form key={category}>
           <Form.Check
-            checked={checked}
+            defaultChecked={checked}
             isInvalid={disabled}
             inline
             onClick={(e) => switcher(e)}
@@ -37,7 +37,7 @@ export function Bar(props: BarProps) {
         <Form.Control type="text" placeholder="Search" value={props.search} onChange={props.setSearch} />
         <Form.Text className="text-muted">Enter keywords to search in the catalog</Form.Text>
       </Form.Group>
-      <div className="mb-4">
+      <div style={{ gap: '5px', display: 'flex' }}>
         <Button text="Reset filters" onclick={props.drop} />
         <Button
           text="Copy link"

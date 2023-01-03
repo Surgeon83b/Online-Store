@@ -20,7 +20,7 @@ export function ProdGrid(props: Products) {
   const ProductsGird = products.map((product: ProductItem) => {
     const img = product.thumbnail;
     return (
-      <div key={(product.id as unknown) as string} style={styles.card}>
+      <div key={(product.id as unknown) as string} style={styles.cardRo}>
         <div
           style={{
             backgroundImage: `url('${img}')`,
@@ -28,7 +28,7 @@ export function ProdGrid(props: Products) {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             height: '160px',
-            width: '100%',
+            width: '60%',
           }}
         ></div>
         <div>
@@ -39,16 +39,18 @@ export function ProdGrid(props: Products) {
             Raiting: {product.rating}
           </p>
         </div>
-        <div style={{ display: 'flex' }}>
-          <Button
-            text="Add to Cart"
-            onclick={() => {
-              addToCart(product.id);
-            }}
-          />
+        <div style={{ display: 'flex', gap: '5px' }}>
+          <p>
+            <Button
+              text="Add to Cart"
+              onclick={() => {
+                addToCart(product.id);
+              }}
+            />
+          </p>
           <Link to={`/about/${product.id}`} style={{ display: 'inline-block' }}>
             <Button
-              text="Product Description"
+              text="Details"
               onclick={function (): void {
                 1 + 1;
               }}
@@ -81,12 +83,12 @@ export function ProdGrid(props: Products) {
           </Select>
         </FormControl>
         <p>Find {props.products.length}</p>
-        <div>
+        <div style={{ display: 'flex', gap: '5px' }}>
           <Button onclick={() => console.log('colum')} text="Colum" />
           <Button onclick={() => console.log('row')} text="Row" />
         </div>
       </div>
-      <div style={styles.productsGrid}>{ProductsGird}</div>
+      <div style={styles.productsGridRo}>{ProductsGird}</div>
     </section>
   );
 }

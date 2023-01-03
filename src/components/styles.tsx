@@ -18,12 +18,37 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  productsGrid: {
-    margin: '0 auto',
+  productsGridRo: {
+    margin: '0px auto',
     display: 'flex',
     flexWrap: 'wrap',
     gap: '10px',
+    justifyContent: 'flex-start',
+  },
+  cardRo: {
+    backgroundColor: 'lightgray',
+    display: 'inline-flex',
     justifyContent: 'center',
+    //alignItems: 'center',
+    padding: '10px',
+    borderRadius: '10px',
+    border: '1px solid #ccc',
+    boxSizing: 'border-box',
+    flex: '1 0 90%',
+    gap: '5px',
+    //minWidth: '250px',
+  },
+  cardButtonsRo: {
+    display: 'flex',
+    gap: '5px',
+    flexDirection: 'column',
+  },
+  productsGrid: {
+    margin: '0px auto',
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '10px',
+    justifyContent: 'flex-start',
   },
   card: {
     display: 'inline-flex',
@@ -34,7 +59,12 @@ export const styles = {
     borderRadius: '10px',
     border: '1px solid #ccc',
     boxSizing: 'border-box',
-    flex: '1 1 30%',
+    flex: '1 0 90%',
+    //minWidth: '250px',
+  },
+  cardButtons: {
+    display: 'flex',
+    gap: '5px',
   },
   cardText: {
     color: 'black',
