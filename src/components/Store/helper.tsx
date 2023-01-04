@@ -59,37 +59,40 @@ export const setBackgroundImage = (element: HTMLElement | null, url: string) => 
 };
 
 export const addSearchParams = (
-  category: Set<string>,
-  brand: Set<string>,
-  search: string,
-  range: RangeValye,
-  defaultRange: { [key: string]: number[] },
-  rank: string,
-  direction: string
+  state: {
+    defaultRange: {
+      price: number[];
+      stock: number[];
+    };
+    rank: string;
+    category: Set<unknown>;
+    brands: Set<unknown>;
+    search: string;
+    direction: string;
+  },
+  rangeValue: RangeValye
 ): SearchParams => {
   const result: SearchParams = {};
-  if (category.size > 0) {
-    result.category = Array.from(category).join('↕');
+  if (state.category.size > 0) {
+    result.category = Array.from(state.category).join('%');
   }
-  if (brand.size > 0) {
-    result.brand = Array.from(brand).join('↕');
+  if (state.brands.size > 0) {
+    result.brand = Array.from(state.brands).join('%');
   }
-  if (search !== '') result.search = search;
-  if (Array.isArray(range.stock) && Array.isArray(range.price)) {
-    if (range.price[0] !== defaultRange.price[0] || range.price[1] !== defaultRange.price[1]) {
-      console.log(range.price);
-      console.log(defaultRange.price);
-      result.price = range.price[0] + '-' + range.price[1];
+  if (state.search !== '') result.search = state.search;
+  if (Array.isArray(rangeValue.stock) && Array.isArray(rangeValue.price)) {
+    if (rangeValue.price[0] !== state.defaultRange.price[0] || rangeValue.price[1] !== state.defaultRange.price[1]) {
+      result.price = rangeValue.price[0] + '%' + rangeValue.price[1];
     }
-    if (range.stock[0] !== defaultRange.stock[0] || range.stock[1] !== defaultRange.stock[1]) {
-      result.stock = range.stock[0] + '-' + range.stock[1];
+    if (rangeValue.stock[0] !== state.defaultRange.stock[0] || rangeValue.stock[1] !== state.defaultRange.stock[1]) {
+      result.stock = rangeValue.stock[0] + '%' + rangeValue.stock[1];
     }
   }
-  if (rank !== '') {
-    result.rankBy = rank;
+  if (state.rank !== '') {
+    result.rankBy = state.rank;
   }
-  if (direction !== '') {
-    result.direction = direction;
+  if (state.direction !== '') {
+    result.direction = state.direction;
   }
   return result;
 };
@@ -213,4 +216,44 @@ export const getProductsDirection = (direction: string) => {
       flexDirection: 'column',
     },
   } as const;
+};
+
+export const getSearchParams = (searchParams: URLSearchParams) => {
+  const state = {} as {
+    defaultRange: {
+      price: number[];
+      stock: number[];
+    };
+    rank: string;
+    category: Set<unknown>;
+    brands: Set<unknown>;
+    search: string;
+    direction: string;
+  };
+  if (searchParams.has('category')) {
+    state.category = new Set(searchParams.getAll('category')[0].split('%'));
+  } else {
+    state.category = new Set();
+  }
+  if (searchParams.has('brand')) {
+    state.brands = new Set(searchParams.getAll('brand')[0].split('%'));
+  } else {
+    state.brands = new Set();
+  }
+  if (searchParams.has('rankBy')) {
+    state.rank = searchParams.get('rankBy') as string;
+  } else {
+    state.rank = '';
+  }
+  if (searchParams.has('search')) {
+    state.search = searchParams.get('search') as string;
+  } else {
+    state.search = '';
+  }
+  if (searchParams.has('direction')) {
+    state.direction = searchParams.get('direction') as string;
+  } else {
+    state.direction = '';
+  }
+  return state;
 };
