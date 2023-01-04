@@ -3,26 +3,24 @@ import { Bar } from './bar/leftBar';
 import { ProdGrid } from './grid/products';
 import Data from '../../Assets/products.json';
 import { ProductItem, RangeValye } from 'types';
-import { getMin, getMax, addSearchParams } from './helper';
+import { getMin, getMax, addSearchParams, getSearchParams } from './helper';
 import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
-  const [searchParams, setSearchParams] = useSearchParams({});
+  const [searchParams, setSearchParams] = useSearchParams(new URL(window.location.href).search);
   const [productItems, setProductItem] = useState(Data.products);
+
   const [rangeValue, setRangeValue] = useState({
     price: [getMin(productItems, 'price'), getMax(productItems, 'price')],
     stock: [getMin(productItems, 'stock'), getMax(productItems, 'stock')],
   } as RangeValye);
+
   const [state, setState] = useState({
+    ...getSearchParams(searchParams),
     defaultRange: {
       price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
       stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
     },
-    rank: '',
-    category: new Set(),
-    brands: new Set(),
-    search: '',
-    direction: '',
   });
 
   const getProducts = (range: boolean): ProductItem[] => {
@@ -83,14 +81,6 @@ export function StoreMain() {
   }, [state]);
   useEffect(() => setProductItem(getProducts(true)), [rangeValue]);
   useEffect(() => setSearchParams(addSearchParams(state, rangeValue)), [state, rangeValue]);
-  //useEffect(
-  //  () =>
-  //    setRangeValue({
-  //      price: [getMin(productItems, 'price'), getMax(productItems, 'price')],
-  //      stock: [getMin(productItems, 'stock'), getMax(productItems, 'stock')],
-  //    } as RangeValye),
-  //  [state]
-  //);
   return (
     <main className="comtainer">
       <Bar
