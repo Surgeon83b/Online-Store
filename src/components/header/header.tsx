@@ -8,7 +8,7 @@ export function Header() {
   return (
     <header>
       <nav style={styles.header}>
-        <Link className="navbar-brand" style={{ fontSize: '30px' }} to="/">
+        <Link className="navbar-brand" style={{ fontSize: '30px' }} to="/cart">
           Online store
         </Link>
         <p className="mx-4">Cart total: {price}$</p>
