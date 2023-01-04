@@ -41,6 +41,7 @@ main {
 .imageInBar {
   width: 100%;
   background-color: fuchsia;
+
   &:hover {
     cursor: pointer;
   }
@@ -211,4 +212,27 @@ main {
 
 input[type='number']::-webkit-inner-spin-button {
   opacity: 1;
+}
+
+.breadscrumbs {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 5px;
+}
+
+.buy-now {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 25%;
+  height: 40vh;
+}
+
+#app {
+  position: relative;
+}
+
+.name, .phone {
+  margin: 3px;
 }

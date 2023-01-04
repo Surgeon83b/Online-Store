@@ -3,6 +3,7 @@ import { ItemForCart } from 'types';
 import CartItem from './CartItem';
 import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
+import BuyNow from './BuyNow';
 
 export default function Cart() {
   const obj = [
@@ -123,6 +124,7 @@ export default function Cart() {
           </button>
         </div>
       </div>
+      <BuyNow />
     </>
   );
 }

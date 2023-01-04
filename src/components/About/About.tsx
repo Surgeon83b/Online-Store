@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProductItem } from 'types';
 import { Button } from '../button/button';
 import { styles } from '../styles';
 import data from '../../Assets/products.json';
-import { addToCart, setBackgroundImage } from '../Store/helper';
+import { addToCart, removeAllFromCart, setBackgroundImage, isInCart, SHADOW } from '../Store/helper';
 
 export function About(prop: { item: number }) {
   const item = data.products.find((item) => item.id == prop.item) as ProductItem;
+  const [whatToDo, setWhatToDo] = useState(isInCart(item.id) ? 'Drop From Cart' : 'Add To Cart');
+  const [shadow, setShadow] = useState(isInCart(item.id) ? SHADOW : '');
+  const [inCart, setInCart] = useState(isInCart(item.id));
+
+  const ToDo = (id: number): void => {
+    inCart ? removeAllFromCart(id) : addToCart(id);
+    setInCart(!inCart);
+  };
+
+  useEffect(() => {
+    inCart ? setShadow(SHADOW) : setShadow('');
+    inCart ? setWhatToDo('Drop From Cart') : setWhatToDo('Add To Cart');
+  }, [inCart]);
+
   return (
     <>
       <div className="col mb-5">
         <div className="card h-100">
           <div className="card-body p-4">
+            <div className="breadscrumbs">
+              <span className="text-muted">STORE</span>
+              {'>'}
+              <span className="text-muted">{item.category}</span>
+              {'>'}
+              <span className="text-muted">{item.brand}</span>
+              {'>'}
+              <span className="text-muted">{item.title}</span>
+            </div>
             <div className="text-center">
               {/*Product name*/}
               <h5 className="fw-bolder">{item.title}</h5>
@@ -51,12 +74,12 @@ export function About(prop: { item: number }) {
 
                 <div className="priceAndActionDescription">
                   {/*Product price*/}
-                  <div className="containerPrice">
+                  <div className="containerPrice" style={{ boxShadow: `${shadow}` }}>
                     <h5 className="fw-bolder price">${item.price}</h5>
                     <Button
-                      text="ADD TO CART"
+                      text={whatToDo}
                       onclick={() => {
-                        addToCart(item.id);
+                        ToDo(item.id);
                       }}
                     />
                     <Button

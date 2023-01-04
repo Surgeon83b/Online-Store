@@ -1,6 +1,7 @@
 import { IProductsForPage, ItemForCart, ProductItem, RangeValye, SearchParams } from '../../types/index';
 import data from '../../Assets/products.json';
 
+export const SHADOW = '11px 12px 5px 0px #35A3D6';
 export const getMax = (data: ProductItem[], property: string): number => {
   return data.reduce((max: number, item: ProductItem) => {
     const current = item[property] as number;

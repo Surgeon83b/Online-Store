@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ProductItem } from 'types';
 import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
-import { getRankingProducts, addToCart, getProductsDirection } from '../helper';
+import { getRankingProducts, addToCart, getProductsDirection, isInCart, removeAllFromCart, SHADOW } from '../helper';
 import { Link } from 'react-router-dom';
 
 export interface Products {
@@ -23,8 +23,22 @@ export function ProdGrid(props: Products) {
   };
   const ProductsGird = products.map((product: ProductItem) => {
     const img = product.thumbnail;
+    const [whatToDo, setWhatToDo] = useState(isInCart(product.id) ? 'Drop From Cart' : 'Add To Cart');
+    const [shadow, setShadow] = useState(isInCart(product.id) ? SHADOW : '');
+    const [inCart, setInCart] = useState(isInCart(product.id));
+
+    const ToDo = (id: number): void => {
+      inCart ? removeAllFromCart(id) : addToCart(id);
+      setInCart(!inCart);
+    };
+
+    useEffect(() => {
+      inCart ? setShadow(SHADOW) : setShadow('');
+      inCart ? setWhatToDo('Drop From Cart') : setWhatToDo('Add To Cart');
+    }, [inCart]);
+
     return (
-      <div key={(product.id as unknown) as string} style={direction.card}>
+      <div key={(product.id as unknown) as string} style={{ ...direction.card, boxShadow: `${shadow}` }}>
         <div
           style={{
             backgroundImage: `url('${img}')`,
@@ -46,9 +60,9 @@ export function ProdGrid(props: Products) {
         <div style={direction.button}>
           <p>
             <Button
-              text="Add to Cart"
+              text={whatToDo}
               onclick={() => {
-                addToCart(product.id);
+                ToDo(product.id);
               }}
             />
           </p>
