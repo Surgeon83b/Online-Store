@@ -8,7 +8,12 @@ import Data from '../../../Assets/products.json';
 import { BarProps, Hendler } from '../../../types/index';
 
 export function Bar(props: BarProps) {
-  const checkBar = (categorys: string[], counter: typeof getCategoryCount, switcher: Hendler, state: Set<string>) => {
+  const checkBar = (
+    categorys: string[],
+    counter: typeof getCategoryCount,
+    switcher: Hendler,
+    state: Set<string> | Set<unknown>
+  ) => {
     return categorys.map((category: string) => {
       const totaQuantity = counter(Data.products, category);
       const courentQuantity = counter(props.ProductItems, category);
@@ -30,7 +35,6 @@ export function Bar(props: BarProps) {
       );
     });
   };
-
   return (
     <aside className="left-bar w-25 container">
       <Form.Group className="my-3" controlId="SerchForm">

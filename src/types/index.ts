@@ -62,19 +62,14 @@ export interface BarProps {
   ProductItems: ProductItem[];
   switchBrands: Hendler;
   switchCategory: Hendler;
-  brands: Set<string>;
-  category: Set<string>;
+  brands: Set<string> | Set<unknown>;
+  category: Set<string> | Set<unknown>;
   search: string;
   setSearch: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   range: {
     [key: string]: number[];
   };
-  setRangeValue: React.Dispatch<
-    React.SetStateAction<{
-      [price: string]: number[] | number;
-      stock: number[] | number;
-    }>
-  >;
+  setRangeValue: (value: RangeValye) => void;
   rangeValue: {
     [key: string]: number[] | number;
   };
@@ -85,12 +80,7 @@ export interface SliderProps {
   valueLable: string;
   max: number;
   min: number;
-  setRangeValue: React.Dispatch<
-    React.SetStateAction<{
-      [price: string]: number[] | number;
-      stock: number[] | number;
-    }>
-  >;
+  setRangeValue: (value: RangeValye) => void;
   rangeValue: {
     [key: string]: number[] | number;
   };
