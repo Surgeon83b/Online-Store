@@ -2,7 +2,7 @@ import { addToCart, removeFromCart } from '../Store/helper';
 import React, { useState, useEffect } from 'react';
 import { ICountChangerProps, ProductItem } from 'types';
 
-export default function CountChanger({ product, count, number }: ICountChangerProps) {
+export default function CountChanger({ product, count, number, del, decCount, incCount }: ICountChangerProps) {
   // const [state, setState] = useState({ count: count, stock: product.stock, total: count * product.price });
   // console.log('state: ', state);
   const [countOf, setCountOf] = useState(count);
@@ -18,10 +18,13 @@ export default function CountChanger({ product, count, number }: ICountChangerPr
         <div
           className="item-number number-down"
           onClick={() => {
-            if (countOf > 0) {
+            if (countOf > 1) {
               setCountOf(countOf - 1);
-              removeFromCart(product.id);
+              decCount(product.id);
+            } else {
+              del(product.id);
             }
+            removeFromCart(product.id);
           }}
         >
           -
@@ -33,6 +36,7 @@ export default function CountChanger({ product, count, number }: ICountChangerPr
             if (countOf < product.stock) {
               setCountOf(countOf + 1);
               addToCart(product.id);
+              incCount(product.id);
             }
           }}
         >

@@ -25,6 +25,7 @@ export default function Cart() {
   const [limit, setLimit] = useState(3);
   const [products, setProducts] = useState(getProductsForPage(items, page, limit));
   const [totalPages, setTotalPages] = useState(Math.round(state.length / limit));
+  const [totalProducts, setTotalProducts] = useState(state.reduce((sum, item) => sum + item.count, 0));
 
   const decreasePage = () => {
     if (page > 1) setPage(page - 1);
@@ -34,10 +35,34 @@ export default function Cart() {
     if (page < totalPages) setPage(page + 1);
   };
 
+  const decreaseCount = (id: number) => {
+    const curState = [...state];
+    const index = curState.indexOf(curState.find((el) => el.id === id) as ItemForCart);
+    curState[index].count -= 1;
+    setState(curState);
+  };
+
+  const increaseCount = (id: number) => {
+    const curState = [...state];
+    const index = curState.indexOf(curState.find((el) => el.id === id) as ItemForCart);
+    curState[index].count += 1;
+    setState(curState);
+  };
+
+  const delFromItems = (id: number): void => {
+    console.log(`delfrom: ${id}`);
+    const curState = [...state];
+    curState.splice(curState.indexOf(curState.find((el) => el.id === id) as ItemForCart), 1);
+    setState(curState);
+    console.log(state);
+  };
+
   useEffect(() => {
     setProducts(getProductsForPage(state, page, limit));
     setTotalPages(state.length / limit);
-  }, [page, limit]);
+    setTotalProducts(state.reduce((sum, item) => sum + item.count, 0));
+    console.log(state);
+  }, [page, limit, state]);
 
   return (
     <>
@@ -71,12 +96,20 @@ export default function Cart() {
       <div className="cart-main">
         <div className="cart-items">
           {products.map((item, i) => (
-            <CartItem key={i} product={item.product} count={item.count} number={item.number} />
+            <CartItem
+              key={i}
+              product={item.product}
+              count={item.count}
+              number={item.number}
+              del={delFromItems}
+              decCount={decreaseCount}
+              incCount={increaseCount}
+            />
           ))}
         </div>
         <div className="summary">
           <span className="fw-bolder">Summary</span>
-          <div>Products: {state.reduce((sum, item) => sum + item.count, 0)}</div>
+          <div>Products: {totalProducts}</div>
           <div>
             Total:{' '}
             {state.reduce(

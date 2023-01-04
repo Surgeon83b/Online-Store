@@ -19,7 +19,14 @@ export default function CartItem(props: ICountChangerProps) {
           </div>
         </div>
         <div className="item-count">
-          <CountChanger product={prod} count={props.count} number={props.number} />
+          <CountChanger
+            product={prod}
+            count={props.count}
+            number={props.number}
+            del={props.del}
+            decCount={props.decCount}
+            incCount={props.incCount}
+          />
         </div>
       </div>
     </div>
