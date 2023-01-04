@@ -134,3 +134,21 @@ export const removeFromCart = (id?: number): void => {
     localStorage.setItem('cart', JSON.stringify(items));
   }
 };
+
+export const removeAllFromCart = (id?: number): void => {
+  const cartItems = localStorage.getItem('cart');
+  if (cartItems !== null) {
+    const items = JSON.parse(cartItems) as ItemForCart[];
+    const index = items.indexOf(items.find((item) => item.id === id) as ItemForCart);
+    if (index !== -1) items.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(items));
+  }
+};
+
+export const isInCart = (id: number): boolean => {
+  const cart = localStorage.getItem('cart');
+  if (cart === null) return false;
+  const items = JSON.parse(cart) as ItemForCart[];
+  if ((items.filter((item) => item.id === id) as ItemForCart[]).length > 0) return true;
+  return false;
+};

@@ -1,6 +1,6 @@
 import { addToCart, removeFromCart } from '../Store/helper';
 import React, { useState, useEffect } from 'react';
-import { ICountChangerProps, ProductItem } from 'types';
+import { ICountChangerProps } from 'types';
 
 export default function CountChanger({ product, count, number, del, decCount, incCount }: ICountChangerProps) {
   // const [state, setState] = useState({ count: count, stock: product.stock, total: count * product.price });
