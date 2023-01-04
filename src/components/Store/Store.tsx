@@ -79,16 +79,15 @@ export function StoreMain() {
   };
   //
   const drop = () => {
-    setDirection('');
+    setProductItem({ items: Data.products, search: '' });
     setRangeValue({
       price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
       stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
     } as RangeValye);
-    setProductItem({ items: Data.products, search: '' });
-    setRank('');
     setCategory(new Set() as Set<string>);
     setBrands(new Set() as Set<string>);
-    console.log(brands);
+    setRank('');
+    setDirection('');
   };
   useEffect(() => getProducts(true), [rangeValue]);
   useEffect(

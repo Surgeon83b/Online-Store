@@ -17,7 +17,7 @@ export function Bar(props: BarProps) {
       return (
         <Form key={category}>
           <Form.Check
-            defaultChecked={checked}
+            checked={checked}
             isInvalid={disabled}
             inline
             onClick={(e) => switcher(e)}
