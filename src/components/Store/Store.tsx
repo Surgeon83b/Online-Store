@@ -7,27 +7,28 @@ import { getMin, getMax, addSearchParams } from './helper';
 import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
-  const [direction, setDirection] = useState('');
   const [searchParams, setSearchParams] = useSearchParams({});
-  const [ProductItems, setProductItem] = useState({ items: Data.products, search: '' });
-  const [category, setCategory] = useState(new Set() as Set<string>);
-  const [brands, setBrands] = useState(new Set() as Set<string>);
-  const [rank, setRank] = useState('');
-  //
-  const range = {
-    price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
-    stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
-  };
-  //
+  const [productItems, setProductItem] = useState(Data.products);
   const [rangeValue, setRangeValue] = useState({
-    price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
-    stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
+    price: [getMin(productItems, 'price'), getMax(productItems, 'price')],
+    stock: [getMin(productItems, 'stock'), getMax(productItems, 'stock')],
   } as RangeValye);
+  const [state, setState] = useState({
+    defaultRange: {
+      price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
+      stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
+    },
+    rank: '',
+    category: new Set(),
+    brands: new Set(),
+    search: '',
+    direction: '',
+  });
 
-  const getProducts = (range: boolean): void => {
+  const getProducts = (range: boolean): ProductItem[] => {
     let products = Data.products;
-    if (ProductItems.search !== '') {
-      const search = ProductItems.search;
+    if (state.search !== '') {
+      const search = state.search;
       products = products.filter((item) => {
         return (
           item.title.indexOf(search) !== -1 ||
@@ -41,8 +42,9 @@ export function StoreMain() {
         );
       });
     } else products = Data.products;
-    if (category.size > 0) products = products.filter((item) => category.has(item.category));
-    if (brands.size > 0) products = products.filter((item) => brands.has(item.brand));
+    if (state.category.size > 0) products = products.filter((item) => state.category.has(item.category));
+    if (state.brands.size > 0) products = products.filter((item) => state.brands.has(item.brand));
+
     if (Array.isArray(rangeValue.price) && Array.isArray(rangeValue.stock) && range === true)
       products = products.filter(
         (item) =>
@@ -51,100 +53,83 @@ export function StoreMain() {
           (rangeValue.stock as number[])[0] <= item.stock &&
           item.stock <= (rangeValue.stock as number[])[1]
       );
-    setProductItem({ ...ProductItems, items: products });
+    return products;
   };
-  const returnProducts = (search: string): ProductItem[] => {
-    let products = Data.products;
-    if (search !== '') {
-      products = products.filter((item) => {
-        return (
-          item.title.indexOf(search) !== -1 ||
-          item.description.indexOf(search) !== -1 ||
-          String(item.price).indexOf(search) !== -1 ||
-          String(item.discountPercentage).indexOf(search) !== -1 ||
-          String(item.rating).indexOf(search) !== -1 ||
-          String(item.stock).indexOf(search) !== -1 ||
-          item.brand.indexOf(search) !== -1 ||
-          item.category.indexOf(search) !== -1
-        );
-      });
-    } else products = Data.products;
-    if (category.size > 0) products = products.filter((item) => category.has(item.category));
-    if (brands.size > 0) products = products.filter((item) => brands.has(item.brand));
+  const drop = () => {
+    setState({
+      defaultRange: {
+        price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
+        stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
+      },
+      rank: '',
+      category: new Set() as Set<string>,
+      brands: new Set() as Set<string>,
+      search: '',
+      direction: '',
+    });
+    setRangeValue({
+      price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
+      stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
+    } as RangeValye);
+  };
+
+  useEffect(() => {
+    const products = getProducts(false);
+    setProductItem(products);
     setRangeValue({
       price: [getMin(products, 'price'), getMax(products, 'price')],
       stock: [getMin(products, 'stock'), getMax(products, 'stock')],
-    });
-    return products;
-  };
-  //
-  const drop = () => {
-    setProductItem({ items: Data.products, search: '' });
-    setRangeValue({
-      price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
-      stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
     } as RangeValye);
-    setCategory(new Set() as Set<string>);
-    setBrands(new Set() as Set<string>);
-    setRank('');
-    setDirection('');
-  };
-  useEffect(() => getProducts(true), [rangeValue]);
-  useEffect(
-    () =>
-      setRangeValue({
-        price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
-        stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
-      }),
-    [brands, category]
-  );
-  useEffect(
-    () => setSearchParams(addSearchParams(category, brands, ProductItems.search, rangeValue, range, rank, direction)),
-    [category, brands, ProductItems, rank, direction]
-  );
-  console.log(searchParams);
+  }, [state]);
+  useEffect(() => setProductItem(getProducts(true)), [rangeValue]);
+  useEffect(() => setSearchParams(addSearchParams(state, rangeValue)), [state, rangeValue]);
+  //useEffect(
+  //  () =>
+  //    setRangeValue({
+  //      price: [getMin(productItems, 'price'), getMax(productItems, 'price')],
+  //      stock: [getMin(productItems, 'stock'), getMax(productItems, 'stock')],
+  //    } as RangeValye),
+  //  [state]
+  //);
   return (
     <main className="comtainer">
       <Bar
+        setRangeValue={(value: RangeValye) => setRangeValue(value)}
         drop={drop}
         rangeValue={rangeValue}
-        setRangeValue={setRangeValue}
-        range={range}
-        search={ProductItems.search}
-        setSearch={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-          const products = returnProducts(event.currentTarget.value);
-          setProductItem({ items: products, search: event.currentTarget.value });
-        }}
+        range={state.defaultRange}
+        search={state.search}
+        setSearch={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+          setState({ ...state, search: event.target.value })
+        }
         switchCategory={(e: React.MouseEvent<HTMLInputElement>) => {
-          if (category.has(e.currentTarget.id)) {
-            category.delete(e.currentTarget.id);
-            setCategory(new Set(category));
+          if (state.category.has(e.currentTarget.id)) {
+            state.category.delete(e.currentTarget.id);
+            setState({ ...state, category: new Set(state.category) });
           } else {
-            category.add(e.currentTarget.id);
-            setCategory(new Set(category));
+            state.category.add(e.currentTarget.id);
+            setState({ ...state, category: new Set(state.category) });
           }
-          getProducts(false);
         }}
-        brands={brands}
-        category={category}
+        brands={state.brands}
+        category={state.category}
         switchBrands={(e: React.MouseEvent<HTMLInputElement>) => {
-          if (brands.has(e.currentTarget.id)) {
-            brands.delete(e.currentTarget.id);
-            setBrands(new Set(brands));
+          if (state.brands.has(e.currentTarget.id)) {
+            state.brands.delete(e.currentTarget.id);
+            setState({ ...state, brands: new Set(state.brands) });
           } else {
-            brands.add(e.currentTarget.id);
-            setBrands(new Set(brands));
+            state.brands.add(e.currentTarget.id);
+            setState({ ...state, brands: new Set(state.brands) });
           }
-          getProducts(false);
         }}
-        ProductItems={ProductItems.items}
+        ProductItems={productItems}
       />
       <ProdGrid
-        products={ProductItems.items}
-        rank={rank}
-        setRank={(value: string) => setRank(value)}
-        direction={direction}
-        setDirection={(value: string) => setDirection(value)}
+        products={productItems}
+        rank={state.rank}
+        setRank={(value: string) => setState({ ...state, rank: value })}
+        direction={state.direction}
+        setDirection={(value: string) => setState({ ...state, direction: value })}
       />
     </main>
   );
