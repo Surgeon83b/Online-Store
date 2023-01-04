@@ -72,6 +72,7 @@ export function StoreMain() {
   };
 
   useEffect(() => {
+    console.log('эффект изменеия состояни');
     const products = getProducts(false);
     setProductItem(products);
     setRangeValue({
@@ -79,8 +80,14 @@ export function StoreMain() {
       stock: [getMin(products, 'stock'), getMax(products, 'stock')],
     } as RangeValye);
   }, [state]);
-  useEffect(() => setProductItem(getProducts(true)), [rangeValue]);
-  useEffect(() => setSearchParams(addSearchParams(state, rangeValue)), [state, rangeValue]);
+  useEffect(() => {
+    console.log('изменение интервалов');
+    setProductItem(getProducts(true));
+  }, [rangeValue]);
+  useEffect(() => {
+    console.log('изменение url');
+    setSearchParams(addSearchParams(state, rangeValue));
+  }, [state, rangeValue]);
   return (
     <main className="comtainer">
       <Bar
