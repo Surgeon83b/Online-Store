@@ -64,7 +64,8 @@ export const addSearchParams = (
   search: string,
   range: RangeValye,
   defaultRange: { [key: string]: number[] },
-  rank: string
+  rank: string,
+  direction: string
 ): SearchParams => {
   const result: SearchParams = {};
   if (category.size > 0) {
@@ -83,9 +84,12 @@ export const addSearchParams = (
     if (range.stock[0] !== defaultRange.stock[0] || range.stock[1] !== defaultRange.stock[1]) {
       result.stock = range.stock[0] + '-' + range.stock[1];
     }
-    if (rank !== '') {
-      result.rankBy = rank;
-    }
+  }
+  if (rank !== '') {
+    result.rankBy = rank;
+  }
+  if (direction !== '') {
+    result.direction = direction;
   }
   return result;
 };
@@ -133,4 +137,62 @@ export const removeFromCart = (id?: number): void => {
     }
     localStorage.setItem('cart', JSON.stringify(items));
   }
+};
+
+export const getProductsDirection = (direction: string) => {
+  if (direction === '' || direction === 'column') {
+    return {
+      container: {
+        //margin: '0px auto',
+        display: 'flex',
+        flexWrap: 'wrap',
+        //flexDirection: 'column',
+        gap: '10px',
+        justifyContent: 'flex-start',
+      },
+      card: {
+        border: '1px solid rgb(204, 204, 204)',
+        backgroundColor: 'rgb(248, 249, 250)',
+        display: 'inline-flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '10px',
+        borderRadius: '10px',
+        boxSizing: 'border-box',
+        flex: '0 0 31%',
+        minWidth: '250px',
+        gap: '5px',
+      },
+      button: {
+        display: 'flex',
+        gap: '5px',
+      },
+    } as const;
+  }
+  return {
+    container: {
+      //margin: '0px auto',
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '10px',
+      justifyContent: 'flex-start',
+    },
+    card: {
+      display: 'inline-flex',
+      justifyContent: 'space-between',
+      padding: '10px',
+      borderRadius: '10px',
+      boxSizing: 'border-box',
+      flex: '0 0 90%',
+      gap: '5px',
+      border: '1px solid rgb(204, 204, 204)',
+      backgroundColor: 'rgb(248, 249, 250)',
+    },
+    button: {
+      display: 'flex',
+      gap: '5px',
+      flexDirection: 'column',
+    },
+  } as const;
 };
