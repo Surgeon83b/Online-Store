@@ -7,7 +7,7 @@ import { getMin, getMax, addSearchParams } from './helper';
 import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
-  const [direction, setDirection] = useState('colums');
+  const [direction, setDirection] = useState('');
   const [searchParams, setSearchParams] = useSearchParams({});
   const [ProductItems, setProductItem] = useState({ items: Data.products, search: '' });
   const [category, setCategory] = useState(new Set() as Set<string>);
@@ -79,14 +79,15 @@ export function StoreMain() {
   };
   //
   const drop = () => {
-    setCategory(new Set() as Set<string>);
-    setBrands(new Set() as Set<string>);
+    setProductItem({ items: Data.products, search: '' });
     setRangeValue({
       price: [getMin(ProductItems.items, 'price'), getMax(ProductItems.items, 'price')],
       stock: [getMin(ProductItems.items, 'stock'), getMax(ProductItems.items, 'stock')],
     } as RangeValye);
-    setProductItem({ items: Data.products, search: '' });
+    setCategory(new Set() as Set<string>);
+    setBrands(new Set() as Set<string>);
     setRank('');
+    setDirection('');
   };
   useEffect(() => getProducts(true), [rangeValue]);
   useEffect(
@@ -97,12 +98,10 @@ export function StoreMain() {
       }),
     [brands, category]
   );
-  useEffect(() => setSearchParams(addSearchParams(category, brands, ProductItems.search, rangeValue, range, rank)), [
-    category,
-    brands,
-    ProductItems,
-    rank,
-  ]);
+  useEffect(
+    () => setSearchParams(addSearchParams(category, brands, ProductItems.search, rangeValue, range, rank, direction)),
+    [category, brands, ProductItems, rank, direction]
+  );
   console.log(searchParams);
   return (
     <main className="comtainer">
@@ -140,7 +139,13 @@ export function StoreMain() {
         }}
         ProductItems={ProductItems.items}
       />
-      <ProdGrid products={ProductItems.items} rank={rank} setRank={(value: string) => setRank(value)} />
+      <ProdGrid
+        products={ProductItems.items}
+        rank={rank}
+        setRank={(value: string) => setRank(value)}
+        direction={direction}
+        setDirection={(value: string) => setDirection(value)}
+      />
     </main>
   );
 }

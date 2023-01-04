@@ -3,16 +3,20 @@ import { ProductItem } from 'types';
 import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
-import { getRankingProducts, addToCart } from '../helper';
+import { getRankingProducts, addToCart, getProductsDirection } from '../helper';
 import { Link } from 'react-router-dom';
 
 export interface Products {
   products: ProductItem[];
   rank: string;
   setRank: (valye: string) => void;
+  direction: string;
+  setDirection: (valye: string) => void;
 }
 
 export function ProdGrid(props: Products) {
+  const imgSize = props.direction === 'row' ? '40%' : '90%';
+  const direction = getProductsDirection(props.direction);
   const products = getRankingProducts(props.products, props.rank);
   const handleChange = (event: SelectChangeEvent) => {
     props.setRank(event.target.value);
@@ -20,7 +24,7 @@ export function ProdGrid(props: Products) {
   const ProductsGird = products.map((product: ProductItem) => {
     const img = product.thumbnail;
     return (
-      <div key={(product.id as unknown) as string} style={styles.cardRo}>
+      <div key={(product.id as unknown) as string} style={direction.card}>
         <div
           style={{
             backgroundImage: `url('${img}')`,
@@ -28,18 +32,18 @@ export function ProdGrid(props: Products) {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             height: '160px',
-            width: '60%',
+            width: imgSize,
           }}
         ></div>
         <div>
-          <p style={styles.cardText} className="fw-bolder">
+          <p style={styles.cardText} className="bolder">
             {product.title} <br />
             {product.brand} <br />
             {product.price}$ <br />
             Raiting: {product.rating}
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '5px' }}>
+        <div style={direction.button}>
           <p>
             <Button
               text="Add to Cart"
@@ -84,11 +88,11 @@ export function ProdGrid(props: Products) {
         </FormControl>
         <p>Find {props.products.length}</p>
         <div style={{ display: 'flex', gap: '5px' }}>
-          <Button onclick={() => console.log('colum')} text="Colum" />
-          <Button onclick={() => console.log('row')} text="Row" />
+          <Button onclick={() => props.setDirection('column')} text="Colum" />
+          <Button onclick={() => props.setDirection('row')} text="Row" />
         </div>
       </div>
-      <div style={styles.productsGridRo}>{ProductsGird}</div>
+      <div style={direction.container}>{ProductsGird}</div>
     </section>
   );
 }
