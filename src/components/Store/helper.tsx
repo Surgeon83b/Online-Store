@@ -278,7 +278,11 @@ export const getRangeValueParams = (searchParams: URLSearchParams): RangeValye =
       .get('price')
       ?.split('%')
       .map((value) => +value) as unknown) as number[];
-  if (searchParams.has('stock')) state.stock = (searchParams.get('price')?.split('%') as unknown) as number[];
+  if (searchParams.has('stock'))
+    state.stock = (searchParams
+      .get('price')
+      ?.split('%')
+      .map((value) => +value) as unknown) as number[];
   console.log(state);
   return state;
 };
