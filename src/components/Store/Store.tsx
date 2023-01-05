@@ -15,7 +15,6 @@ import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
   const [searchParams, setSearchParams] = useSearchParams(new URL(window.location.href).search);
-  const [productItems, setProductItem] = useState(Data.products);
 
   const [rangeValue, setRangeValue] = useState(getRangeValueParams(searchParams) as RangeValye);
 
@@ -47,7 +46,6 @@ export function StoreMain() {
     } else products = Data.products;
     if (state.category.size > 0) products = products.filter((item) => state.category.has(item.category));
     if (state.brands.size > 0) products = products.filter((item) => state.brands.has(item.brand));
-
     if (Array.isArray(rangeValue.price) && Array.isArray(rangeValue.stock))
       products = products.filter(
         (item) =>
@@ -75,7 +73,7 @@ export function StoreMain() {
     } as RangeValye);
     setDirectionAndRank({ direction: '', rank: '' });
   };
-
+  const [productItems, setProductItem] = useState(getProducts(state, rangeValue));
   //useEffect(() => {
   //  console.log('ставим продукты по фильтрам');
   //  const products = getProducts(false);
@@ -95,10 +93,11 @@ export function StoreMain() {
     console.log('изменение url');
     setSearchParams(addSearchParams(state, rangeValue, directionAndRank));
   }, [state, rangeValue, directionAndRank]);
-
+  const slederColor = productItems.length ? '' : 'red';
   return (
     <main className="comtainer">
       <Bar
+        slederColor={slederColor}
         setRangeValue={(value: RangeValye) => setRangeValue(value)}
         drop={drop}
         rangeValue={rangeValue}

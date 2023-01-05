@@ -21,9 +21,13 @@ export function ProdGrid(props: Products) {
   const handleChange = (event: SelectChangeEvent) => {
     props.setRank(event.target.value);
   };
-  const ProductsGird = products.map((product: ProductItem) => (
-    <Product product={product} imgSize={imgSize} direction={props.direction} />
-  ));
+  const ProductsGird = products.length ? (
+    products.map((product: ProductItem) => (
+      <Product key={product.id} product={product} imgSize={imgSize} direction={props.direction} />
+    ))
+  ) : (
+    <div style={{ fontSize: '200%', margin: '10% auto' }}>NOT FOUND</div>
+  );
 
   return (
     <section className="container w70" style={styles.preductsContainer}>

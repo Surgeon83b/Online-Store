@@ -5,7 +5,7 @@ import { isInCart, SHADOW, removeAllFromCart, addToCart, getProductsDirection } 
 import { ProductItem } from '../../../types/index';
 import { styles } from '../../styles';
 
-export const Product = (props: { product: ProductItem; imgSize: string; direction: string }) => {
+export const Product = (props: { key: number; product: ProductItem; imgSize: string; direction: string }) => {
   const direction = getProductsDirection(props.direction);
   const img = props.product.thumbnail;
   const [whatToDo, setWhatToDo] = useState(isInCart(props.product.id) ? 'Drop From Cart' : 'Add To Cart');
@@ -21,7 +21,7 @@ export const Product = (props: { product: ProductItem; imgSize: string; directio
   }, [inCart]);
 
   return (
-    <div key={(props.product.id as unknown) as string} style={{ ...direction.card, boxShadow: `${shadow}` }}>
+    <div style={{ ...direction.card, boxShadow: `${shadow}` }}>
       <div
         style={{
           backgroundImage: `url('${img}')`,
