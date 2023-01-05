@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Bar } from './bar/leftBar';
 import { ProdGrid } from './grid/products';
 import Data from '../../Assets/products.json';
 import { ProductItem, RangeValye } from 'types';
-import { getMin, getMax, addSearchParams, getDirectionAndRankParams, getStateParams } from './helper';
+import {
+  getMin,
+  getMax,
+  addSearchParams,
+  getDirectionAndRankParams,
+  getStateParams,
+  getRangeValueParams,
+} from './helper';
 import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
   const [searchParams, setSearchParams] = useSearchParams(new URL(window.location.href).search);
   const [productItems, setProductItem] = useState(Data.products);
 
-  const [rangeValue, setRangeValue] = useState({
-    price: [getMin(productItems, 'price'), getMax(productItems, 'price')],
-    stock: [getMin(productItems, 'stock'), getMax(productItems, 'stock')],
-  } as RangeValye);
+  const [rangeValue, setRangeValue] = useState(getRangeValueParams(searchParams) as RangeValye);
 
   const [state, setState] = useState({
     ...getStateParams(searchParams),
@@ -80,6 +84,7 @@ export function StoreMain() {
       stock: [getMin(products, 'stock'), getMax(products, 'stock')],
     } as RangeValye);
   }, [state]);
+
   useEffect(() => {
     console.log('изменение интервалов');
     setProductItem(getProducts(true));

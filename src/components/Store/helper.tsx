@@ -266,3 +266,19 @@ export const getDirectionAndRankParams = (searchParams: URLSearchParams) => {
   }
   return directionAndRank;
 };
+
+//! TO DO get Range Value Params!
+export const getRangeValueParams = (searchParams: URLSearchParams): RangeValye => {
+  const state = {
+    price: [getMin(data.products, 'price'), getMax(data.products, 'price')],
+    stock: [getMin(data.products, 'stock'), getMax(data.products, 'stock')],
+  };
+  if (searchParams.has('price'))
+    state.price = (searchParams
+      .get('price')
+      ?.split('%')
+      .map((value) => +value) as unknown) as number[];
+  if (searchParams.has('stock')) state.stock = (searchParams.get('price')?.split('%') as unknown) as number[];
+  console.log(state);
+  return state;
+};
