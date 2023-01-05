@@ -7,9 +7,9 @@ import CartPage from '../Pages/CartPage';
 export const App = () => {
   return (
     <Routes>
-      <Route path="Online-Store/about/:id" element={<DescriptionPage />} />
-      <Route path="Online-Store/" element={<StorePage />} />
-      <Route path="Online-Store/cart" element={<CartPage />} />
+      <Route path="/about/:id" element={<DescriptionPage />} />
+      <Route path="/" element={<StorePage />} />
+      <Route path="/cart" element={<CartPage />} />
     </Routes>
   );
 };
