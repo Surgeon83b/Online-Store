@@ -84,10 +84,13 @@ export function StoreMain() {
     console.log('изменение интервалов');
     setProductItem(getProducts(true));
   }, [rangeValue]);
-  useEffect(() => {
-    console.log('изменение url');
-    setSearchParams(addSearchParams(state, rangeValue));
-  }, [state, rangeValue]);
+
+  //? Этот эффект скорее всего левый, пусть пока повисит)
+  //?useEffect(() => {
+  //?  console.log('изменение url');
+  //?  setSearchParams(addSearchParams(state, rangeValue));
+  //?}, [state, rangeValue]);
+
   return (
     <main className="comtainer">
       <Bar
