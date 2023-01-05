@@ -72,7 +72,7 @@ export function StoreMain() {
   };
 
   useEffect(() => {
-    console.log('эффект изменеия состояни');
+    console.log('ставим продукты ');
     const products = getProducts(false);
     setProductItem(products);
     setRangeValue({
