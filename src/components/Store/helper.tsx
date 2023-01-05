@@ -65,13 +65,15 @@ export const addSearchParams = (
       price: number[];
       stock: number[];
     };
-    rank: string;
     category: Set<unknown>;
     brands: Set<unknown>;
     search: string;
-    direction: string;
   },
-  rangeValue: RangeValye
+  rangeValue: RangeValye,
+  directionAndRank: {
+    direction: string;
+    rank: string;
+  }
 ): SearchParams => {
   const result: SearchParams = {};
   if (state.category.size > 0) {
@@ -89,11 +91,11 @@ export const addSearchParams = (
       result.stock = rangeValue.stock[0] + '%' + rangeValue.stock[1];
     }
   }
-  if (state.rank !== '') {
-    result.rankBy = state.rank;
+  if (directionAndRank.rank !== '') {
+    result.rankBy = directionAndRank.rank;
   }
-  if (state.direction !== '') {
-    result.direction = state.direction;
+  if (directionAndRank.direction !== '') {
+    result.direction = directionAndRank.direction;
   }
   return result;
 };
@@ -219,17 +221,15 @@ export const getProductsDirection = (direction: string) => {
   } as const;
 };
 
-export const getSearchParams = (searchParams: URLSearchParams) => {
+export const getStateParams = (searchParams: URLSearchParams) => {
   const state = {} as {
     defaultRange: {
       price: number[];
       stock: number[];
     };
-    rank: string;
     category: Set<unknown>;
     brands: Set<unknown>;
     search: string;
-    direction: string;
   };
   if (searchParams.has('category')) {
     state.category = new Set(searchParams.getAll('category')[0].split('%'));
@@ -241,20 +241,28 @@ export const getSearchParams = (searchParams: URLSearchParams) => {
   } else {
     state.brands = new Set();
   }
-  if (searchParams.has('rankBy')) {
-    state.rank = searchParams.get('rankBy') as string;
-  } else {
-    state.rank = '';
-  }
   if (searchParams.has('search')) {
     state.search = searchParams.get('search') as string;
   } else {
     state.search = '';
   }
-  if (searchParams.has('direction')) {
-    state.direction = searchParams.get('direction') as string;
-  } else {
-    state.direction = '';
-  }
   return state;
+};
+
+export const getDirectionAndRankParams = (searchParams: URLSearchParams) => {
+  const directionAndRank = {} as {
+    rank: string;
+    direction: string;
+  };
+  if (searchParams.has('rankBy')) {
+    directionAndRank.rank = searchParams.get('rankBy') as string;
+  } else {
+    directionAndRank.rank = '';
+  }
+  if (searchParams.has('direction')) {
+    directionAndRank.direction = searchParams.get('direction') as string;
+  } else {
+    directionAndRank.direction = '';
+  }
+  return directionAndRank;
 };

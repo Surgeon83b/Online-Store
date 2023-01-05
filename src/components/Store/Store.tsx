@@ -3,7 +3,7 @@ import { Bar } from './bar/leftBar';
 import { ProdGrid } from './grid/products';
 import Data from '../../Assets/products.json';
 import { ProductItem, RangeValye } from 'types';
-import { getMin, getMax, addSearchParams, getSearchParams } from './helper';
+import { getMin, getMax, addSearchParams, getDirectionAndRankParams, getStateParams } from './helper';
 import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
@@ -16,12 +16,13 @@ export function StoreMain() {
   } as RangeValye);
 
   const [state, setState] = useState({
-    ...getSearchParams(searchParams),
+    ...getStateParams(searchParams),
     defaultRange: {
       price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
       stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
     },
   });
+  const [directionAndRank, setDirectionAndRank] = useState(getDirectionAndRankParams(searchParams));
 
   const getProducts = (range: boolean): ProductItem[] => {
     let products = Data.products;
@@ -59,16 +60,15 @@ export function StoreMain() {
         price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
         stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
       },
-      rank: '',
       category: new Set() as Set<string>,
       brands: new Set() as Set<string>,
       search: '',
-      direction: '',
     });
     setRangeValue({
       price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
       stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
     } as RangeValye);
+    setDirectionAndRank({ direction: '', rank: '' });
   };
 
   useEffect(() => {
@@ -85,11 +85,10 @@ export function StoreMain() {
     setProductItem(getProducts(true));
   }, [rangeValue]);
 
-  //? Этот эффект скорее всего левый, пусть пока повисит)
-  //?useEffect(() => {
-  //?  console.log('изменение url');
-  //?  setSearchParams(addSearchParams(state, rangeValue));
-  //?}, [state, rangeValue]);
+  useEffect(() => {
+    console.log('изменение url');
+    setSearchParams(addSearchParams(state, rangeValue, directionAndRank));
+  }, [state, rangeValue, directionAndRank]);
 
   return (
     <main className="comtainer">
@@ -126,10 +125,10 @@ export function StoreMain() {
       />
       <ProdGrid
         products={productItems}
-        rank={state.rank}
-        setRank={(value: string) => setState({ ...state, rank: value })}
-        direction={state.direction}
-        setDirection={(value: string) => setState({ ...state, direction: value })}
+        rank={directionAndRank.rank}
+        setRank={(value: string) => setDirectionAndRank({ ...directionAndRank, rank: value })}
+        direction={directionAndRank.direction}
+        setDirection={(value: string) => setDirectionAndRank({ ...directionAndRank, direction: value })}
       />
     </main>
   );
