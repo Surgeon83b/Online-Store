@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CardLogo from './CardLogo';
+import ValidatedInput from './ValidatedInput';
 
 export default function BuyNow() {
   const CARD_LENGTH = 5;
@@ -26,6 +27,11 @@ export default function BuyNow() {
   const validAddress = /^(\b[A-Za-zА-Яа-яЁё]{5,}\b[\s\r\n]*){3,}$/;
   const validEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const validCard = new RegExp('^[0-9]{' + CARD_LENGTH + '}$');
+
+  function isValid(x: boolean): void {
+    x ? setFormValid(true) : setFormValid(false);
+  }
+
   useEffect(() => {
     if (nameError || phoneError || addressError || emailError) setFormValid(false);
     else setFormValid(true);
@@ -94,7 +100,16 @@ export default function BuyNow() {
     <form className="buy-now">
       <div className="personal">
         <h5 className="fw-bolder">Personal details</h5>
-        <input
+        <ValidatedInput
+          name="name"
+          class="validated"
+          placeholder="Name"
+          nameError="invalid name"
+          pattern={/^(\b[A-Za-zА-Яа-яЁё]{3,}\b[\s\r\n]*){2,}$/}
+          onChange={nameHandler}
+          isValid={isValid}
+        />
+        {/* <input
           value={name}
           onChange={(e) => nameHandler(e)}
           onBlur={(e) => blurInput(e)}
@@ -104,6 +119,7 @@ export default function BuyNow() {
           placeholder="Name"
         />
         {nameEdited && nameError && <span style={{ color: 'red', display: 'inline-block' }}>{nameError}</span>}
+  */}
         <input
           value={phone}
           onChange={(e) => phoneHandler(e)}
