@@ -20,6 +20,9 @@ export default function RangeSlider(props: SliderProps) {
 
   return (
     <Slider
+      sx={{
+        color: props.color,
+      }}
       style={{ width: '80%' }}
       value={value}
       min={props.min}

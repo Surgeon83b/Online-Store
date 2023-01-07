@@ -3,27 +3,31 @@ import { Bar } from './bar/leftBar';
 import { ProdGrid } from './grid/products';
 import Data from '../../Assets/products.json';
 import { ProductItem, RangeValye } from 'types';
-import { getMin, getMax, addSearchParams, getSearchParams } from './helper';
+import {
+  getMin,
+  getMax,
+  addSearchParams,
+  getDirectionAndRankParams,
+  getStateParams,
+  getRangeValueParams,
+} from './helper';
 import { useSearchParams } from 'react-router-dom';
 
 export function StoreMain() {
   const [searchParams, setSearchParams] = useSearchParams(new URL(window.location.href).search);
-  const [productItems, setProductItem] = useState(Data.products);
 
-  const [rangeValue, setRangeValue] = useState({
-    price: [getMin(productItems, 'price'), getMax(productItems, 'price')],
-    stock: [getMin(productItems, 'stock'), getMax(productItems, 'stock')],
-  } as RangeValye);
+  const [rangeValue, setRangeValue] = useState(getRangeValueParams(searchParams) as RangeValye);
 
   const [state, setState] = useState({
-    ...getSearchParams(searchParams),
+    ...getStateParams(searchParams),
     defaultRange: {
       price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
       stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
     },
   });
-
-  const getProducts = (range: boolean): ProductItem[] => {
+  const [directionAndRank, setDirectionAndRank] = useState(getDirectionAndRankParams(searchParams));
+  type TState = typeof state;
+  const getProducts = (state: TState, rangeValue: RangeValye): ProductItem[] => {
     let products = Data.products;
     if (state.search !== '') {
       const search = state.search;
@@ -42,8 +46,7 @@ export function StoreMain() {
     } else products = Data.products;
     if (state.category.size > 0) products = products.filter((item) => state.category.has(item.category));
     if (state.brands.size > 0) products = products.filter((item) => state.brands.has(item.brand));
-
-    if (Array.isArray(rangeValue.price) && Array.isArray(rangeValue.stock) && range === true)
+    if (Array.isArray(rangeValue.price) && Array.isArray(rangeValue.stock))
       products = products.filter(
         (item) =>
           (rangeValue.price as number[])[0] <= item.price &&
@@ -53,73 +56,103 @@ export function StoreMain() {
       );
     return products;
   };
+
   const drop = () => {
     setState({
       defaultRange: {
         price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
         stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
       },
-      rank: '',
       category: new Set() as Set<string>,
       brands: new Set() as Set<string>,
       search: '',
-      direction: '',
     });
     setRangeValue({
       price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
       stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
     } as RangeValye);
+    setDirectionAndRank({ direction: '', rank: '' });
   };
+  const [productItems, setProductItem] = useState(getProducts(state, rangeValue));
+  //useEffect(() => {
+  //  console.log('ставим продукты по фильтрам');
+  //  const products = getProducts(false);
+  //  setProductItem(products);
+  //  setRangeValue({
+  //    price: [getMin(products, 'price'), getMax(products, 'price')],
+  //    stock: [getMin(products, 'stock'), getMax(products, 'stock')],
+  //  } as RangeValye);
+  //}, [state]);
 
   useEffect(() => {
-    const products = getProducts(false);
-    setProductItem(products);
-    setRangeValue({
-      price: [getMin(products, 'price'), getMax(products, 'price')],
-      stock: [getMin(products, 'stock'), getMax(products, 'stock')],
-    } as RangeValye);
-  }, [state]);
-  useEffect(() => setProductItem(getProducts(true)), [rangeValue]);
-  useEffect(() => setSearchParams(addSearchParams(state, rangeValue)), [state, rangeValue]);
+    console.log('ставим продукты по ренжам');
+    setProductItem(getProducts(state, rangeValue));
+  }, [rangeValue]);
+
+  useEffect(() => {
+    console.log('изменение url');
+    setSearchParams(addSearchParams(state, rangeValue, directionAndRank));
+  }, [state, rangeValue, directionAndRank]);
+  const slederColor = productItems.length ? '' : 'red';
   return (
     <main className="comtainer">
       <Bar
+        slederColor={slederColor}
         setRangeValue={(value: RangeValye) => setRangeValue(value)}
         drop={drop}
         rangeValue={rangeValue}
         range={state.defaultRange}
         search={state.search}
-        setSearch={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-          setState({ ...state, search: event.target.value })
-        }
+        setSearch={(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+          const newState = { ...state, search: event.target.value };
+          setState(newState);
+          const products = getProducts(newState, newState.defaultRange);
+          setRangeValue({
+            price: [getMin(products, 'price'), getMax(products, 'price')],
+            stock: [getMin(products, 'stock'), getMax(products, 'stock')],
+          } as RangeValye);
+          setProductItem(products);
+        }}
         switchCategory={(e: React.MouseEvent<HTMLInputElement>) => {
           if (state.category.has(e.currentTarget.id)) {
             state.category.delete(e.currentTarget.id);
-            setState({ ...state, category: new Set(state.category) });
           } else {
             state.category.add(e.currentTarget.id);
-            setState({ ...state, category: new Set(state.category) });
           }
+          const newState = { ...state, category: new Set(state.category) };
+          setState(newState);
+          const products = getProducts(newState, newState.defaultRange);
+          setRangeValue({
+            price: [getMin(products, 'price'), getMax(products, 'price')],
+            stock: [getMin(products, 'stock'), getMax(products, 'stock')],
+          } as RangeValye);
+          setProductItem(products);
         }}
         brands={state.brands}
         category={state.category}
         switchBrands={(e: React.MouseEvent<HTMLInputElement>) => {
           if (state.brands.has(e.currentTarget.id)) {
             state.brands.delete(e.currentTarget.id);
-            setState({ ...state, brands: new Set(state.brands) });
           } else {
             state.brands.add(e.currentTarget.id);
-            setState({ ...state, brands: new Set(state.brands) });
           }
+          const newState = { ...state, brands: new Set(state.brands) };
+          setState(newState);
+          const products = getProducts(newState, newState.defaultRange);
+          setRangeValue({
+            price: [getMin(products, 'price'), getMax(products, 'price')],
+            stock: [getMin(products, 'stock'), getMax(products, 'stock')],
+          } as RangeValye);
+          setProductItem(products);
         }}
         ProductItems={productItems}
       />
       <ProdGrid
         products={productItems}
-        rank={state.rank}
-        setRank={(value: string) => setState({ ...state, rank: value })}
-        direction={state.direction}
-        setDirection={(value: string) => setState({ ...state, direction: value })}
+        rank={directionAndRank.rank}
+        setRank={(value: string) => setDirectionAndRank({ ...directionAndRank, rank: value })}
+        direction={directionAndRank.direction}
+        setDirection={(value: string) => setDirectionAndRank({ ...directionAndRank, direction: value })}
       />
     </main>
   );

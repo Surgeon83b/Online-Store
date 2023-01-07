@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ProductItem } from 'types';
 import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
-import { getRankingProducts, addToCart, getProductsDirection, isInCart, removeAllFromCart, SHADOW } from '../helper';
-import { Link } from 'react-router-dom';
+import { getRankingProducts, getProductsDirection } from '../helper';
+import { Product } from './product';
 
 export interface Products {
   products: ProductItem[];
@@ -22,65 +22,13 @@ export function ProdGrid(props: Products) {
   const handleChange = (event: SelectChangeEvent) => {
     props.setRank(event.target.value);
   };
-  const ProductsGird = products.map((product: ProductItem) => {
-    const img = product.thumbnail;
-    const [whatToDo, setWhatToDo] = useState(isInCart(product.id) ? 'Drop From Cart' : 'Add To Cart');
-    const [shadow, setShadow] = useState(isInCart(product.id) ? SHADOW : '');
-    const [inCart, setInCart] = useState(isInCart(product.id));
-
-    const ToDo = (id: number): void => {
-      inCart ? removeAllFromCart(id) : addToCart(id);
-      setInCart(!inCart);
-      console.log('ToDo');
-    };
-
-    useEffect(() => {
-      inCart ? setShadow(SHADOW) : setShadow('');
-      inCart ? setWhatToDo('Drop From Cart') : setWhatToDo('Add To Cart');
-      console.log('useEffect');
-    }, [inCart]);
-
-    return (
-      <div key={(product.id as unknown) as string} style={{ ...direction.card, boxShadow: `${shadow}` }}>
-        <div
-          style={{
-            backgroundImage: `url('${img}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            height: '160px',
-            width: imgSize,
-          }}
-        ></div>
-        <div>
-          <p style={styles.cardText} className="bolder">
-            {product.title} <br />
-            {product.brand} <br />
-            {product.price}$ <br />
-            Raiting: {product.rating}
-          </p>
-        </div>
-        <div style={direction.button}>
-          <p>
-            <Button
-              text={whatToDo}
-              onclick={() => {
-                ToDo(product.id);
-              }}
-            />
-          </p>
-          <Link to={`/about/${product.id}`} style={{ display: 'inline-block' }}>
-            <Button
-              text="Details"
-              onclick={function (): void {
-                1 + 1;
-              }}
-            />
-          </Link>
-        </div>
-      </div>
-    );
-  });
+  const ProductsGird = products.length ? (
+    products.map((product: ProductItem) => (
+      <Product key={product.id} product={product} imgSize={imgSize} direction={props.direction} />
+    ))
+  ) : (
+    <div style={{ fontSize: '200%', margin: '10% auto' }}>NOT FOUND</div>
+  );
 
   return (
     <section className="container w70" style={styles.preductsContainer}>

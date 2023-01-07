@@ -59,6 +59,7 @@ export type DataForRender = {
 
 export type Hendler = (e: React.MouseEvent<HTMLInputElement>) => void;
 export interface BarProps {
+  slederColor: string;
   ProductItems: ProductItem[];
   switchBrands: Hendler;
   switchCategory: Hendler;
@@ -77,6 +78,7 @@ export interface BarProps {
 }
 
 export interface SliderProps {
+  color: string;
   valueLable: string;
   max: number;
   min: number;

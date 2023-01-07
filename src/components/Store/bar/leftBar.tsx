@@ -58,6 +58,7 @@ export function Bar(props: BarProps) {
       </Form.Group>
       <h4>Price</h4>
       <RangeSlider
+        color={props.slederColor}
         valueLable="$"
         rangeValue={props.rangeValue}
         setRangeValue={props.setRangeValue}
@@ -66,6 +67,7 @@ export function Bar(props: BarProps) {
       />
       <h4>Stock</h4>
       <RangeSlider
+        color={props.slederColor}
         valueLable=""
         rangeValue={props.rangeValue}
         setRangeValue={props.setRangeValue}
