@@ -225,14 +225,64 @@ input[type='number']::-webkit-inner-spin-button {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 25%;
-  height: 40vh;
+  width: 35%;
+  height: 65vh;
+  color: rgb(84, 197, 197);
+  background-color: slateblue;
+  font-size: smaller;
+  border-radius: 10%;
 }
 
 #app {
   position: relative;
 }
 
-.name, .phone {
+.validated {
   margin: 3px;
+  display: block;
+}
+
+.personal {
+  display: block;
+
+  span {
+    display: inline-block;
+  }
+}
+
+h5 input {
+  background-color: white;
+}
+
+.card-logo {
+  width: 2rem;
+  height: 2.5rem;
+  background-image: url('./Assets/Visa-card-dark.svg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+.card-number {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-info {
+  display: flex;
+
+
+}
+
+#card-valid,
+#card-cvv {
+    width: 30%;
+}
+
+.confirm {
+  margin-top: 15px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
 }

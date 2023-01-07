@@ -15,6 +15,7 @@ export interface Products {
 }
 
 export function ProdGrid(props: Products) {
+  console.log('ProdGrid');
   const imgSize = props.direction === 'row' ? '40%' : '90%';
   const direction = getProductsDirection(props.direction);
   const products = getRankingProducts(props.products, props.rank);
@@ -30,11 +31,13 @@ export function ProdGrid(props: Products) {
     const ToDo = (id: number): void => {
       inCart ? removeAllFromCart(id) : addToCart(id);
       setInCart(!inCart);
+      console.log('ToDo');
     };
 
     useEffect(() => {
       inCart ? setShadow(SHADOW) : setShadow('');
       inCart ? setWhatToDo('Drop From Cart') : setWhatToDo('Add To Cart');
+      console.log('useEffect');
     }, [inCart]);
 
     return (

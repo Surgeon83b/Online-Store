@@ -117,3 +117,6 @@ export interface ICountChangerProps extends IProductsForPage {
   decCount: (id: number) => void;
   incCount: (id: number) => void;
 }
+
+export type FOnChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
+export type FOnBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => void;
