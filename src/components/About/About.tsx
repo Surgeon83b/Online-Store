@@ -4,6 +4,7 @@ import { Button } from '../button/button';
 import { styles } from '../styles';
 import data from '../../Assets/products.json';
 import { addToCart, removeAllFromCart, setBackgroundImage, isInCart, SHADOW } from '../Store/helper';
+import { Link } from 'react-router-dom';
 
 export function About(prop: { item: number }) {
   const item = data.products.find((item) => item.id == prop.item) as ProductItem;
@@ -82,12 +83,14 @@ export function About(prop: { item: number }) {
                         ToDo(item.id);
                       }}
                     />
-                    <Button
-                      text="BUY NOW"
-                      onclick={() => {
-                        window.location.href = '/cart/#buy';
-                      }}
-                    />
+                    <Link to="/cart/#buy">
+                      <Button
+                        text="BUY NOW"
+                        onclick={() => {
+                          1 + 1;
+                        }}
+                      />
+                    </Link>
                   </div>
                 </div>
               </div>

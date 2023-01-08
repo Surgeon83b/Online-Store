@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { IsInputValid } from 'types';
 import CardLogo from './CardLogo';
 import ValidatedInput from './ValidatedInput';
+import { Link } from 'react-router-dom';
 
 export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) {
   const CARD_LENGTH = 16;
@@ -62,10 +63,11 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) 
   const displey = props.popUP ? 'block' : 'none';
   return (
     <div style={{ ...styles.popUPbackground, display: displey }}>
-      <div
+      <Link
+        to="/cart"
         onClick={props.setPopUP}
         style={{ position: 'fixed', left: '0', top: '0', width: '100%', height: '100%' }}
-      ></div>
+      ></Link>
       <form className="buy-now">
         <div className="personal">
           <h5 className="fw-bolder">Personal details</h5>

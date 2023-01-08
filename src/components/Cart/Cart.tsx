@@ -4,9 +4,8 @@ import CartItem from './CartItem';
 import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
 import BuyNow from './BuyNow';
+import { Link } from 'react-router-dom';
 
-const hash = window.location.hash;
-console.log(window.location.hash === '#buy');
 export default function Cart() {
   let items = [] as ItemForCart[];
   const cartItems = localStorage.getItem('cart');
@@ -113,12 +112,19 @@ export default function Cart() {
             )}
           </div>
           <input type="text" className="promocode" placeholder="Enter promo code" />
-          <button type="button" className="btn btn-success" onClick={() => setPopUP(true)}>
-            BUY NOW
-          </button>
+          <Link to="/cart/#buy">
+            <button type="button" className="btn btn-success" onClick={() => setPopUP(true)}>
+              BUY NOW
+            </button>
+          </Link>
         </div>
       </div>
-      <BuyNow popUP={popUP} setPopUP={() => setPopUP(false)} />
+      <BuyNow
+        popUP={popUP}
+        setPopUP={() => {
+          setPopUP(false);
+        }}
+      />
     </>
   );
 }
