@@ -5,10 +5,8 @@ import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
 import BuyNow from './BuyNow';
 
-const layout = document.querySelector('.darkness') as HTMLElement;
-const popUP = document.querySelector('.buy-now') as HTMLElement;
-//if (layout) layout.addEventListener('click', closePopup);
-
+const hash = window.location.hash;
+console.log(window.location.hash === '#buy');
 export default function Cart() {
   let items = [] as ItemForCart[];
   const cartItems = localStorage.getItem('cart');
@@ -23,7 +21,7 @@ export default function Cart() {
   const [products, setProducts] = useState(getProductsForPage(items, page, limit));
   const [totalPages, setTotalPages] = useState(Math.round(state.length / limit));
   const [totalProducts, setTotalProducts] = useState(state.reduce((sum, item) => sum + item.count, 0));
-  const [popUP, setPopUP] = useState(false);
+  const [popUP, setPopUP] = useState(window.location.hash === '#buy');
   const decreasePage = () => {
     if (page > 1) setPage(page - 1);
   };

@@ -85,7 +85,7 @@ export function About(prop: { item: number }) {
                     <Button
                       text="BUY NOW"
                       onclick={() => {
-                        window.location.href = '/cart';
+                        window.location.href = '/cart/#buy';
                       }}
                     />
                   </div>
