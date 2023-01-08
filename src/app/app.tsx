@@ -12,6 +12,8 @@ export const App = () => {
   const cartItems = localStorage.getItem('cart');
   if (cartItems !== null) {
     items = JSON.parse(cartItems);
+  } else {
+    localStorage.setItem('cart', JSON.stringify([]));
   }
 
   const [price, setPrice] = useState(
@@ -26,7 +28,7 @@ export const App = () => {
 
   return (
     <Routes>
-      <Route path="*" element={<Page404 />} />
+      <Route path="/*" element={<Page404 />} />
       <Route path="/about/:id" element={<DescriptionPage price={price} count={count} get={setTotal} />} />
       <Route path="/" element={<StorePage price={price} count={count} get={setTotal} />} />
       <Route path="/cart" element={<CartPage price={price} count={count} get={setTotal} />} />
