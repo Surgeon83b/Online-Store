@@ -32,7 +32,7 @@ export const getMin = (data: ProductItem[], property: string): number => {
 };
 
 export const DataCategory = data.products.reduce(
-  (result: string[], x) => {
+  (result: string[], x: ProductItem) => {
     if (result.indexOf(x.category) === -1) result.push(x.category);
     return result;
   },
@@ -40,7 +40,7 @@ export const DataCategory = data.products.reduce(
 );
 
 export const DataBrands = data.products.reduce(
-  (result: string[], x) => {
+  (result: string[], x: ProductItem) => {
     if (result.indexOf(x.brand) === -1) result.push(x.brand);
     return result;
   },
@@ -107,7 +107,7 @@ export const getProductsForPage = (items: ItemForCart[], page: number, limit: nu
   if (items.length - 1 < end) end = items.length - 1;
   for (let i = start; i <= end; i += 1) {
     res.push({
-      product: data.products.find((prod) => prod.id === items[i].id) as ProductItem,
+      product: data.products.find((prod: ProductItem) => prod.id === items[i].id) as ProductItem,
       count: items[i].count,
       number: i + 1,
     });
@@ -148,6 +148,10 @@ export const removeFromCart = (id?: number): void => {
 };
 
 export const removeAllFromCart = (id?: number): ItemForCart[] => {
+  if (id === undefined) {
+    localStorage.removeItem('cart');
+    return [] as ItemForCart[];
+  }
   const cartItems = localStorage.getItem('cart');
   let items = [] as ItemForCart[];
   if (cartItems !== null) {

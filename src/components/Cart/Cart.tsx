@@ -134,6 +134,7 @@ export default function Cart(props: { get: GetProps }) {
         setPopUP={() => {
           setPopUP(false);
         }}
+        get={props.get}
       />
     </>
   );

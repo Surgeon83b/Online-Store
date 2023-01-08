@@ -97,7 +97,7 @@ export function StoreMain(props: { get: GetProps }) {
   return (
     <main className="comtainer">
       <Bar
-        slederColor={slederColor}
+        sliderColor={slederColor}
         setRangeValue={(value: RangeValye) => setRangeValue(value)}
         drop={drop}
         rangeValue={rangeValue}

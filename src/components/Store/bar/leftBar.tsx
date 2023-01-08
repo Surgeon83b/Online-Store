@@ -53,17 +53,17 @@ export function Bar(props: BarProps) {
           }}
         />
       </div>
-      <h4>Categorys</h4>
+      <h4>Categories</h4>
       <Form.Group className="mb-3" controlId="Category" style={styles.checkboxConteiner}>
         {checkBar(DataCategory, getCategoryCount, props.switchCategory, props.category)}
       </Form.Group>
-      <h4>Brends</h4>
+      <h4>Brands</h4>
       <Form.Group className="mb-3" controlId="Brend" style={styles.checkboxConteiner}>
         {checkBar(DataBrands, getBrandCount, props.switchBrands, props.brands)}
       </Form.Group>
       <h4>Price</h4>
       <RangeSlider
-        color={props.slederColor}
+        color={props.sliderColor}
         valueLable="$"
         rangeValue={props.rangeValue}
         setRangeValue={props.setRangeValue}
@@ -72,7 +72,7 @@ export function Bar(props: BarProps) {
       />
       <h4>Stock</h4>
       <RangeSlider
-        color={props.slederColor}
+        color={props.sliderColor}
         valueLable=""
         rangeValue={props.rangeValue}
         setRangeValue={props.setRangeValue}

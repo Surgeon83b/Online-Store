@@ -1,11 +1,13 @@
 import { styles } from '../styles';
 import React, { useEffect, useState } from 'react';
-import { IsInputValid } from 'types';
+import { GetProps, IsInputValid } from 'types';
 import CardLogo from './CardLogo';
 import ValidatedInput from './ValidatedInput';
 import { Link } from 'react-router-dom';
+import { removeAllFromCart } from '../Store/helper';
+import { Navigate } from 'react-router-dom';
 
-export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) {
+export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; get: GetProps }) {
   const CARD_LENGTH = 16;
   const CVV_LENGTH = 3;
 
@@ -19,6 +21,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) 
   const [formValid, setFormValid] = useState(false);
 
   const [cardType, setCardType] = useState('');
+  const [isRedirect, setIsRedirect] = useState(false);
 
   function isValid(x: IsInputValid, t?: string): void {
     console.log(Object.entries(x));
@@ -48,28 +51,13 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) 
     if (t !== undefined) setCardType(t);
   }
 
-  /*const layout = document.querySelector('.darkness') as HTMLElement;
-  const popUP = document.querySelector('.buy-now') as HTMLElement;
-  const submitButton = document.querySelector('.btn-buy') as HTMLElement;
-
-  const popup = () => {
-    console.log(popUP);
-    if (layout) layout.classList.add('active');
-    if (popUP) popUP.classList.add('active');
-  };
-  const closePopup = () => {
-    if (layout) layout.classList.remove('active');
-    if (popUP) popUP.classList.remove('active');
-  };
-  console.log(layout);
-  if (layout) layout.addEventListener('click', closePopup);
-  submitButton.addEventListener('click', popup);*/
-
   const submitData = () => {
     alert('The order is accepted');
+    removeAllFromCart();
+    props.get(0, 0);
     setTimeout(() => {
-      window.location.href = '/';
-    }, 4000);
+      setIsRedirect(true);
+    }, 3000);
   };
 
   useEffect(() => {
@@ -78,6 +66,8 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) 
     else setFormValid(true);
   }, [nameError, phoneError, addressError, emailError, cardError, cvvError, validThruError]);
   const displey = props.popUP ? 'block' : 'none';
+
+  if (isRedirect) return <Navigate to={'/'} />;
   return (
     <div style={{ ...styles.popUPbackground, display: displey }}>
       <Link
@@ -139,7 +129,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) 
             class="validated card-valid"
             placeholder="Valid Thru"
             // eslint-disable-next-line prettier/prettier, no-useless-escape
-          pattern={RegExp('^[01][0-9]\/[0-9]{2}$')}
+            pattern={RegExp('^[01][0-9]\/[0-9]{2}$')}
             isValid={isValid}
             length={CARD_LENGTH}
             label="VALID:"

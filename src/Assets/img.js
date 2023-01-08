@@ -1,4 +1,4 @@
-import error from './error.png';
+import { error } from './error.png';
 
 export default {
   error: error,
