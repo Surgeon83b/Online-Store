@@ -3,6 +3,7 @@ import { StorePage } from '../Pages/StorePage';
 import { DescriptionPage } from '../Pages/DescriptionPage';
 import { Route, Routes } from 'react-router-dom';
 import CartPage from '../Pages/CartPage';
+import { Page404 } from '../Pages/Error';
 import { GetProps, ItemForCart } from 'types';
 import Data from '../Assets/products.json';
 
@@ -25,6 +26,7 @@ export const App = () => {
 
   return (
     <Routes>
+      <Route path="*" element={<Page404 />} />
       <Route path="/about/:id" element={<DescriptionPage price={price} count={count} get={setTotal} />} />
       <Route path="/" element={<StorePage price={price} count={count} get={setTotal} />} />
       <Route path="/cart" element={<CartPage price={price} count={count} get={setTotal} />} />

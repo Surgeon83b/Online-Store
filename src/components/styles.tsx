@@ -111,11 +111,23 @@ export const styles = {
   popUPbackground: {
     zIndex: '1000',
     opacity: '1',
-    background: 'rgba(84, 81, 81, 0.306)',
+    background: 'rgba(104, 119, 119, 0.706)',
     position: 'fixed',
     left: '0',
     top: '0',
     width: '100%',
     height: '100%',
+  },
+  404: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    width: '100vw',
+    height: '100vh',
+    backgroundImage:
+      'url("https://img.freepik.com/free-vector/page-not-found-concept-illustration_114360-1869.jpg?w=740&t=st=1673180647~exp=1673181247~hmac=c794bc7898c55dd9c07e50281de5ae04be078dfae3bbb610d477c107dc900d42")',
   },
 } as const;
