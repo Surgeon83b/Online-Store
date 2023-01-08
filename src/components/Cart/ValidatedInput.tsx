@@ -41,19 +41,25 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
     let str = e.target.value;
     let mas: Array<string> | undefined = [];
     switch (str.length) {
+      case 0:
+        setState('');
+        break;
       case 1:
-        if (str !== '0' && str !== '1') setState('');
+        if (str !== '0' && str !== '1' && str !== '/') setState('0' + str + '/');
         else setState(str);
         break;
       case 2:
-        if (str[0] === '0')
+        if (str[0] === '0') {
           if (str[1] === '0') setState('0');
-          else setState(str + '/');
-        else if (str[0] === '1')
+          else if (str[1] !== '/') setState(str + '/');
+          else setState(str);
+        } else if (str[0] === '1')
           if (['0', '1', '2'].includes(str[1])) setState(str + '/');
           else setState('1');
         break;
-
+      /*  case 3:
+          if (Number(str[0]) >= 2) setState('0' + str.substring(1));
+          break;*/
       default:
         if (Number(str[0]) >= 2) str = '1' + str.substring(1);
         str = str.replace(/[^0-9//]/, '');
@@ -104,23 +110,25 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
     setStateEdited(true);
   };
   return (
-    <>
+    <div className="valid-input">
       {props.label && <label htmlFor="">{props.label}</label>}
-      <input
-        key={props.placeholder}
-        value={state}
-        onChange={(e) => {
-          props.type !== 'validThru' ? inputHandler(e) : inputThruHandler(e);
-        }}
-        onBlur={(e) => blurInput()}
-        onFocus={(e) => focusInput(e)}
-        type="text"
-        name={props.name}
-        className={props.class}
-        placeholder={props.placeholder}
-      />
-      {stateEdited && stateError && <span style={{ color: 'red', display: 'inline-block' }}>{stateError}</span>}
-    </>
+      <div className="inputAndError">
+        <input
+          key={props.placeholder}
+          value={state}
+          onChange={(e) => {
+            props.type !== 'validThru' ? inputHandler(e) : inputThruHandler(e);
+          }}
+          onBlur={(e) => blurInput()}
+          onFocus={(e) => focusInput(e)}
+          type="text"
+          name={props.name}
+          className={props.class}
+          placeholder={props.placeholder}
+        />
+        {stateEdited && stateError && <span style={{ color: 'red', display: 'inline-block' }}>{stateError}</span>}
+      </div>
+    </div>
   );
 };
 
