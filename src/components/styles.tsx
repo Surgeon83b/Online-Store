@@ -108,4 +108,14 @@ export const styles = {
     flex: '5',
     width: '70%',
   },
+  popUPbackground: {
+    zIndex: '1000',
+    opacity: '1',
+    background: 'rgba(84, 81, 81, 0.306)',
+    position: 'fixed',
+    left: '0',
+    top: '0',
+    width: '100%',
+    height: '100%',
+  },
 } as const;

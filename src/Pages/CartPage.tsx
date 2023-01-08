@@ -11,11 +11,9 @@ function CartPage(total: IHeaderProps) {
 
   return (
     <>
-      <div className="darkness">
-        <Header count={total.count} price={total.price} />
-        <Cart get={total.get} />
-        <Footer />
-      </div>
+      <Header count={total.count} price={total.price} />
+      <Cart get={total.get} />
+      <Footer />
     </>
   );
 }

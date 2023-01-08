@@ -1,5 +1,5 @@
 import Form from 'react-bootstrap/Form';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
 import RangeSlider from './dualSlides';
@@ -35,6 +35,7 @@ export function Bar(props: BarProps) {
       );
     });
   };
+  const [copyText, setText] = useState('Copy link');
   return (
     <aside className="left-bar w-25 container">
       <Form.Group className="my-3" controlId="SerchForm">
@@ -44,8 +45,12 @@ export function Bar(props: BarProps) {
       <div style={{ gap: '5px', display: 'flex' }}>
         <Button text="Reset filters" onclick={props.drop} />
         <Button
-          text="Copy link"
-          onclick={() => console.log(navigator.clipboard.writeText((window.location as unknown) as string))}
+          text={copyText}
+          onclick={() => {
+            navigator.clipboard.writeText((window.location as unknown) as string);
+            setText('Сopied!');
+            setTimeout(() => setText('Copy link'), 500);
+          }}
         />
       </div>
       <h4>Categorys</h4>

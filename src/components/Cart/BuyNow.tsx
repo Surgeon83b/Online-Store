@@ -1,9 +1,11 @@
+import { styles } from '../styles';
 import React, { useEffect, useState } from 'react';
 import { IsInputValid } from 'types';
 import CardLogo from './CardLogo';
 import ValidatedInput from './ValidatedInput';
+import { Link } from 'react-router-dom';
 
-export default function BuyNow() {
+export default function BuyNow(props: { popUP: boolean; setPopUP: () => void }) {
   const CARD_LENGTH = 16;
   const CVV_LENGTH = 3;
 
@@ -75,82 +77,89 @@ export default function BuyNow() {
       setFormValid(false);
     else setFormValid(true);
   }, [nameError, phoneError, addressError, emailError, cardError, cvvError, validThruError]);
-
+  const displey = props.popUP ? 'block' : 'none';
   return (
-    <form className="buy-now">
-      <div className="personal">
-        <h5 className="fw-bolder">Personal details</h5>
-        <ValidatedInput
-          name="name"
-          class="validated"
-          placeholder="Name"
-          pattern={/^([A-Za-zА-Яа-яЁё]{3,}[\s\r\n]*){2,}$/}
-          isValid={isValid}
-        />
-        <ValidatedInput
-          name="phone"
-          class="validated"
-          placeholder="Phone number"
-          pattern={/^\+[0-9]{9,}$/}
-          isValid={isValid}
-        />
-        <ValidatedInput
-          name="address"
-          class="validated"
-          placeholder="Delivery address"
-          pattern={/^([A-Za-zА-Яа-яЁё0-9]{5,}[\s\r\n]*){3,}$/}
-          isValid={isValid}
-        />
-        <ValidatedInput
-          name="email"
-          class="validated"
-          placeholder="E-mail"
-          pattern={
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          }
-          isValid={isValid}
-        />
-      </div>
+    <div style={{ ...styles.popUPbackground, display: displey }}>
+      <Link
+        to="/cart"
+        onClick={props.setPopUP}
+        style={{ position: 'fixed', left: '0', top: '0', width: '100%', height: '100%' }}
+      ></Link>
+      <form className="buy-now">
+        <div className="personal">
+          <h5 className="fw-bolder">Personal details</h5>
+          <ValidatedInput
+            name="name"
+            class="validated"
+            placeholder="Name"
+            pattern={/^([A-Za-zА-Яа-яЁё]{3,}[\s\r\n]*){2,}$/}
+            isValid={isValid}
+          />
+          <ValidatedInput
+            name="phone"
+            class="validated"
+            placeholder="Phone number"
+            pattern={/^\+[0-9]{9,}$/}
+            isValid={isValid}
+          />
+          <ValidatedInput
+            name="address"
+            class="validated"
+            placeholder="Delivery address"
+            pattern={/^([A-Za-zА-Яа-яЁё0-9]{5,}[\s\r\n]*){3,}$/}
+            isValid={isValid}
+          />
+          <ValidatedInput
+            name="email"
+            class="validated"
+            placeholder="E-mail"
+            pattern={
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            }
+            isValid={isValid}
+          />
+        </div>
 
-      <h5 className="fw-bolder">Credit card details</h5>
-      <div className="card-number">
-        <CardLogo cardType={cardType} />
-        <ValidatedInput
-          name="card"
-          class="validated"
-          placeholder="Card number"
-          pattern={RegExp('^[0-9]{' + CARD_LENGTH + '}$')}
-          isValid={isValid}
-          length={CARD_LENGTH}
-          isCardType
-        />
-      </div>
-      <div className="card-info">
-        <ValidatedInput
-          name="valid"
-          class="validated card-valid"
-          placeholder="Valid Thru"
-          // eslint-disable-next-line prettier/prettier, no-useless-escape
+        <h5 className="fw-bolder">Credit card details</h5>
+        <div className="card-number">
+          <CardLogo cardType={cardType} />
+          <ValidatedInput
+            name="card"
+            class="validated"
+            placeholder="Card number"
+            pattern={RegExp('^[0-9]{' + CARD_LENGTH + '}$')}
+            isValid={isValid}
+            length={CARD_LENGTH}
+            isCardType
+          />
+        </div>
+        <div className="card-info">
+          <ValidatedInput
+            name="valid"
+            class="validated card-valid"
+            placeholder="Valid Thru"
+            // eslint-disable-next-line prettier/prettier, no-useless-escape
           pattern={RegExp('^[01][0-9]\/[0-9]{2}$')}
-          isValid={isValid}
-          length={CARD_LENGTH}
-          label="VALID:"
-          type="validThru"
-        />
-        <ValidatedInput
-          name="cvv"
-          class="validated card-cvv"
-          placeholder="Code"
-          pattern={RegExp('^[0-9]{' + CVV_LENGTH + '}$')}
-          isValid={isValid}
-          length={CVV_LENGTH}
-          label="CVV:"
-        />
-      </div>
+            isValid={isValid}
+            length={CARD_LENGTH}
+            label="VALID:"
+            type="validThru"
+          />
+          <ValidatedInput
+            name="cvv"
+            class="validated card-cvv"
+            placeholder="Code"
+            pattern={RegExp('^[0-9]{' + CVV_LENGTH + '}$')}
+            isValid={isValid}
+            length={CVV_LENGTH}
+            label="CVV:"
+          />
+        </div>
 
-      <button disabled={!formValid} type="button" className="btn btn-success confirm" onClick={submitData}>
-        CONFIRM
-      </button>
-    </form>
+        <button disabled={!formValid} type="button" className="btn btn-success confirm" onClick={submitData}>
+          CONFIRM
+        </button>
+      </form>
+    </div>
   );
 }

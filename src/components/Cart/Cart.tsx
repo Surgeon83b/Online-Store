@@ -4,6 +4,7 @@ import CartItem from './CartItem';
 import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
 import BuyNow from './BuyNow';
+import { Link } from 'react-router-dom';
 
 export default function Cart(props: { get: GetProps }) {
   let items = [] as ItemForCart[];
@@ -23,6 +24,7 @@ export default function Cart(props: { get: GetProps }) {
     state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
   );
 
+  const [popUP, setPopUP] = useState(window.location.hash === '#buy');
   const decreasePage = () => {
     if (page > 1) setPage(page - 1);
   };
@@ -121,12 +123,19 @@ export default function Cart(props: { get: GetProps }) {
             )}
           </div>
           <input type="text" className="promocode" placeholder="Enter promo code" />
-          <button type="button" className="btn btn-success btn-buy">
-            BUY NOW
-          </button>
+          <Link to="/cart/#buy">
+            <button type="button" className="btn btn-success" onClick={() => setPopUP(true)}>
+              BUY NOW
+            </button>
+          </Link>
         </div>
       </div>
-      <BuyNow />
+      <BuyNow
+        popUP={popUP}
+        setPopUP={() => {
+          setPopUP(false);
+        }}
+      />
     </>
   );
 }
