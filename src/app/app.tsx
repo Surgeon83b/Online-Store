@@ -28,7 +28,7 @@ export const App = () => {
 
   return (
     <Routes>
-      <Route path="/*" element={<Page404 />} />
+      <Route path="*" element={<Page404 />} />
       <Route path="/about/:id" element={<DescriptionPage price={price} count={count} get={setTotal} />} />
       <Route path="/" element={<StorePage price={price} count={count} get={setTotal} />} />
       <Route path="/cart" element={<CartPage price={price} count={count} get={setTotal} />} />
