@@ -35,12 +35,13 @@ export const Semmery = (props: {
     </Button>
   ));
   const shoPromo = promo ? 'block' : 'none';
+  const decoration = activKeys.keys.length > 0 ? 'line-through' : 'none';
   const ShoVVkeysBar = activKeys.keys.length > 0 ? 'block' : 'none';
   return (
     <div className="summary">
       <span className="fw-bolder">Summary</span>
       <div>Products: {props.totalProducts}</div>
-      <div>
+      <div style={{ textDecoration: decoration }}>
         Total:{' '}
         {props.state.reduce(
           (sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price,
