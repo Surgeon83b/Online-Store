@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from './bar/leftBar';
 import { ProdGrid } from './grid/products';
 import Data from '../../Assets/products.json';
-import { ProductItem, RangeValye } from 'types';
+import { GetProps, ProductItem, RangeValye } from 'types';
 import {
   getMin,
   getMax,
@@ -13,7 +13,7 @@ import {
 } from './helper';
 import { useSearchParams } from 'react-router-dom';
 
-export function StoreMain() {
+export function StoreMain(props: { get: GetProps }) {
   const [searchParams, setSearchParams] = useSearchParams(new URL(window.location.href).search);
 
   const [rangeValue, setRangeValue] = useState(getRangeValueParams(searchParams) as RangeValye);

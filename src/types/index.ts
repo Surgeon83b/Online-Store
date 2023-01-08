@@ -91,7 +91,10 @@ export interface SliderProps {
 export interface IHeaderProps {
   count: number;
   price: number;
+  get: GetProps;
 }
+
+export type GetProps = (count: number, price: number) => void;
 
 export interface IButtonProps {
   text: string;

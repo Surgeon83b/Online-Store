@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ItemForCart } from 'types';
+import { GetProps, ItemForCart } from 'types';
 import CartItem from './CartItem';
 import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
 import BuyNow from './BuyNow';
 
-const layout = document.querySelector('.darkness') as HTMLElement;
-const popUP = document.querySelector('.buy-now') as HTMLElement;
-const popup = () => {
-  if (layout) layout.classList.add('active');
-  if (popUP) popUP.classList.add('active');
-};
-const closePopup = () => {
-  if (layout) layout.classList.remove('active');
-  if (popUP) popUP.classList.remove('active');
-};
-//if (layout) layout.addEventListener('click', closePopup);
-
-export default function Cart() {
+export default function Cart(props: { get: GetProps }) {
   let items = [] as ItemForCart[];
   const cartItems = localStorage.getItem('cart');
   if (cartItems !== null) {
@@ -31,6 +19,9 @@ export default function Cart() {
   const [products, setProducts] = useState(getProductsForPage(items, page, limit));
   const [totalPages, setTotalPages] = useState(Math.round(state.length / limit));
   const [totalProducts, setTotalProducts] = useState(state.reduce((sum, item) => sum + item.count, 0));
+  const [price, setPrice] = useState(
+    state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
+  );
 
   const decreasePage = () => {
     if (page > 1) setPage(page - 1);
@@ -66,8 +57,15 @@ export default function Cart() {
     setProducts(getProductsForPage(state, page, limit));
     setTotalPages(state.length / limit);
     setTotalProducts(state.reduce((sum, item) => sum + item.count, 0));
+    setPrice(
+      state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
+    );
     console.log(state);
   }, [page, limit, state]);
+
+  useEffect(() => {
+    props.get(totalProducts, price);
+  }, [price, totalProducts]);
 
   return (
     <>
@@ -123,7 +121,7 @@ export default function Cart() {
             )}
           </div>
           <input type="text" className="promocode" placeholder="Enter promo code" />
-          <button type="button" className="btn btn-success" onClick={popup}>
+          <button type="button" className="btn btn-success btn-buy">
             BUY NOW
           </button>
         </div>

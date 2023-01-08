@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { ProductItem } from 'types';
+import { GetProps, ItemForCart, ProductItem } from 'types';
 import { Button } from '../button/button';
 import { styles } from '../styles';
 import data from '../../Assets/products.json';
 import { addToCart, removeAllFromCart, setBackgroundImage, isInCart, SHADOW } from '../Store/helper';
+import Data from '../../Assets/products.json';
 
-export function About(prop: { item: number }) {
+export function About(prop: { item: number; get: GetProps }) {
   const item = data.products.find((item) => item.id == prop.item) as ProductItem;
   const [whatToDo, setWhatToDo] = useState(isInCart(item.id) ? 'Drop From Cart' : 'Add To Cart');
   const [shadow, setShadow] = useState(isInCart(item.id) ? SHADOW : '');
   const [inCart, setInCart] = useState(isInCart(item.id));
 
+  let items = [] as ItemForCart[];
+  const cartItems = localStorage.getItem('cart');
+  if (cartItems !== null) {
+    items = JSON.parse(cartItems);
+  }
+  const [state, setState] = useState(items);
+  const [count, setCount] = useState(state.reduce((sum, item) => sum + item.count, 0));
+  const [price, setPrice] = useState(
+    state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
+  );
+
   const ToDo = (id: number): void => {
-    inCart ? removeAllFromCart(id) : addToCart(id);
+    inCart ? setState(removeAllFromCart(id)) : setState(addToCart(id));
     setInCart(!inCart);
   };
 
@@ -20,6 +32,17 @@ export function About(prop: { item: number }) {
     inCart ? setShadow(SHADOW) : setShadow('');
     inCart ? setWhatToDo('Drop From Cart') : setWhatToDo('Add To Cart');
   }, [inCart]);
+
+  useEffect(() => {
+    setCount(state.reduce((sum, item) => sum + item.count, 0));
+    setPrice(
+      state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
+    );
+  }, [state]);
+
+  useEffect(() => {
+    prop.get(count, price);
+  }, [count, price]);
 
   return (
     <>

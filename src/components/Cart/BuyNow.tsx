@@ -46,6 +46,23 @@ export default function BuyNow() {
     if (t !== undefined) setCardType(t);
   }
 
+  /*const layout = document.querySelector('.darkness') as HTMLElement;
+  const popUP = document.querySelector('.buy-now') as HTMLElement;
+  const submitButton = document.querySelector('.btn-buy') as HTMLElement;
+
+  const popup = () => {
+    console.log(popUP);
+    if (layout) layout.classList.add('active');
+    if (popUP) popUP.classList.add('active');
+  };
+  const closePopup = () => {
+    if (layout) layout.classList.remove('active');
+    if (popUP) popUP.classList.remove('active');
+  };
+  console.log(layout);
+  if (layout) layout.addEventListener('click', closePopup);
+  submitButton.addEventListener('click', popup);*/
+
   const submitData = () => {
     alert('The order is accepted');
     setTimeout(() => {

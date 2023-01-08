@@ -115,12 +115,13 @@ export const getProductsForPage = (items: ItemForCart[], page: number, limit: nu
   return res;
 };
 
-export const addToCart = (id: number): void => {
+export const addToCart = (id: number): ItemForCart[] => {
   const cartItems = localStorage.getItem('cart');
+  let items = [] as ItemForCart[];
   if (cartItems === null) {
     localStorage.setItem('cart', JSON.stringify([{ id: id, count: 1 }]));
   } else {
-    const items = JSON.parse(cartItems) as ItemForCart[];
+    items = JSON.parse(cartItems);
     const index = items.indexOf(items.find((item) => item.id === id) as ItemForCart);
     if (index === -1) items.push({ id: id, count: 1 });
     else {
@@ -128,6 +129,7 @@ export const addToCart = (id: number): void => {
     }
     localStorage.setItem('cart', JSON.stringify(items));
   }
+  return items;
 };
 
 export const removeFromCart = (id?: number): void => {
@@ -145,14 +147,16 @@ export const removeFromCart = (id?: number): void => {
   }
 };
 
-export const removeAllFromCart = (id?: number): void => {
+export const removeAllFromCart = (id?: number): ItemForCart[] => {
   const cartItems = localStorage.getItem('cart');
+  let items = [] as ItemForCart[];
   if (cartItems !== null) {
-    const items = JSON.parse(cartItems) as ItemForCart[];
+    items = JSON.parse(cartItems);
     const index = items.indexOf(items.find((item) => item.id === id) as ItemForCart);
     if (index !== -1) items.splice(index, 1);
     localStorage.setItem('cart', JSON.stringify(items));
   }
+  return items;
 };
 
 export const isInCart = (id: number): boolean => {
