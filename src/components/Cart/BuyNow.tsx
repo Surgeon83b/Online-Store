@@ -10,6 +10,9 @@ import { Navigate } from 'react-router-dom';
 export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; get: GetProps }) {
   const CARD_LENGTH = 16;
   const CVV_LENGTH = 3;
+  //const namePattern = new RegExp('^(\\b[A-Za-zА-ЕЖ-Яа-еж-яЁё]{3,}\\b[\\s\\r\\n]*){2,}$', 'u');
+  const namePattern = new RegExp('^[a-zа-яё]{3,}(\\s+[a-zа-яё]{3,}){1,}$', 'i');
+  const addressPattern = new RegExp('^[a-zа-яё]{5,}(\\s+[a-zа-яё]{5,}){2,}$', 'i');
 
   const [nameError, setNameError] = useState('error');
   const [phoneError, setPhoneError] = useState('error');
@@ -78,13 +81,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
       <form className="buy-now">
         <div className="personal">
           <h5 className="fw-bolder">Personal details</h5>
-          <ValidatedInput
-            name="name"
-            class="validated"
-            placeholder="Name"
-            pattern={new RegExp('^(\\b[A-Za-zА-ЕЖ-Яа-еж-яЁё]{3,}\\b[\\s\\r\\n]*){2,}$')}
-            isValid={isValid}
-          />
+          <ValidatedInput name="name" class="validated" placeholder="Name" pattern={namePattern} isValid={isValid} />
           <ValidatedInput
             name="phone"
             class="validated"
@@ -96,7 +93,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
             name="address"
             class="validated"
             placeholder="Delivery address"
-            pattern={/^(\b[A-Za-zА-Яа-яЁё0-9]{5,}\b[\s\r\n]*){3,}$/u}
+            pattern={addressPattern}
             isValid={isValid}
           />
           <ValidatedInput
