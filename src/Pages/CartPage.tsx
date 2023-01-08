@@ -7,11 +7,9 @@ import React from 'react';
 function CartPage() {
   return (
     <>
-      <div className="darkness">
-        <Header />
-        <Cart />
-        <Footer />
-      </div>
+      <Header />
+      <Cart />
+      <Footer />
     </>
   );
 }

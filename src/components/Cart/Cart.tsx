@@ -7,14 +7,6 @@ import BuyNow from './BuyNow';
 
 const layout = document.querySelector('.darkness') as HTMLElement;
 const popUP = document.querySelector('.buy-now') as HTMLElement;
-const popup = () => {
-  if (layout) layout.classList.add('active');
-  if (popUP) popUP.classList.add('active');
-};
-const closePopup = () => {
-  if (layout) layout.classList.remove('active');
-  if (popUP) popUP.classList.remove('active');
-};
 //if (layout) layout.addEventListener('click', closePopup);
 
 export default function Cart() {
@@ -31,7 +23,7 @@ export default function Cart() {
   const [products, setProducts] = useState(getProductsForPage(items, page, limit));
   const [totalPages, setTotalPages] = useState(Math.round(state.length / limit));
   const [totalProducts, setTotalProducts] = useState(state.reduce((sum, item) => sum + item.count, 0));
-
+  const [popUP, setPopUP] = useState(false);
   const decreasePage = () => {
     if (page > 1) setPage(page - 1);
   };
@@ -123,12 +115,12 @@ export default function Cart() {
             )}
           </div>
           <input type="text" className="promocode" placeholder="Enter promo code" />
-          <button type="button" className="btn btn-success" onClick={popup}>
+          <button type="button" className="btn btn-success" onClick={() => setPopUP(true)}>
             BUY NOW
           </button>
         </div>
       </div>
-      <BuyNow />
+      <BuyNow popUP={popUP} setPopUP={() => setPopUP(false)} />
     </>
   );
 }
