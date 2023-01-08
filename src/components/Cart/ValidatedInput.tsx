@@ -68,8 +68,8 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
     if (props.length === undefined) {
       let str = e.target.value;
       if (props.name === 'name') {
-        str = str.replace(/[^A-Za-zА-Яа-яЁё\s]/, '');
-      } else if (props.name === 'address') str = str.replace(/[^0-9A-Za-zА-Яа-яЁё\s]/, '');
+        str = str.replace(/[^A-Za-z\s]/, '');
+      } else if (props.name === 'address') str = str.replace(/[^0-9A-Za-z\s]/, '');
       else if (props.name === 'phone') {
         if (str.length === 0) str = '+';
         else str = str.replace(/[^0-9+]/, '');

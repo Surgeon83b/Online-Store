@@ -82,7 +82,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
             name="name"
             class="validated"
             placeholder="Name"
-            pattern={new RegExp('^(\\b[A-Za-zА-Яа-яЁё]{3,}\\b[\\s\\r\\n]*){2,}$', 'u')}
+            pattern={new RegExp('^(\\b[A-Za-zА-ЕЖ-Яа-еж-яЁё]{3,}\\b[\\s\\r\\n]*){2,}$')}
             isValid={isValid}
           />
           <ValidatedInput
