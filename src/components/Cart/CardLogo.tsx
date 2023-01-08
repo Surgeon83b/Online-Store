@@ -25,10 +25,6 @@ const CardLogo: React.FC<CardType> = ({ cardType }) => {
       path =
         'https://raw.githubusercontent.com/gregoiresgt/payment-icons/919d90075e88275a0f8d324788bd0ed33b667956/Assets/Payment/Amazon/Amazon-card-dark.svg';
   }
-  return (
-    <div className="card-logo" style={{ backgroundImage: `url(${path})` }}>
-      {cardType}
-    </div>
-  );
+  return <div className="card-logo" style={{ backgroundImage: `url(${path})` }}></div>;
 };
 export default CardLogo;

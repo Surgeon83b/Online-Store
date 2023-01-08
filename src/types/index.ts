@@ -122,3 +122,7 @@ export interface ICountChangerProps extends IProductsForPage {
 
 export type FOnChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
 export type FOnBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => void;
+
+export type IsInputValid = {
+  [key: string]: string;
+};

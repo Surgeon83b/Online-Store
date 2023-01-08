@@ -1,14 +1,16 @@
-import React, { isValidElement, useState } from 'react';
-import { FOnBlur, FOnChange } from 'types';
+import React, { isValidElement, useEffect, useState } from 'react';
+import { FOnBlur, FOnChange, IsInputValid } from 'types';
 
 interface IValidatedInput {
   name: string;
   class: string;
   placeholder: string;
-  nameError: string;
-  onChange: FOnChange;
   pattern: RegExp;
-  isValid: (x: boolean) => void;
+  isValid: (x: IsInputValid, t?: string) => void;
+  length?: number;
+  label?: string;
+  isCardType?: boolean;
+  type?: string;
 }
 
 const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
@@ -16,14 +18,85 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
   const [stateEdited, setStateEdited] = useState(false);
   const [stateError, setStateError] = useState('error');
 
-  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState(e.target.value);
-    if (!props.pattern.test(String(e.target.value).toUpperCase())) {
-      setStateError(`invalid ${props.name}`);
-      props.isValid(false);
-    } else {
+  useEffect(() => {
+    if (props.pattern.test(state)) {
       setStateError('');
-      props.isValid(true);
+      if (props.isCardType) props.isValid({ [props.name]: '' }, state[0]);
+      else props.isValid({ [props.name]: '' });
+    } else {
+      setStateError(`invalid ${props.name}`);
+      if (props.isCardType) props.isValid({ [props.name]: `invalid ${props.name}` }, state[0]);
+      else props.isValid({ [props.name]: `invalid ${props.name}` });
+    }
+  }, [state]);
+
+  const focusInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    if (props.name === 'phone') {
+      if (e.target.value === '') setState('+');
+    }
+  };
+
+  const inputThruHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let str = e.target.value;
+    let mas: Array<string> | undefined = [];
+    switch (str.length) {
+      case 1:
+        if (str !== '0' && str !== '1') setState('');
+        else setState(str);
+        break;
+      case 2:
+        if (str[0] === '0')
+          if (str[1] === '0') setState('0');
+          else setState(str + '/');
+        else if (str[0] === '1')
+          if (['0', '1', '2'].includes(str[1])) setState(str + '/');
+          else setState('1');
+        break;
+
+      default:
+        if (Number(str[0]) >= 2) str = '1' + str.substring(1);
+        str = str.replace(/[^0-9//]/, '');
+        if (Number(str.substring(0, 2)) > 12) str = '12' + str.substring(2);
+        else if (Number(str.substring(0, 2)) === 0) str = '01' + str.substring(2);
+        mas = str.split('').filter((el) => el === '/');
+        if (mas !== undefined && mas.length === 1) setState(str.substring(0, 5));
+    }
+  };
+
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.length === undefined) {
+      let str = e.target.value;
+      if (props.name === 'name') {
+        str = str.replace(/[^A-Za-zА-Яа-яЁё\s]/, '');
+      } else if (props.name === 'address') str = str.replace(/[^0-9A-Za-zА-Яа-яЁё\s]/, '');
+      else if (props.name === 'phone') {
+        if (str.length === 0) str = '+';
+        else str = str.replace(/[^0-9+]/, '');
+        if (str.length >= 1) str = '+' + str.substring(1).replace('+', '');
+      }
+      setState(str);
+      if (!props.pattern.test(str)) {
+        setStateError(`invalid ${props.name} `);
+        // props.isValid(false);
+      } else {
+        setStateError('');
+        // props.isValid(true);
+      }
+    } else {
+      let num = e.target.value.replace(/\D/, '');
+      if (num.length > props.length) {
+        setState(num.slice(0, props.length));
+        num = num.slice(0, props.length);
+      } else setState(num);
+      if (!props.pattern.test(num)) {
+        setStateError(`invalid ${props.name} `);
+        /*  if (props.isCardType) props.isValid(false, num[0]);
+          else props.isValid(false);*/
+      } else {
+        setStateError('');
+        /* if (props.isCardType) props.isValid(true, num[0]);
+         else props.isValid(true);*/
+      }
     }
   };
   const blurInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
@@ -31,10 +104,15 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
   };
   return (
     <>
+      {props.label && <label htmlFor="">{props.label}</label>}
       <input
+        key={props.placeholder}
         value={state}
-        onChange={(e) => inputHandler(e)}
+        onChange={(e) => {
+          props.type !== 'validThru' ? inputHandler(e) : inputThruHandler(e);
+        }}
         onBlur={(e) => blurInput(e)}
+        onFocus={(e) => focusInput(e)}
         type="text"
         name={props.name}
         className={props.class}

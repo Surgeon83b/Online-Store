@@ -1,100 +1,63 @@
 import React, { useEffect, useState } from 'react';
+import { IsInputValid } from 'types';
 import CardLogo from './CardLogo';
 import ValidatedInput from './ValidatedInput';
 
 export default function BuyNow() {
-  const CARD_LENGTH = 5;
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [email, setEmail] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [nameEdited, setNameEdited] = useState(false);
-  const [phoneEdited, setPhoneEdited] = useState(false);
-  const [addressEdited, setAddressEdited] = useState(false);
-  const [emailEdited, setEmailEdited] = useState(false);
-  const [cardEdited, setCardEdited] = useState(false);
+  const CARD_LENGTH = 16;
+  const CVV_LENGTH = 3;
+
   const [nameError, setNameError] = useState('error');
   const [phoneError, setPhoneError] = useState('error');
   const [addressError, setAddressError] = useState('error');
   const [emailError, setEmailError] = useState('error');
   const [cardError, setCardError] = useState('error');
+  const [cvvError, setCvvError] = useState('error');
+  const [validThruError, setValidThruError] = useState('error');
   const [formValid, setFormValid] = useState(false);
 
   const [cardType, setCardType] = useState('');
-  const validName = /^(\b[A-Za-zА-Яа-яЁё]{3,}\b[\s\r\n]*){2,}$/;
-  const validPhone = /^\+[0-9]{9,}$/;
-  const validAddress = /^(\b[A-Za-zА-Яа-яЁё]{5,}\b[\s\r\n]*){3,}$/;
-  const validEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const validCard = new RegExp('^[0-9]{' + CARD_LENGTH + '}$');
 
-  function isValid(x: boolean): void {
-    x ? setFormValid(true) : setFormValid(false);
-  }
-
-  useEffect(() => {
-    if (nameError || phoneError || addressError || emailError) setFormValid(false);
-    else setFormValid(true);
-  }, [nameError, phoneError, addressError, emailError, cardError]);
-
-  const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-    if (!validName.test(String(e.target.value).toUpperCase())) setNameError('invalid name');
-    else setNameError('');
-  };
-
-  const phoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-    if (!validPhone.test(String(e.target.value).toUpperCase())) setPhoneError('invalid phone');
-    else setPhoneError('');
-  };
-
-  const addressHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-    if (!validAddress.test(String(e.target.value).toUpperCase())) setAddressError('invalid address');
-    else setAddressError('');
-  };
-
-  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (!validEmail.test(String(e.target.value).toUpperCase())) setEmailError('invalid email');
-    else setEmailError('');
-  };
-
-  const cardNumberHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let num = e.target.value;
-    if (num.length > CARD_LENGTH) {
-      setCardNumber(num.slice(0, CARD_LENGTH));
-      num = num.slice(0, CARD_LENGTH);
-    } else setCardNumber(num);
-    console.log(num.length, cardNumber.length);
-    if (!validCard.test(num)) setCardError('invalid card number');
-    else setCardError('');
-  };
-
-  const blurInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    switch (e.target!.name) {
+  function isValid(x: IsInputValid, t?: string): void {
+    console.log(Object.entries(x));
+    switch (Object.entries(x)[0][0]) {
       case 'name':
-        setNameEdited(true);
+        setNameError(Object.entries(x)[0][1]);
         break;
       case 'phone':
-        setPhoneEdited(true);
+        setPhoneError(Object.entries(x)[0][1]);
         break;
       case 'address':
-        setAddressEdited(true);
+        setAddressError(Object.entries(x)[0][1]);
         break;
       case 'email':
-        setEmailEdited(true);
+        setEmailError(Object.entries(x)[0][1]);
         break;
       case 'card':
-        setCardEdited(true);
+        setCardError(Object.entries(x)[0][1]);
+        break;
+      case 'cvv':
+        setCvvError(Object.entries(x)[0][1]);
+        break;
+      case 'valid':
+        setValidThruError(Object.entries(x)[0][1]);
         break;
     }
+    if (t !== undefined) setCardType(t);
+  }
+
+  const submitData = () => {
+    alert('The order is accepted');
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 4000);
   };
 
   useEffect(() => {
-    setCardType(cardNumber[0]);
-  }, [cardNumber]);
+    if (nameError || phoneError || addressError || emailError || cardError || cvvError || validThruError)
+      setFormValid(false);
+    else setFormValid(true);
+  }, [nameError, phoneError, addressError, emailError, cardError, cvvError, validThruError]);
 
   return (
     <form className="buy-now">
@@ -104,80 +67,71 @@ export default function BuyNow() {
           name="name"
           class="validated"
           placeholder="Name"
-          nameError="invalid name"
-          pattern={/^(\b[A-Za-zА-Яа-яЁё]{3,}\b[\s\r\n]*){2,}$/}
-          onChange={nameHandler}
+          pattern={/^([A-Za-zА-Яа-яЁё]{3,}[\s\r\n]*){2,}$/}
           isValid={isValid}
         />
-        {/* <input
-          value={name}
-          onChange={(e) => nameHandler(e)}
-          onBlur={(e) => blurInput(e)}
-          type="text"
-          name="name"
-          className="validated"
-          placeholder="Name"
-        />
-        {nameEdited && nameError && <span style={{ color: 'red', display: 'inline-block' }}>{nameError}</span>}
-  */}
-        <input
-          value={phone}
-          onChange={(e) => phoneHandler(e)}
-          onBlur={(e) => blurInput(e)}
-          type="text"
+        <ValidatedInput
           name="phone"
-          className="validated"
-          placeholder="Phone Number"
+          class="validated"
+          placeholder="Phone number"
+          pattern={/^\+[0-9]{9,}$/}
+          isValid={isValid}
         />
-        {phoneEdited && phoneError && <span style={{ color: 'red' }}>{phoneError}</span>}
-        <input
-          value={address}
-          onChange={(e) => addressHandler(e)}
-          onBlur={(e) => blurInput(e)}
-          type="text"
+        <ValidatedInput
           name="address"
-          className="validated"
+          class="validated"
           placeholder="Delivery address"
+          pattern={/^([A-Za-zА-Яа-яЁё0-9]{5,}[\s\r\n]*){3,}$/}
+          isValid={isValid}
         />
-        {addressEdited && addressError && <span style={{ color: 'red' }}>{addressError}</span>}
-        <input
-          value={email}
-          onChange={(e) => emailHandler(e)}
-          onBlur={(e) => blurInput(e)}
-          type="text"
+        <ValidatedInput
           name="email"
-          className="validated"
+          class="validated"
           placeholder="E-mail"
+          pattern={
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          }
+          isValid={isValid}
         />
-        {emailEdited && emailError && <span style={{ color: 'red' }}>{emailError}</span>}
       </div>
 
       <h5 className="fw-bolder">Credit card details</h5>
       <div className="card-number">
         <CardLogo cardType={cardType} />
-        <input
-          value={cardNumber}
-          onChange={(e) => cardNumberHandler(e)}
-          onBlur={(e) => blurInput(e)}
-          type="text"
+        <ValidatedInput
           name="card"
-          className="validated"
+          class="validated"
           placeholder="Card number"
+          pattern={RegExp('^[0-9]{' + CARD_LENGTH + '}$')}
+          isValid={isValid}
+          length={CARD_LENGTH}
+          isCardType
         />
-        {cardEdited && cardError && <span style={{ color: 'red' }}>{cardError}</span>}
       </div>
       <div className="card-info">
-        <div className="card-valid">
-          <label htmlFor="">VALID:</label>
-          <input type="text" id="card-valid" />
-        </div>
-        <div className="card-cvv">
-          <label htmlFor="">CVV:</label>
-          <input type="text" id="card-cvv" />
-        </div>
+        <ValidatedInput
+          name="valid"
+          class="validated card-valid"
+          placeholder="Valid Thru"
+          // eslint-disable-next-line prettier/prettier, no-useless-escape
+          pattern={RegExp('^[01][0-9]\/[0-9]{2}$')}
+          isValid={isValid}
+          length={CARD_LENGTH}
+          label="VALID:"
+          type="validThru"
+        />
+        <ValidatedInput
+          name="cvv"
+          class="validated card-cvv"
+          placeholder="Code"
+          pattern={RegExp('^[0-9]{' + CVV_LENGTH + '}$')}
+          isValid={isValid}
+          length={CVV_LENGTH}
+          label="CVV:"
+        />
       </div>
 
-      <button disabled={!formValid} type="button" className="btn btn-success confirm">
+      <button disabled={!formValid} type="button" className="btn btn-success confirm" onClick={submitData}>
         CONFIRM
       </button>
     </form>

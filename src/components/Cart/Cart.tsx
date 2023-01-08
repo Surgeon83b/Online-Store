@@ -5,15 +5,19 @@ import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
 import BuyNow from './BuyNow';
 
+const layout = document.querySelector('.darkness') as HTMLElement;
+const popUP = document.querySelector('.buy-now') as HTMLElement;
+const popup = () => {
+  if (layout) layout.classList.add('active');
+  if (popUP) popUP.classList.add('active');
+};
+const closePopup = () => {
+  if (layout) layout.classList.remove('active');
+  if (popUP) popUP.classList.remove('active');
+};
+//if (layout) layout.addEventListener('click', closePopup);
+
 export default function Cart() {
-  const obj = [
-    { id: 2, count: 3 },
-    { id: 5, count: 2 },
-    { id: 8, count: 4 },
-    { id: 1, count: 1 },
-    { id: 12, count: 3 },
-    { id: 7, count: 2 },
-  ];
   let items = [] as ItemForCart[];
   const cartItems = localStorage.getItem('cart');
   if (cartItems !== null) {
@@ -119,7 +123,7 @@ export default function Cart() {
             )}
           </div>
           <input type="text" className="promocode" placeholder="Enter promo code" />
-          <button type="button" className="btn btn-success">
+          <button type="button" className="btn btn-success" onClick={popup}>
             BUY NOW
           </button>
         </div>

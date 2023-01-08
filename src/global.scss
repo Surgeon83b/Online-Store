@@ -16,6 +16,22 @@ main {
   display: flex;
 }
 
+.darkness {
+  z-index: 1000;
+  opacity: 1;
+  background: rgb(84, 81, 81);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  &.active {
+    opacity: 0.5;
+  }
+}
+
+
 .py-5 {
   background-color: rgb(0, 4, 255);
   flex: 4;
@@ -223,14 +239,21 @@ input[type='number']::-webkit-inner-spin-button {
 
 .buy-now {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 35%;
+  top: 15%;
   width: 35%;
   height: 65vh;
   color: rgb(84, 197, 197);
   background-color: slateblue;
   font-size: smaller;
   border-radius: 10%;
+  transition: 0.5s all;
+
+  &.active {
+    transform: translate(-50%, -50%) scale(1);
+    transition: 0.5s all;
+    z-index: 5000;
+  }
 }
 
 #app {
@@ -255,7 +278,7 @@ h5 input {
 }
 
 .card-logo {
-  width: 2rem;
+  width: 3.3rem;
   height: 2.5rem;
   background-image: url('./Assets/Visa-card-dark.svg');
   background-size: contain;
@@ -275,9 +298,9 @@ h5 input {
 
 }
 
-#card-valid,
-#card-cvv {
-    width: 30%;
+.card-valid,
+.card-cvv {
+  width: 20%;
 }
 
 .confirm {
