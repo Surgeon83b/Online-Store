@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductItem } from 'types';
+import { GetProps, ProductItem } from 'types';
 import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 import { Button } from '../../button/button';
 import { styles } from '../../styles';
@@ -12,6 +12,7 @@ export interface Products {
   setRank: (valye: string) => void;
   direction: string;
   setDirection: (valye: string) => void;
+  getForHeader: GetProps;
 }
 
 export function ProdGrid(props: Products) {
@@ -24,7 +25,13 @@ export function ProdGrid(props: Products) {
   };
   const ProductsGird = products.length ? (
     products.map((product: ProductItem) => (
-      <Product key={product.id} product={product} imgSize={imgSize} direction={props.direction} />
+      <Product
+        key={product.id}
+        product={product}
+        imgSize={imgSize}
+        direction={props.direction}
+        get={props.getForHeader}
+      />
     ))
   ) : (
     <div style={{ fontSize: '200%', margin: '10% auto' }}>NOT FOUND</div>

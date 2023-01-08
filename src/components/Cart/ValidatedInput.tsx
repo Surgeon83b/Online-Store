@@ -1,5 +1,5 @@
-import React, { isValidElement, useEffect, useState } from 'react';
-import { FOnBlur, FOnChange, IsInputValid } from 'types';
+import React, { useEffect, useState } from 'react';
+import { IsInputValid } from 'types';
 
 interface IValidatedInput {
   name: string;
@@ -99,7 +99,7 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
       }
     }
   };
-  const blurInput = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+  const blurInput = () => {
     setStateEdited(true);
   };
   return (
@@ -111,7 +111,7 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
         onChange={(e) => {
           props.type !== 'validThru' ? inputHandler(e) : inputThruHandler(e);
         }}
-        onBlur={(e) => blurInput(e)}
+        onBlur={(e) => blurInput()}
         onFocus={(e) => focusInput(e)}
         type="text"
         name={props.name}

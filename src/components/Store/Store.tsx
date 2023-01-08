@@ -153,6 +153,7 @@ export function StoreMain(props: { get: GetProps }) {
         setRank={(value: string) => setDirectionAndRank({ ...directionAndRank, rank: value })}
         direction={directionAndRank.direction}
         setDirection={(value: string) => setDirectionAndRank({ ...directionAndRank, direction: value })}
+        getForHeader={props.get}
       />
     </main>
   );

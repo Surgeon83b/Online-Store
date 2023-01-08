@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { ICountChangerProps, ItemForCart, ProductItem } from 'types';
+import React from 'react';
+import { ICountChangerProps, ProductItem } from 'types';
 import CountChanger from './CountChanger';
 
 export default function CartItem(props: ICountChangerProps) {
   const prod = props.product as ProductItem;
-  // const [product, setProduct] = useState(prod);
+
   return (
     <div className="cart-item">
       <div className="item-number">{props.number}</div>

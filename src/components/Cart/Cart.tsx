@@ -12,7 +12,6 @@ export default function Cart(props: { get: GetProps }) {
   if (cartItems !== null) {
     items = JSON.parse(cartItems);
   }
-  console.log(items);
 
   const [state, setState] = useState(items);
   const [page, setPage] = useState(1);
