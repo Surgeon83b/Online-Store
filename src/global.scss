@@ -180,6 +180,7 @@ main {
   display: flex;
   flex-direction: column;
   width: 70%;
+  margin: 4px;
 }
 
 .item-params {
@@ -213,6 +214,10 @@ main {
   @include flexCenter;
   height: 60%;
   width: 29%;
+  * {
+    display: flex;
+    margin: 3px;
+  }
 }
 
 .cart-main {
