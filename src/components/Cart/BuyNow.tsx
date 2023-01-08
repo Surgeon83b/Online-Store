@@ -82,7 +82,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
             name="name"
             class="validated"
             placeholder="Name"
-            pattern={/^([A-Za-zА-Яа-яЁё]{3,}[\s\r\n]*){2,}$/}
+            pattern={new RegExp('^(\\b[A-Za-zА-Яа-яЁё]{3,}\\b[\\s\\r\\n]*){2,}$', 'u')}
             isValid={isValid}
           />
           <ValidatedInput
@@ -96,7 +96,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
             name="address"
             class="validated"
             placeholder="Delivery address"
-            pattern={/^([A-Za-zА-Яа-яЁё0-9]{5,}[\s\r\n]*){3,}$/}
+            pattern={/^(\b[A-Za-zА-Яа-яЁё0-9]{5,}\b[\s\r\n]*){3,}$/u}
             isValid={isValid}
           />
           <ValidatedInput
