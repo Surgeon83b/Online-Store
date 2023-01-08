@@ -139,8 +139,12 @@ main {
 }
 
 .cart-items {
+  min-height: 70vh;
   width: 75%;
-  @include flexCenter;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .cart-item {
@@ -210,9 +214,15 @@ main {
 }
 
 .summary {
-  @include flexCenter;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 5px, 30px, 10px, 10px;
   height: 60%;
-  width: 29%;
+  width: 19%;
+  font-size: 19px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
 }
 
 .cart-main {
