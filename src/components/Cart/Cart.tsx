@@ -4,7 +4,7 @@ import CartItem from './CartItem';
 import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
 import BuyNow from './BuyNow';
-import { Link } from 'react-router-dom';
+import { Semmery } from './Summary';
 
 export default function Cart(props: { get: GetProps }) {
   let items = [] as ItemForCart[];
@@ -111,23 +111,7 @@ export default function Cart(props: { get: GetProps }) {
             />
           ))}
         </div>
-        <div className="summary">
-          <span className="fw-bolder">Summary</span>
-          <div>Products: {totalProducts}</div>
-          <div>
-            Total:{' '}
-            {state.reduce(
-              (sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price,
-              0
-            )}
-          </div>
-          <input type="text" className="promocode" placeholder="Enter promo code" />
-          <Link to="/cart/#buy">
-            <button type="button" className="btn btn-success" onClick={() => setPopUP(true)}>
-              BUY NOW
-            </button>
-          </Link>
-        </div>
+        <Semmery totalProducts={totalProducts} state={state} setPopUP={setPopUP} />
       </div>
       <BuyNow
         popUP={popUP}
