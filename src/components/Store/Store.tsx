@@ -91,6 +91,7 @@ export function StoreMain(props: { get: GetProps }) {
   useEffect(() => {
     setSearchParams(addSearchParams(state, rangeValue, directionAndRank));
   }, [state, rangeValue, directionAndRank]);
+
   const slederColor = productItems.length ? '' : 'red';
   return (
     <main className="comtainer">
@@ -101,11 +102,12 @@ export function StoreMain(props: { get: GetProps }) {
           if (labe === '$') {
             currRange.price = newValue;
             const prod = getProducts(state, currRange);
-            setRangeValue({ ...currRange, stock: [getMin(prod, 'stock'), getMax(prod, 'stock')] });
+            if (prod.length > 0) setRangeValue({ ...currRange, stock: [getMin(prod, 'stock'), getMax(prod, 'stock')] });
+            console.log(prod);
           } else {
             currRange.stock = newValue;
             const prod = getProducts(state, currRange);
-            setRangeValue({ ...currRange, price: [getMin(prod, 'price'), getMax(prod, 'price')] });
+            if (prod.length > 0) setRangeValue({ ...currRange, price: [getMin(prod, 'price'), getMax(prod, 'price')] });
           }
         }}
         drop={drop}
