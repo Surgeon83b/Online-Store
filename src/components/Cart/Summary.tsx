@@ -77,12 +77,7 @@ export const Semmery = (props: {
         )}
         <div>{keysBar}</div>
       </div>
-      <input
-        onChange={(e) => checkPromo(e)}
-        type="text"
-        className="promocode"
-        placeholder="Enter promo code - 'RSS' or 'Store'"
-      />
+      <input onChange={(e) => checkPromo(e)} type="text" className="promocode" placeholder="Enter 'RSS' or 'Store'" />
       <div
         style={{
           display: shoPromo,
