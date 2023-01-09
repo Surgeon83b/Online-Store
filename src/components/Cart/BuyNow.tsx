@@ -29,7 +29,6 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
   const [isRedirect, setIsRedirect] = useState(false);
 
   function isValid(x: IsInputValid, t?: string): void {
-    console.log(Object.entries(x));
     switch (Object.entries(x)[0][0]) {
       case 'name':
         setNameError(Object.entries(x)[0][1]);

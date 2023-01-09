@@ -19,7 +19,6 @@ const ValidatedInput: React.FC<IValidatedInput> = (props: IValidatedInput) => {
   const [stateError, setStateError] = useState('error');
 
   useEffect(() => {
-    console.log(props.pattern);
     if (props.pattern.test(state)) {
       setStateError('');
       if (props.isCardType) props.isValid({ [props.name]: '' }, state[0]);

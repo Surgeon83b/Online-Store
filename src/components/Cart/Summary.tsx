@@ -15,28 +15,42 @@ export const Semmery = (props: {
     if (event.currentTarget.value === 'RSS') {
       setPromoKey('RSS -10%');
       setPromo(true);
+    } else if (event.currentTarget.value === 'Store') {
+      setPromoKey('Store -30%');
+      setPromo(true);
     } else {
       setPromo(false);
     }
   };
-  const [activKeys, setActivKeys] = useState({ keys: [] as string[] });
+  const [activKeys, setActivKeys] = useState({ keys: new Set() as Set<string> });
 
-  const keysBar = activKeys.keys.map((key, index) => (
+  const getDiscount = () => {
+    let discount = 0;
+    if (activKeys.keys.has('RSS -10%')) discount += 0.1;
+    if (activKeys.keys.has('Store -30%')) discount += 0.3;
+    return discount;
+  };
+
+  const [discount, setDiscount] = useState(0);
+
+  const keysBar = Array.from(activKeys.keys).map((key, index) => (
     <Button
       color="warning"
       key={index}
       onClick={() => {
         const currentKeys = activKeys.keys;
-        currentKeys.pop();
+        currentKeys.delete(key);
         setActivKeys({ ...activKeys, keys: currentKeys });
+        setDiscount(getDiscount());
       }}
     >
       {key}
     </Button>
   ));
+
   const shoPromo = promo ? 'block' : 'none';
-  const decoration = activKeys.keys.length > 0 ? 'line-through' : 'none';
-  const ShoVVkeysBar = activKeys.keys.length > 0 ? 'block' : 'none';
+  const decoration = activKeys.keys.size > 0 ? 'line-through' : 'none';
+  const ShoVVkeysBar = activKeys.keys.size > 0 ? 'block' : 'none';
   return (
     <div className="summary">
       <span className="fw-bolder">Summary</span>
@@ -59,11 +73,16 @@ export const Semmery = (props: {
             (sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price,
             0
           ) *
-            (1 - 0.1 * activKeys.keys.length)
+            (1 - discount)
         )}
         <div>{keysBar}</div>
       </div>
-      <input onChange={(e) => checkPromo(e)} type="text" className="promocode" placeholder="Enter promo code - 'RSS'" />
+      <input
+        onChange={(e) => checkPromo(e)}
+        type="text"
+        className="promocode"
+        placeholder="Enter promo code - 'RSS' or 'Store'"
+      />
       <div
         style={{
           display: shoPromo,
@@ -72,8 +91,9 @@ export const Semmery = (props: {
         <Button
           onClick={() => {
             const key = activKeys.keys;
-            key.push(promoKey);
+            key.add(promoKey);
             setActivKeys({ ...activKeys, keys: key });
+            setDiscount(getDiscount());
           }}
         >
           {' '}

@@ -1,7 +1,4 @@
 import React from 'react';
-import AE from '../../Assets/AmericanExpress-dark.svg';
-import MC from '../../Assets/MasterCard-dark.svg';
-import VC from '../../Assets/Visa-card-dark.svg';
 
 interface CardType {
   cardType: string;

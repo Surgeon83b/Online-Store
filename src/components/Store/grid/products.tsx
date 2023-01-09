@@ -16,7 +16,6 @@ export interface Products {
 }
 
 export function ProdGrid(props: Products) {
-  console.log('ProdGrid');
   const imgSize = props.direction === 'row' ? '40%' : '90%';
   const direction = getProductsDirection(props.direction);
   const products = getRankingProducts(props.products, props.rank);

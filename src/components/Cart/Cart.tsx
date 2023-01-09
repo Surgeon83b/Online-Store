@@ -47,11 +47,9 @@ export default function Cart(props: { get: GetProps }) {
   };
 
   const delFromItems = (id: number): void => {
-    console.log(`delfrom: ${id}`);
     const curState = [...state];
     curState.splice(curState.indexOf(curState.find((el) => el.id === id) as ItemForCart), 1);
     setState(curState);
-    console.log(state);
   };
 
   useEffect(() => {
@@ -61,7 +59,6 @@ export default function Cart(props: { get: GetProps }) {
     setPrice(
       state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
     );
-    console.log(state);
   }, [page, limit, state]);
 
   useEffect(() => {
