@@ -74,23 +74,12 @@ export function StoreMain(props: { get: GetProps }) {
     setDirectionAndRank({ direction: '', rank: '' });
   };
   const [productItems, setProductItem] = useState(getProducts(state, rangeValue));
-  //useEffect(() => {
-  //  console.log('ставим продукты по фильтрам');
-  //  const products = getProducts(false);
-  //  setProductItem(products);
-  //  setRangeValue({
-  //    price: [getMin(products, 'price'), getMax(products, 'price')],
-  //    stock: [getMin(products, 'stock'), getMax(products, 'stock')],
-  //  } as RangeValye);
-  //}, [state]);
 
   useEffect(() => {
-    console.log('ставим продукты по ренжам');
     setProductItem(getProducts(state, rangeValue));
   }, [rangeValue]);
 
   useEffect(() => {
-    console.log('изменение url');
     setSearchParams(addSearchParams(state, rangeValue, directionAndRank));
   }, [state, rangeValue, directionAndRank]);
   const slederColor = productItems.length ? '' : 'red';
