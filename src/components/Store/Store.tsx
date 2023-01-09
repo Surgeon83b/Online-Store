@@ -80,6 +80,15 @@ export function StoreMain(props: { get: GetProps }) {
   }, [rangeValue]);
 
   useEffect(() => {
+    const products = getProducts(state, rangeValue);
+    setProductItem(products);
+    setRangeValue({
+      price: [getMin(products, 'price'), getMax(products, 'price')],
+      stock: [getMin(products, 'stock'), getMax(products, 'stock')],
+    } as RangeValye);
+  }, [searchParams]);
+
+  useEffect(() => {
     setSearchParams(addSearchParams(state, rangeValue, directionAndRank));
   }, [state, rangeValue, directionAndRank]);
   const slederColor = productItems.length ? '' : 'red';
