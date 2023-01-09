@@ -79,14 +79,14 @@ export function StoreMain(props: { get: GetProps }) {
     setProductItem(getProducts(state, rangeValue));
   }, [rangeValue]);
 
-  useEffect(() => {
-    const products = getProducts(state, rangeValue);
-    setProductItem(products);
-    setRangeValue({
-      price: [getMin(products, 'price'), getMax(products, 'price')],
-      stock: [getMin(products, 'stock'), getMax(products, 'stock')],
-    } as RangeValye);
-  }, [searchParams]);
+  //useEffect(() => {
+  //  const products = getProducts(state, rangeValue);
+  //  setProductItem(products);
+  //  setRangeValue({
+  //    price: [getMin(products, 'price'), getMax(products, 'price')],
+  //    stock: [getMin(products, 'stock'), getMax(products, 'stock')],
+  //  } as RangeValye);
+  //}, [searchParams]);
 
   useEffect(() => {
     setSearchParams(addSearchParams(state, rangeValue, directionAndRank));
@@ -96,7 +96,18 @@ export function StoreMain(props: { get: GetProps }) {
     <main className="comtainer">
       <Bar
         sliderColor={slederColor}
-        setRangeValue={(value: RangeValye) => setRangeValue(value)}
+        setRangeValue={(event: Event, labe: string, newValue: number[] | number) => {
+          const currRange = { ...rangeValue };
+          if (labe === '$') {
+            currRange.price = newValue;
+            const prod = getProducts(state, currRange);
+            setRangeValue({ ...currRange, stock: [getMin(prod, 'stock'), getMax(prod, 'stock')] });
+          } else {
+            currRange.stock = newValue;
+            const prod = getProducts(state, currRange);
+            setRangeValue({ ...currRange, price: [getMin(prod, 'price'), getMax(prod, 'price')] });
+          }
+        }}
         drop={drop}
         rangeValue={rangeValue}
         range={state.defaultRange}

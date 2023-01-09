@@ -70,7 +70,7 @@ export interface BarProps {
   range: {
     [key: string]: number[];
   };
-  setRangeValue: (value: RangeValye) => void;
+  setRangeValue: (event: Event, labe: string, newValue: number[] | number) => void;
   rangeValue: {
     [key: string]: number[] | number;
   };
@@ -82,7 +82,7 @@ export interface SliderProps {
   valueLable: string;
   max: number;
   min: number;
-  setRangeValue: (value: RangeValye) => void;
+  setRangeValue: (event: Event, labe: string, newValue: number[] | number) => void;
   rangeValue: {
     [key: string]: number[] | number;
   };

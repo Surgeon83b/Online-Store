@@ -8,11 +8,11 @@ function valuetext(value: number) {
 
 export default function RangeSlider(props: SliderProps) {
   const handleChange = (event: Event, newValue: number[] | number) => {
-    const newRange = { price: props.rangeValue.price, stock: props.rangeValue.stock };
-    if (props.valueLable === '$') {
-      newRange.price = newValue;
-    } else newRange.stock = newValue;
-    props.setRangeValue(newRange);
+    //const newRange = { price: props.rangeValue.price, stock: props.rangeValue.stock };
+    //if (props.valueLable === '$') {
+    //  newRange.price = newValue;
+    //} else newRange.stock = newValue;
+    props.setRangeValue(event, props.valueLable, newValue);
   };
 
   const getValueLabelFormat = (value: number) => `${valuetext(value)}${props.valueLable}`;
