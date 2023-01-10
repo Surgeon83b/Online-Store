@@ -101,11 +101,17 @@ export function StoreMain(props: { get: GetProps }) {
           const currRange = { ...rangeValue };
           if (labe === '$') {
             currRange.price = newValue;
-            const prod = getProducts(state, currRange);
+            const prod = getProducts(state, {
+              ...currRange,
+              stock: [getMin(Data.products, 'stock'), getMax(Data.products, 'stock')],
+            });
             if (prod.length > 0) setRangeValue({ ...currRange, stock: [getMin(prod, 'stock'), getMax(prod, 'stock')] });
           } else {
             currRange.stock = newValue;
-            const prod = getProducts(state, currRange);
+            const prod = getProducts(state, {
+              ...currRange,
+              price: [getMin(Data.products, 'price'), getMax(Data.products, 'price')],
+            });
             if (prod.length > 0) setRangeValue({ ...currRange, price: [getMin(prod, 'price'), getMax(prod, 'price')] });
           }
         }}
