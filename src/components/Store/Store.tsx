@@ -103,7 +103,6 @@ export function StoreMain(props: { get: GetProps }) {
             currRange.price = newValue;
             const prod = getProducts(state, currRange);
             if (prod.length > 0) setRangeValue({ ...currRange, stock: [getMin(prod, 'stock'), getMax(prod, 'stock')] });
-            console.log(prod);
           } else {
             currRange.stock = newValue;
             const prod = getProducts(state, currRange);
