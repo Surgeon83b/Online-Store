@@ -65,58 +65,65 @@ export default function Cart(props: { get: GetProps }) {
     props.get(totalProducts, price);
   }, [price, totalProducts]);
 
-  return (
-    <>
-      <div className="cart-caption">
-        <span className="fw-bolder">Products In Cart</span>
+  if (items.length === 0) {
+    return (
+      <div style={{ height: '70vh' }} className="cart-caption">
+        Is empty
+      </div>
+    );
+  } else
+    return (
+      <>
+        <div className="cart-caption">
+          <span className="fw-bolder">Products In Cart</span>
 
-        <div className="page-leafer">
-          <div className="limit fw-bolder">
-            LIMIT:
-            <input
-              type="number"
-              step="1"
-              value={limit}
-              min="1"
-              onChange={(e) => setLimit((e.target.value as unknown) as number)}
-            />
-          </div>
-          <div className="page-number fw-bolder">
-            <button type="button" className="btn btn-primary" onClick={() => decreasePage()}>
-              {' '}
-              {'<'}{' '}
-            </button>
-            <label htmlFor="page-leafer">{page}</label>
-            <button type="button" className="btn btn-primary" onClick={() => increasePage()}>
-              {' '}
-              {'>'}{' '}
-            </button>
+          <div className="page-leafer">
+            <div className="limit fw-bolder">
+              LIMIT:
+              <input
+                type="number"
+                step="1"
+                value={limit}
+                min="1"
+                onChange={(e) => setLimit((e.target.value as unknown) as number)}
+              />
+            </div>
+            <div className="page-number fw-bolder">
+              <button type="button" className="btn btn-primary" onClick={() => decreasePage()}>
+                {' '}
+                {'<'}{' '}
+              </button>
+              <label htmlFor="page-leafer">{page}</label>
+              <button type="button" className="btn btn-primary" onClick={() => increasePage()}>
+                {' '}
+                {'>'}{' '}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="cart-main">
-        <div className="cart-items">
-          {products.map((item, i) => (
-            <CartItem
-              key={i}
-              product={item.product}
-              count={item.count}
-              number={item.number}
-              del={delFromItems}
-              decCount={decreaseCount}
-              incCount={increaseCount}
-            />
-          ))}
+        <div className="cart-main">
+          <div className="cart-items">
+            {products.map((item, i) => (
+              <CartItem
+                key={i}
+                product={item.product}
+                count={item.count}
+                number={item.number}
+                del={delFromItems}
+                decCount={decreaseCount}
+                incCount={increaseCount}
+              />
+            ))}
+          </div>
+          <Semmery totalProducts={totalProducts} state={state} setPopUP={setPopUP} />
         </div>
-        <Semmery totalProducts={totalProducts} state={state} setPopUP={setPopUP} />
-      </div>
-      <BuyNow
-        popUP={popUP}
-        setPopUP={() => {
-          setPopUP(false);
-        }}
-        get={props.get}
-      />
-    </>
-  );
+        <BuyNow
+          popUP={popUP}
+          setPopUP={() => {
+            setPopUP(false);
+          }}
+          get={props.get}
+        />
+      </>
+    );
 }
