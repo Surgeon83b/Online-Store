@@ -110,7 +110,7 @@ export function About(prop: { item: number; get: GetProps }) {
                       <Button
                         text="BUY NOW"
                         onclick={() => {
-                          1 + 1;
+                          if (!inCart) setState(addToCart(item.id));
                         }}
                       />
                     </Link>

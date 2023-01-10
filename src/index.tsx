@@ -3,7 +3,6 @@ import './global.scss';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/app';
 import { BrowserRouter } from 'react-router-dom';
-import { CompressOutlined } from '@mui/icons-material';
 
 const container = document.getElementById('app');
 const root = createRoot(container!);
