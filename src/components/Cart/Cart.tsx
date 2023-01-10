@@ -5,6 +5,7 @@ import Data from '../../Assets/products.json';
 import { getProductsForPage } from '../Store/helper';
 import BuyNow from './BuyNow';
 import { Semmery } from './Summary';
+import { useSearchParams } from 'react-router-dom';
 
 export default function Cart(props: { get: GetProps }) {
   let items = [] as ItemForCart[];
@@ -13,23 +14,30 @@ export default function Cart(props: { get: GetProps }) {
     items = JSON.parse(cartItems);
   }
 
+  const [searchParams, setSearchParams] = useSearchParams(new URL(window.location.href).search);
   const [state, setState] = useState(items);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
+  const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
+  const [limit, setLimit] = useState(Number(searchParams.get('limit')) || 3);
   const [products, setProducts] = useState(getProductsForPage(items, page, limit));
   const [totalPages, setTotalPages] = useState(Math.round(state.length / limit));
   const [totalProducts, setTotalProducts] = useState(state.reduce((sum, item) => sum + item.count, 0));
   const [price, setPrice] = useState(
     state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
   );
-
   const [popUP, setPopUP] = useState(window.location.hash === '#buy');
+  console.log(searchParams.keys());
   const decreasePage = () => {
-    if (page > 1) setPage(page - 1);
+    if (page > 1) {
+      setPage(page - 1);
+      setSearchParams({ limit: String(limit), page: String(page - 1) });
+    }
   };
 
   const increasePage = () => {
-    if (page < totalPages) setPage(page + 1);
+    if (page < totalPages) {
+      setPage(page + 1);
+      setSearchParams({ limit: String(limit), page: String(page + 1) });
+    }
   };
 
   const decreaseCount = (id: number) => {
@@ -85,7 +93,10 @@ export default function Cart(props: { get: GetProps }) {
                 step="1"
                 value={limit}
                 min="1"
-                onChange={(e) => setLimit((e.target.value as unknown) as number)}
+                onChange={(e) => {
+                  setLimit((e.target.value as unknown) as number);
+                  setSearchParams({ page: String(page), limit: String(e.target.value) });
+                }}
               />
             </div>
             <div className="page-number fw-bolder">
