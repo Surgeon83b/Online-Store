@@ -25,7 +25,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
   const [validThruError, setValidThruError] = useState('error');
   const [formValid, setFormValid] = useState(false);
 
-  const [cardType, setCardType] = useState('');
+  const [cardType, setCardType] = useState('0');
   const [isRedirect, setIsRedirect] = useState(false);
 
   function isValid(x: IsInputValid, t?: string): void {
