@@ -58,7 +58,7 @@ export default function Cart(props: { get: GetProps }) {
     const curState = [...state];
     curState.splice(curState.indexOf(curState.find((el) => el.id === id) as ItemForCart), 1);
     setState(curState);
-    if (curState.length % limit === 0) {
+    if (curState.length % limit === 0 && page > 1) {
       setPage(page - 1);
       setSearchParams({ limit: String(limit), page: String(page - 1) });
     }

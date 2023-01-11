@@ -30,17 +30,17 @@ export function StoreMain(props: { get: GetProps }) {
   const getProducts = (state: TState, rangeValue: RangeValye): ProductItem[] => {
     let products = Data.products;
     if (state.search !== '') {
-      const search = state.search;
+      const search = state.search.toLowerCase();
       products = products.filter((item) => {
         return (
-          item.title.indexOf(search) !== -1 ||
-          item.description.indexOf(search) !== -1 ||
+          item.title.toLowerCase().indexOf(search) !== -1 ||
+          item.description.toLowerCase().indexOf(search) !== -1 ||
           String(item.price).indexOf(search) !== -1 ||
-          String(item.discountPercentage).indexOf(search) !== -1 ||
+          String(item.discountPercentage).toLowerCase().indexOf(search) !== -1 ||
           String(item.rating).indexOf(search) !== -1 ||
           String(item.stock).indexOf(search) !== -1 ||
-          item.brand.indexOf(search) !== -1 ||
-          item.category.indexOf(search) !== -1
+          item.brand.toLowerCase().indexOf(search) !== -1 ||
+          item.category.toLowerCase().indexOf(search) !== -1
         );
       });
     } else products = Data.products;
