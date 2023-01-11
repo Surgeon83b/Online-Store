@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { GetProps, IsInputValid } from 'types';
 import CardLogo from './CardLogo';
 import ValidatedInput from './ValidatedInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { removeAllFromCart } from '../Store/helper';
-import { Navigate } from 'react-router-dom';
 
 export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; get: GetProps }) {
   const CARD_LENGTH = 16;
@@ -24,9 +23,8 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
   const [cvvError, setCvvError] = useState('error');
   const [validThruError, setValidThruError] = useState('error');
   const [formValid, setFormValid] = useState(false);
-
+  const navigator = useNavigate();
   const [cardType, setCardType] = useState('0');
-  const [isRedirect, setIsRedirect] = useState(false);
 
   function isValid(x: IsInputValid, t?: string): void {
     switch (Object.entries(x)[0][0]) {
@@ -60,7 +58,7 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
     removeAllFromCart();
     props.get(0, 0);
     setTimeout(() => {
-      setIsRedirect(true);
+      navigator('/');
     }, 3000);
   };
 
@@ -71,7 +69,6 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
   }, [nameError, phoneError, addressError, emailError, cardError, cvvError, validThruError]);
   const displey = props.popUP ? 'block' : 'none';
 
-  if (isRedirect) return <Navigate to={'/'} />;
   return (
     <div style={{ ...styles.popUPbackground, display: displey }}>
       <Link

@@ -25,7 +25,6 @@ export default function Cart(props: { get: GetProps }) {
     state.reduce((sum, item) => sum + item.count * Data.products.filter((prod) => prod.id === item.id)[0].price, 0)
   );
   const [popUP, setPopUP] = useState(window.location.hash === '#buy');
-  console.log(searchParams.keys());
   const decreasePage = () => {
     if (page > 1) {
       setPage(page - 1);
