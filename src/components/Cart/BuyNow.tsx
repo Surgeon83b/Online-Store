@@ -5,6 +5,7 @@ import CardLogo from './CardLogo';
 import ValidatedInput from './ValidatedInput';
 import { Link, useNavigate } from 'react-router-dom';
 import { removeAllFromCart } from '../Store/helper';
+import { Last } from 'react-bootstrap/lib/Pagination';
 
 export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; get: GetProps }) {
   const CARD_LENGTH = 16;
@@ -14,43 +15,46 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
   const phonePattern = /^\+[0-9]{9,}$/;
   const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const [nameError, setNameError] = useState('error');
-  const [phoneError, setPhoneError] = useState('error');
-  const [addressError, setAddressError] = useState('error');
-  const [emailError, setEmailError] = useState('error');
-  const [cardError, setCardError] = useState('error');
-  const [cvvError, setCvvError] = useState('error');
-  const [validThruError, setValidThruError] = useState('error');
+  const [state, setState] = useState({
+    nameError: 'error',
+    phoneError: 'error',
+    addressError: 'error',
+    emailError: 'error',
+    cardError: 'error',
+    cvvError: 'error',
+    validThruError: 'error',
+  });
+
   const [formValid, setFormValid] = useState(false);
   const navigator = useNavigate();
   const [cardType, setCardType] = useState('0');
 
-  function isValid(x: IsInputValid, t?: string): void {
+  const isValid = (x: IsInputValid, t?: string): void => {
     switch (Object.entries(x)[0][0]) {
       case 'name':
-        setNameError(Object.entries(x)[0][1]);
+        setState((last) => ({ ...last, nameError: Object.entries(x)[0][1] }));
         break;
       case 'phone':
-        setPhoneError(Object.entries(x)[0][1]);
+        setState((last) => ({ ...last, phoneError: Object.entries(x)[0][1] }));
         break;
       case 'address':
-        setAddressError(Object.entries(x)[0][1]);
+        setState((last) => ({ ...last, addressError: Object.entries(x)[0][1] }));
         break;
       case 'email':
-        setEmailError(Object.entries(x)[0][1]);
+        setState((last) => ({ ...last, emailError: Object.entries(x)[0][1] }));
         break;
       case 'card':
-        setCardError(Object.entries(x)[0][1]);
+        setState((last) => ({ ...last, cardError: Object.entries(x)[0][1] }));
         break;
       case 'cvv':
-        setCvvError(Object.entries(x)[0][1]);
+        setState((last) => ({ ...last, cvvError: Object.entries(x)[0][1] }));
         break;
       case 'valid':
-        setValidThruError(Object.entries(x)[0][1]);
+        setState((last) => ({ ...last, validThruError: Object.entries(x)[0][1] }));
         break;
     }
     if (t !== undefined) setCardType(t);
-  }
+  };
 
   const submitData = () => {
     alert('The order is accepted');
@@ -62,10 +66,11 @@ export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; ge
   };
 
   useEffect(() => {
+    const { nameError, phoneError, addressError, emailError, cardError, cvvError, validThruError } = state;
     if (nameError || phoneError || addressError || emailError || cardError || cvvError || validThruError)
       setFormValid(false);
     else setFormValid(true);
-  }, [nameError, phoneError, addressError, emailError, cardError, cvvError, validThruError]);
+  }, [state]);
   const displey = props.popUP ? 'block' : 'none';
 
   return (
