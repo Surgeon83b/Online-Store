@@ -9,7 +9,6 @@ import { removeAllFromCart } from '../Store/helper';
 export default function BuyNow(props: { popUP: boolean; setPopUP: () => void; get: GetProps }) {
   const CARD_LENGTH = 16;
   const CVV_LENGTH = 3;
-  //const namePattern = new RegExp('^(\\b[A-Za-zА-ЕЖ-Яа-еж-яЁё]{3,}\\b[\\s\\r\\n]*){2,}$', 'u');
   const namePattern = new RegExp('^[a-zа-яё]{3,}(\\s+[a-zа-яё]{3,}){1,}$', 'i');
   const addressPattern = new RegExp('^[a-zа-яё]{5,}(\\s+[a-zа-яё]{5,}){2,}$', 'i');
   const phonePattern = /^\+[0-9]{9,}$/;

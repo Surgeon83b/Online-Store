@@ -8,3 +8,8 @@ export const cardLogoObject: object = {
   '0':
     'https://raw.githubusercontent.com/gregoiresgt/payment-icons/919d90075e88275a0f8d324788bd0ed33b667956/Assets/Payment/Amazon/Amazon-card-dark.svg',
 };
+
+export const getCardIndex = (char: string): string => {
+  if (Number(char) > 2 && Number(char) < 6) return char;
+  else return '0';
+};

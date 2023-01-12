@@ -22,7 +22,7 @@ export const Semmery = (props: {
       setPromo(false);
     }
   };
-  const [activKeys, setActivKeys] = useState({ keys: new Set() as Set<string> });
+  const [activKeys, setActivKeys] = useState({ keys: new Set<string>() });
 
   const getDiscount = () => {
     let discount = 0;

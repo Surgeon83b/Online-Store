@@ -1,11 +1,11 @@
 import React from 'react';
-import { cardLogoObject } from './utils';
+import { cardLogoObject, getCardIndex } from './utils';
 
 interface CardType<T> {
   cardType: T;
 }
 const CardLogo: React.FC<CardType<string>> = ({ cardType }) => {
-  const cardIndex = (Number(cardType) > 2 && Number(cardType) < 6 ? cardType : '0') as string;
+  const cardIndex = getCardIndex(cardType);
   return (
     <div className="card-logo" style={{ backgroundImage: `url(${cardLogoObject[cardIndex as keyof object]})` }}></div>
   );
